@@ -1,0 +1,61 @@
+"""Rerank bằng cross-encoder (bge-reranker-base) trên CPU, cắt 128 token, tối đa 24 cặp."""
+from collections import defaultdict
+from typing import Protocol
+
+from retrieval.search import Hit, interleave
+
+RERANK_ID = "BAAI/bge-reranker-base"
+MAX_LEN = 128
+MAX_CAPTION_CHARS = 300
+
+
+class Scorer(Protocol):
+    def score(self, query: str, docs: list[str]) -> list[float]: ...
+
+
+class Reranker:
+    max_length = MAX_LEN
+
+    def __init__(self, model_id: str = RERANK_ID, device: str = "cpu"):
+        import torch
+        from transformers import AutoModelForSequenceClassification, AutoTokenizer
+        self.torch = torch
+        self.tokenizer = AutoTokenizer.from_pretrained(model_id)
+        self.model = AutoModelForSequenceClassification.from_pretrained(model_id).to(device).eval()
+        self.device = device
+
+    def tokenize(self, query: str, docs: list[str]):
+        return self.tokenizer([query] * len(docs), docs, padding=True, truncation="only_second",
+                              max_length=self.max_length, return_tensors="pt")
+
+    def score(self, query: str, docs: list[str]) -> list[float]:
+        if not docs:
+            return []
+        enc = {k: v.to(self.device) for k, v in self.tokenize(query, docs).items()}
+        with self.torch.no_grad():
+            logits = self.model(**enc).logits.view(-1)
+        return self.torch.sigmoid(logits).float().cpu().tolist()
+
+
+def doc_text(h: Hit) -> str:
+    names = " / ".join(h.entity_names or [])
+    cap = (h.caption or "")[:MAX_CAPTION_CHARS]
+    return f"{names}: {cap}".strip(": ")
+
+
+def rerank_hits(query: str | list[str], hits: list[Hit], reranker: Scorer, top_k: int = 10,
+                max_pairs: int = 24, max_per_entity: int = 3) -> list[Hit]:
+    """Chấm lại tối đa max_pairs ứng viên đầu (đã xen kẽ theo ý), mỗi hit so với query của ý của nó.
+
+    Sắp xếp lại trong từng ý rồi xen kẽ tiếp, nên không ý nào bị đẩy khỏi top_k."""
+    cand = hits[:max_pairs]
+    by_sub: dict[int, list[Hit]] = defaultdict(list)
+    for h in cand:
+        by_sub[h.source_sub].append(h)
+    for sub, lst in by_sub.items():
+        q = query[sub] if isinstance(query, list) else query
+        scores = reranker.score(q, [doc_text(h) for h in lst])
+        for h, s in zip(lst, scores, strict=True):
+            h.score = float(s)
+        lst.sort(key=lambda h: -h.score)
+    return interleave([by_sub[s] for s in sorted(by_sub)], top_k=top_k, max_per_entity=max_per_entity)
