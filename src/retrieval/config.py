@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     gemini_model: str = "gemini-3.5-flash-lite"
     gemini_timeout_ms: int = 1600
     api_key: str = ""
-    qdrant_url: str = "http://localhost:6333"
+    qdrant_url: str = "http://127.0.0.1:6333"  # 127.0.0.1: localhost trên Windows thử IPv6 trước
 
 
 @lru_cache

@@ -225,3 +225,121 @@ async def test_cpu_bound_stages_do_not_run_concurrently(client):
                                             headers=H) for i in range(3)])
     assert all(r.status_code == 200 for r in rs)
     assert state["max"] == 1
+
+
+# ---------- sau review toàn nhánh ----------
+class EntLLM:
+    def __init__(self, ents):
+        self.ents = ents
+
+    async def generate(self, prompt, schema):
+        import json
+        return json.dumps({"qt": "single", "subs": [{"vi": "x", "en": "x", "ents": self.ents}]})
+
+
+def test_low_confidence_flag_when_every_proposed_entity_is_unknown(client):
+    c, svc = client
+    svc.llm = EntLLM(["Sư tử", "Cá voi"])
+    r = c.post("/search", json={"query": "con sư tử"}, headers=H).json()
+    assert r["low_confidence"] is True
+    svc.llm = EntLLM(["Áo bà ba"])
+    assert c.post("/search", json={"query": "áo bà ba 2"}, headers=H).json()["low_confidence"] is False
+    svc.llm = EntLLM([])  # LLM không đề xuất thực thể: tìm bằng văn bản bình thường, không cảnh báo
+    assert c.post("/search", json={"query": "chợ nổi"}, headers=H).json()["low_confidence"] is False
+
+
+def _tracking_pair(svc, embed_s=0.05, rerank_s=0.6):
+    import threading
+    import time
+
+    state = {"active": 0, "max": 0}
+    lock = threading.Lock()
+    inner = svc.embedder
+
+    def track(seconds, fn=None, *a):
+        with lock:
+            state["active"] += 1
+            state["max"] = max(state["max"], state["active"])
+        try:
+            time.sleep(seconds)
+            return fn(*a) if fn else None
+        finally:
+            with lock:
+                state["active"] -= 1
+
+    class Emb:
+        def text_siglip(self, t):
+            return track(embed_s, inner.text_siglip, t)
+
+        def text_bge(self, t):
+            return inner.text_bge(t)
+
+    class Rer:
+        def score_pairs(self, pairs):
+            track(rerank_s)
+            return [0.0] * len(pairs)
+
+    svc.embedder, svc.reranker = Emb(), Rer()
+    return state
+
+
+async def test_timed_out_rerank_keeps_cpu_slot_until_its_thread_finishes(client):
+    import httpx
+
+    c, svc = client
+    state = _tracking_pair(svc)
+    svc.budget_ms, svc.rerank_ema_ms = 500, 0.0
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=c.app), base_url="http://t") as ac:
+        a = await ac.post("/search", json={"query": "áo bà ba"}, headers=H)  # rerank hết hạn giữa chừng
+        assert a.json()["reranked"] is False
+        b = await ac.post("/search", json={"query": "chợ nổi", "rerank": False}, headers=H)  # embed của B
+        assert b.status_code == 200
+    assert state["max"] == 1  # embed của B phải đợi luồng rerank bị bỏ rơi chạy xong
+
+
+async def test_rerank_estimate_uses_measured_runtime_only(client):
+    import asyncio
+
+    import httpx
+
+    c, svc = client
+    _tracking_pair(svc, rerank_s=0.5)
+    svc.budget_ms, svc.rerank_ema_ms = 400, 0.0
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=c.app), base_url="http://t") as ac:
+        r = await ac.post("/search", json={"query": "áo bà ba"}, headers=H)
+        assert r.json()["reranked"] is False
+        assert svc.rerank_ema_ms == 0.0  # timeout không tự bơm ước lượng
+        await asyncio.sleep(0.8)  # luồng chạy xong
+    assert 100 < svc.rerank_ema_ms < 500  # chỉ cập nhật theo thời gian chạy thật
+
+
+async def test_overloaded_queue_returns_503_with_retry_after(client):
+    import asyncio
+
+    import httpx
+
+    c, svc = client
+    _tracking_pair(svc, embed_s=0.3)
+    svc.max_inflight = 1
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=c.app), base_url="http://t") as ac:
+        rs = await asyncio.gather(*[ac.post("/search", json={"query": f"áo {i}", "rerank": False}, headers=H)
+                                    for i in range(3)])
+    codes = sorted(r.status_code for r in rs)
+    assert codes.count(200) >= 1 and 503 in codes
+    assert all("retry-after" in r.headers for r in rs if r.status_code == 503)
+
+
+def test_demo_endpoint_is_rate_limited_per_client_but_keyed_endpoint_is_not(client):
+    c, svc = client
+    svc.demo_rate_per_min = 2
+    codes = [c.post("/demo/search", json={"query": "áo bà ba"}, headers={"x-forwarded-for": "1.2.3.4"}).status_code
+             for _ in range(3)]
+    assert codes == [200, 200, 429]
+    other = c.post("/demo/search", json={"query": "áo bà ba"}, headers={"x-forwarded-for": "5.6.7.8"})
+    assert other.status_code == 200  # người dùng khác không bị ảnh hưởng
+    assert all(c.post("/search", json={"query": "áo bà ba"}, headers=H).status_code == 200 for _ in range(3))
+
+
+def test_ui_handles_low_confidence_and_throttling(client):
+    html = client[0].get("/").text
+    assert "low_confidence" in html and "429" in html and "503" in html

@@ -1,5 +1,6 @@
 """Rerank bằng cross-encoder (bge-reranker-base) trên CPU, cắt 128 token, tối đa 24 cặp."""
 from collections import defaultdict
+from dataclasses import replace
 from typing import Protocol
 
 from retrieval.search import Hit, interleave
@@ -62,7 +63,7 @@ def rerank_hits(query: str | list[str], hits: list[Hit], reranker: Scorer, top_k
     """Chấm lại tối đa max_pairs ứng viên đầu (đã xen kẽ theo ý), mỗi hit so với query của ý của nó.
 
     Sắp xếp lại trong từng ý rồi xen kẽ tiếp, nên không ý nào bị đẩy khỏi top_k."""
-    cand = hits[:max_pairs]
+    cand = [replace(h) for h in hits[:max_pairs]]  # bản sao: luồng chạy muộn không được ghi đè điểm của người khác
     by_sub: dict[int, list[Hit]] = defaultdict(list)
     for h in cand:
         by_sub[h.source_sub].append(h)

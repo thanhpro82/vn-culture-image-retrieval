@@ -24,7 +24,7 @@ Không dùng `localhost` vì trên Windows nó thử IPv6 trước và cộng th
 | Bộ 300 query đánh giá chất lượng, chạy trực tiếp, tuần tự | 2.298-2.391 ms | 2.663-2.701 ms | 2.712-2.837 ms | (theo từng loại, xem `docs/eval-report.md`) |
 
 Thành phần điển hình của một truy vấn (container): Gemini 0,8-1,4 s; embed text trên CPU 0,5-1,0 s; Qdrant 0,03-0,07 s; rerank 0,8-1,1 s khi chạy.
-Rerank chỉ chạy khi còn dư ngân sách thời gian (xem ADR-002): khoảng một nửa số truy vấn bị bỏ qua rerank và trả thứ tự hybrid.
+Rerank chỉ chạy khi còn dư ngân sách thời gian (xem ADR-002), ngược lại trả thứ tự hybrid. Trong phép đo `docker compose` ở trên, rerank bị bỏ qua ở **15/20** truy vấn (`docs/results/probe-compose.txt`), nghĩa là chất lượng của cấu hình giao nộp trên máy này gần với dòng "Hybrid, không rerank" trong `docs/eval-report.md` hơn là dòng "Cấu hình cuối" (đo chạy trực tiếp, nơi embed nhanh hơn và rerank chạy nhiều hơn; tỉ lệ rerank thực tế của lần đó không được ghi lại).
 
 ## Thông lượng và tải đồng thời (k6, tự động, chạy lại được)
 
@@ -51,7 +51,7 @@ Cách đọc:
 | Rerank cross-encoder trên CPU | fp32 24 cặp: 1.770 ms | INT8 động, 16 cặp, nhiều luồng: ~600-900 ms (ADR-002); bảo vệ ngân sách và hạn chót cứng |
 | Gemini | ~1,0 s, không rút ngắn được bằng prompt ngắn hơn | Timeout 1.600 ms và fallback quy tắc (ADR-003) |
 | Embed text trong container | 1,0-1,8 s với 16 luồng; 0,5-1,0 s với 8 luồng | `TORCH_THREADS=8` mặc định trong compose |
-| Nhiều yêu cầu tranh CPU | 79% dưới 3 s ở 2 người dùng | Chạy tuần tự phần nặng CPU: 93-96% |
+| Nhiều yêu cầu tranh CPU | Một lần đo sơ bộ với 2 người dùng (không lưu lại) cho kết quả kém hơn rõ rệt | Chạy tuần tự phần nặng CPU: 95,7% dưới 3 s ở 2 người dùng (`docs/results/k6-vus2.md`) |
 | Nạp model lười lần đầu | 39 s ở yêu cầu đầu | Làm nóng khi khởi động (API sẵn sàng sau ~50 s) |
 
 ## Dựng index (ngoại tuyến)

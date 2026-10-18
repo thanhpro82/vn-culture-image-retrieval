@@ -127,6 +127,6 @@ async def parse_query(q: str, client: LLMClient, timeout_ms: int = 1600,
         text = await asyncio.wait_for(client.generate(PROMPT.replace("{q}", q), RESPONSE_SCHEMA),
                                       timeout=timeout_ms / 1000)
         parsed = _from_json(text)
-    except (TimeoutError, aiohttp.ClientError, KeyError, IndexError):
-        parsed = None
+    except (TimeoutError, aiohttp.ClientError, KeyError, IndexError, ValueError, TypeError, AttributeError):
+        parsed = None  # Gemini không bao giờ được làm hỏng tìm kiếm: mọi lỗi đều rơi về fallback
     return parsed or fallback_parse(q, entity_names or [])

@@ -100,3 +100,16 @@ async def test_gemini_client_reuses_connection_between_calls():
     await client.close()
     await server.close()
     assert len(ports) == 2 and ports[0] == ports[1]
+
+
+async def test_malformed_response_body_or_shape_never_raises():
+    class Boom:
+        def __init__(self, exc):
+            self.exc = exc
+
+        async def generate(self, prompt, schema):
+            raise self.exc
+
+    for exc in (ValueError("json hỏng"), TypeError("sai kiểu"), AttributeError("x")):
+        p = await parse_query("bãi biển Nha Trang", Boom(exc))
+        assert p.qt == "single" and p.subs[0].vi == "bãi biển Nha Trang"

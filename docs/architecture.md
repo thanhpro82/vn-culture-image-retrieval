@@ -87,4 +87,6 @@ Ref: payload.image_id - point.id
 - Quan hệ kiểu "con trai của X" phụ thuộc kiến thức của LLM; cổng chỉ kiểm tra thực thể có tồn tại, không kiểm tra quan hệ đúng.
 - Độ trễ Gemini (khoảng 1 giây) chiếm phần lớn ngân sách 3 giây; khi lỗi hệ thống dùng fallback chất lượng thấp hơn.
 - Truy vấn không dấu chỉ tốt khi Gemini khôi phục được dấu; fallback không làm được việc đó.
-- Endpoint `/demo/search` công khai không bắt khoá, cần giới hạn tần suất trước khi mở ra internet.
+- Endpoint `/demo/search` công khai không bắt khoá; đã có giới hạn 20 yêu cầu mỗi phút cho mỗi client (theo `X-Forwarded-For` do Caddy đặt), trần 6 yêu cầu `/search` đang xử lý (vượt thì 503 kèm `Retry-After`) và tối đa 6 đơn vị tìm mỗi truy vấn. Bộ giới hạn nằm trong bộ nhớ một tiến trình, không chia sẻ giữa nhiều bản sao.
+- Khi mọi thực thể mà LLM đề xuất đều không có trong dữ liệu, `/search` trả `low_confidence: true` và giao diện hiện cảnh báo "chỉ gần đúng"; hệ thống vẫn trả ảnh gần nhất chứ chưa lọc theo ngưỡng điểm (chưa có dữ liệu để hiệu chuẩn ngưỡng).
+- Chưa cài đặt việc nhúng truy vấn gốc song song với lời gọi Gemini (kế hoạch ban đầu): nó đổi văn bản dùng để truy xuất cho truy vấn một ý và chưa đo được ảnh hưởng đến Recall.

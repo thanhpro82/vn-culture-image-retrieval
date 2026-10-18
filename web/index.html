@@ -57,7 +57,7 @@ $("f").addEventListener("submit", async (ev) => {
   $("go").disabled = true; $("meta").className = ""; $("meta").textContent = "Đang tìm...";
   try {
     const r = await fetch("/demo/search", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query, top_k: 10 }) });
-    if (!r.ok) throw new Error(r.status === 422 ? "Câu hỏi không hợp lệ (1 đến 500 ký tự)." : "Lỗi máy chủ (" + r.status + ").");
+    if (!r.ok) throw new Error(r.status === 422 ? "Câu hỏi không hợp lệ (1 đến 500 ký tự)." : r.status === 429 ? "Bạn gửi hơi nhanh, thử lại sau ít giây." : r.status === 503 ? "Máy chủ đang bận, thử lại sau ít giây." : "Lỗi máy chủ (" + r.status + ").");
     const d = await r.json();
     $("grid").replaceChildren();
     d.results.forEach((x) => {
@@ -70,6 +70,7 @@ $("f").addEventListener("submit", async (ev) => {
       t.append(e, c); card.append(img, t); $("grid").appendChild(card);
     });
     $("meta").textContent = d.results.length ? d.results.length + " ảnh · loại truy vấn: " + (typeLabel[d.query_type] || d.query_type) + " · " + Math.round(d.timings_ms.total_ms) + " ms" : "Không tìm thấy ảnh phù hợp.";
+    if (d.low_confidence) $("meta").textContent += " · Không có nội dung khớp chính xác trong dữ liệu; các ảnh dưới đây chỉ gần đúng.";
   } catch (err) {
     $("meta").className = "err"; $("meta").textContent = err.message;
   } finally { $("go").disabled = false; }

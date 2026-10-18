@@ -64,6 +64,7 @@ cấu hình "luôn chạy rerank" chạy 2 luồng nên CPU bị chia, vượt 3
   hệ thống tìm đúng khi người dùng biết tên, không phải khi người dùng mô tả bằng lời của mình. Chưa có bộ query diễn đạt tự do.
 - **Đáp án của truy vấn nhóm là xấp xỉ.** "trang phục nam bộ" coi mọi ảnh cùng thể loại và địa bàn là đúng, kể cả ảnh người dùng có thể không thấy phù hợp.
 - **Chưa có người duyệt.** `eval/datasets/review-seed0.csv` liệt kê query kèm số ảnh đáp án để duyệt tay; cột `verdict` còn trống.
+- **Không ghi lại tỉ lệ truy vấn thực sự được rerank** trong dòng "Cấu hình cuối" (cơ chế bảo vệ ngân sách bỏ qua rerank khi không còn thời gian); vì vậy không thể tách riêng đóng góp của rerank trong dòng đó.
 - **Một lần chạy, một seed, n=100 mỗi loại.** Khoảng sai số của một tỉ lệ ~0,93 với n=100 vào khoảng ±0,05.
 - **Truy vấn mẫu trong ghi chú của đề** ("con hổ", "bãi biển Nha Trang", "hồ bơi và công viên nước ở Phú Quốc") có thể không có ảnh đúng trong dữ liệu
   di sản này (kết quả thực tế: tranh, đền, tháp Po Nagar, Nhà tù Phú Quốc). Đó là giới hạn của dữ liệu chứ không phải của hệ thống.

@@ -102,3 +102,10 @@ def test_search_reports_embed_and_qdrant_timings():
     timings: dict = {}
     search(pq, FakeEmbedder(), _client(), top_k=3, timings=timings)
     assert set(timings) == {"embed_ms", "qdrant_ms"} and all(v >= 0 for v in timings.values())
+
+
+def test_search_units_are_capped_to_bound_cost():
+    from retrieval.search import MAX_UNITS, _units
+    subs = [SubQuery(vi=f"ý {i}", en=f"idea {i}", ents=[f"E{i}a", f"E{i}b", f"E{i}c", f"E{i}d"]) for i in range(4)]
+    assert len(_units(ParsedQuery("multi_hop", subs))) == MAX_UNITS == 6
+    assert len(_units(ParsedQuery("multi_intent", subs))) == 4

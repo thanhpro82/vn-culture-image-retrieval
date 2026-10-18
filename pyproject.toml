@@ -3,12 +3,13 @@ name = "vn-culture-image-retrieval"
 version = "0.1.0"
 requires-python = ">=3.12,<3.13"
 dependencies = [
-  "pydantic-settings>=2.4", "fastapi", "uvicorn", "aiohttp", "tenacity", "pandas", "pyarrow",
-  "openpyxl", "numpy", "Pillow", "rapidfuzz", "boto3", "qdrant-client", "huggingface_hub",
+  "pydantic-settings==2.16.0", "fastapi==0.143.5", "uvicorn==0.54.0", "aiohttp==3.14.5", "tenacity==9.2.1",
+  "pandas==3.0.6", "pyarrow==26.0.0", "openpyxl==3.1.5", "numpy==2.5.4", "Pillow==13.0.0", "rapidfuzz==3.14.6",
+  "boto3==1.43.114", "qdrant-client==1.19.1", "huggingface_hub==2.2.0",
 ]
 
 [project.optional-dependencies]
-ml = ["transformers", "FlagEmbedding", "sentencepiece", "protobuf", "accelerate"]
+ml = ["transformers==5.20.1", "FlagEmbedding==1.4.2", "sentencepiece==0.2.2", "protobuf==7.36.2", "accelerate==1.15.0"]
 dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.6", "httpx", "moto[s3]"]
 
 [tool.pytest.ini_options]

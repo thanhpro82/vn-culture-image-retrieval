@@ -58,7 +58,7 @@ Container: `api` (FastAPI), `qdrant`, `caddy` (HTTPS, tên miền). Models xuấ
 
 ## 4. Xử lý ba loại query (một pipeline)
 
-1. **Single:** không tách, search thẳng. Vector query gốc được tính sẵn trong lúc chờ LLM.
+1. **Single:** không tách, search thẳng. Vector query gốc được tính sẵn trong lúc chờ LLM (không cài đặt: đổi văn bản truy xuất, chưa đo Recall; xem ledger).
 2. **Multi-intent** ("hổ và mèo"): LLM tách thành sub-query giữ nguyên bối cảnh chung (địa danh). Mỗi sub-query search riêng rồi xen kẽ, mỗi ý có hạn ngạch ~ 10/số ý trong top 10. Giới hạn 2-3 ảnh mỗi thực thể.
 3. **Multi-hop / khái niệm:** LLM mở rộng thành tối đa 4 thực thể cụ thể. Cổng kiểm tra bỏ thực thể không có trong dữ liệu, rồi chạy như multi-intent.
 

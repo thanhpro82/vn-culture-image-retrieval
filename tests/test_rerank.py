@@ -85,3 +85,9 @@ def test_multi_intent_is_scored_in_a_single_batched_call():
     assert len(b.calls) == 1 and len(b.calls[0]) == 4
     assert {q for q, _ in b.calls[0]} == {"hổ", "mèo"}
     assert next(h.image_id for h in out if h.source_sub == 0) == "i2"
+
+
+def test_rerank_hits_does_not_mutate_the_input_hits():
+    hits = [H(1, caption="xấu"), H(2, caption="tốt")]
+    rerank_hits("q", hits, Fake(lambda q, d: 0.99 if "tốt" in d else 0.01), top_k=2)
+    assert [h.score for h in hits] == [1.0, 1.0]  # điểm gốc giữ nguyên, kể cả khi luồng chạy muộn

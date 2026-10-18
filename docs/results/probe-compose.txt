@@ -1,0 +1,21 @@
+  2378 ms | parse  1432 retr   793 (emb  685 qd  106) rerank     0 | - single       hát quan họ Bắc Ninh
+  2016 ms | parse  1356 retr   650 (emb  601 qd   48) rerank     0 | - single       chợ Bến Thành
+  2710 ms | parse  1259 retr   600 (emb  547 qd   51) rerank   842 | - single       áo tứ thân
+  2432 ms | parse  1577 retr   846 (emb  806 qd   39) rerank     0 | - multi_intent gốm Bát Tràng và lụa Hà Đông
+  2711 ms | parse  1053 retr   704 (emb  680 qd   23) rerank   944 | - single       đình Bảng
+  2036 ms | parse  1035 retr   567 (emb  544 qd   22) rerank   408 | R single       nhà thờ đá Phát Diệm
+  2036 ms | parse  1408 retr   604 (emb  537 qd   66) rerank     0 | - single       múa lân
+  2128 ms | parse  1400 retr   718 (emb  648 qd   68) rerank     0 | - single       lễ hội Katê của người Chăm
+  2161 ms | parse   922 retr   488 (emb  417 qd   70) rerank   741 | R single       cố đô Huế
+  1943 ms | parse  1313 retr   620 (emb  565 qd   54) rerank     0 | - single       đàn đá Khánh Sơn
+  2271 ms | parse  1326 retr   935 (emb  852 qd   81) rerank     0 | - multi_intent bún bò Huế và cơm hến
+  2595 ms | parse  1072 retr   763 (emb  723 qd   39) rerank   750 | R single       chùa Thiên Mụ
+  2712 ms | parse  1265 retr   642 (emb  597 qd   44) rerank   794 | - single       trống cơm
+  2718 ms | parse  1021 retr   659 (emb  605 qd   53) rerank  1023 | - single       hát bội
+  1789 ms | parse  1048 retr   712 (emb  669 qd   42) rerank     0 | - single       lăng Khải Định
+  2386 ms | parse  1308 retr  1068 (emb  986 qd   80) rerank     0 | - multi_intent đền Ngọc Sơn và Hồ Gươm
+  1792 ms | parse  1049 retr   732 (emb  688 qd   43) rerank     0 | - single       làng gốm Thanh Hà
+  2336 ms | parse   830 retr   690 (emb  650 qd   39) rerank   784 | R single       bánh tét miền Nam
+  2724 ms | parse   942 retr   634 (emb  578 qd   56) rerank  1125 | - single       tượng Chăm Mỹ Sơn
+  2300 ms | parse   886 retr   511 (emb  477 qd   32) rerank   891 | R single       rối nước Thăng Long
+n=20 p50=2318 p95=2718 max=2724 under3s=20/20

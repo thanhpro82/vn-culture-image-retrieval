@@ -7,6 +7,7 @@ from qdrant_client import QdrantClient, models
 from retrieval.qparse import ParsedQuery
 
 BRANCHES = ("img", "txt", "sparse")
+MAX_UNITS = 6  # chặn chi phí: một truy vấn không được kéo theo quá 6 lần embed và tìm
 PREFETCH = 50
 PER_UNIT = 30
 
@@ -31,7 +32,7 @@ def _units(parsed: ParsedQuery) -> list[tuple[str, str]]:
             out += [(e, e) for e in s.ents]
         else:
             out.append((s.en or s.vi, " ".join([s.vi, *s.ents])))
-    return out
+    return out[:MAX_UNITS]
 
 
 def search(parsed: ParsedQuery, embedder, client: QdrantClient, top_k: int = 10,

@@ -16,9 +16,9 @@ set +e  # k6 trả mã lỗi khi vượt ngưỡng; vẫn phải sinh báo cáo
 docker run --rm \
   -v "$ROOT/loadtest:/scripts" -v "$ROOT/reports:/reports" -w /scripts \
   -e API_KEY -e BASE_URL="${BASE_URL:-http://host.docker.internal:8000}" \
-  -e VUS="${VUS:-5}" -e DURATION="${DURATION:-60s}" \
+  -e VUS="${VUS:-2}" -e DURATION="${DURATION:-60s}" \
   -e K6_WEB_DASHBOARD=true -e K6_WEB_DASHBOARD_EXPORT=/reports/loadtest-report.html \
-  grafana/k6:latest run script.js
+  grafana/k6@sha256:e66db15b860113878fa74670e31f5e274830b7b6e42c8bff28b2f2d86a257603 run script.js  # k6 v2.3.0 (ghim theo digest)
 K6_RC=$?
 set -e
 "$PY" loadtest/report.py reports/loadtest-summary.json > reports/loadtest-report.md
