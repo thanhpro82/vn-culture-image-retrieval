@@ -1,0 +1,19 @@
+.env
+*.env
+!.env.example
+
+# Dữ liệu và artefact lớn
+Data/
+data/
+*.npy
+*.snapshot
+*.parquet
+models/
+reports/
+
+# Python / Node
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
