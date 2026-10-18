@@ -100,3 +100,18 @@ def test_api_key_unset_rejects_everything(tmp_path):
     svc = Services(settings=Settings(_env_file=None, api_key=""), embedder=None, reranker=None, qdrant=None,
                    llm=None, catalog=None, store=LocalStore(tmp_path))
     assert TestClient(create_app(svc)).post("/embed", json={"texts": ["a"]}, headers={"X-API-Key": ""}).status_code == 401
+
+
+def test_root_serves_html_with_search_form(client):
+    r = client[0].get("/")
+    assert r.status_code == 200 and "<form" in r.text and "text/html" in r.headers["content-type"]
+
+
+def test_demo_search_needs_no_key_but_api_search_still_does(client):
+    c, _ = client
+    assert c.post("/demo/search", json={"query": "áo bà ba"}).status_code == 200
+    assert c.post("/search", json={"query": "áo bà ba"}).status_code == 401
+
+
+def test_demo_search_validates_query(client):
+    assert client[0].post("/demo/search", json={"query": "  "}).status_code == 422

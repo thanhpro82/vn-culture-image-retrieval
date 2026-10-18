@@ -1,13 +1,16 @@
 """FastAPI: /search, /embed, /rerank, /healthz. Thành phần được tiêm qua Services để dễ test."""
 import asyncio
 import hmac
+import os
 import time
 import unicodedata
 from collections import OrderedDict
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Annotated, Any, Literal
 
 from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 
@@ -18,6 +21,7 @@ from retrieval.rerank import rerank_hits
 from retrieval.search import _units, search
 from retrieval.storage import ImageStore, LocalStore
 
+WEB_DIR = Path(os.environ.get("WEB_DIR", "web"))
 CANDIDATES = 24
 CACHE_SIZE = 512
 
@@ -84,8 +88,7 @@ def create_app(svc: Services) -> FastAPI:
                 cache.popitem(last=False)
         return parsed
 
-    @app.post("/search", dependencies=[Depends(auth)])
-    async def search_endpoint(body: SearchIn):
+    async def run_search(body: SearchIn):
         t0 = time.perf_counter()
         parsed = await understand(body.query)
         if svc.catalog:
@@ -106,6 +109,22 @@ def create_app(svc: Services) -> FastAPI:
             "timings_ms": {"parse_ms": round((t1 - t0) * 1000, 1), "retrieve_ms": round((t2 - t1) * 1000, 1),
                            "rerank_ms": round((t3 - t2) * 1000, 1), "total_ms": round((t3 - t0) * 1000, 1)},
         }
+
+    @app.post("/search", dependencies=[Depends(auth)])
+    async def search_endpoint(body: SearchIn):
+        return await run_search(body)
+
+    @app.post("/demo/search")
+    async def demo_search_endpoint(body: SearchIn):
+        """Dành cho giao diện web công khai (không nhúng khoá vào trang)."""
+        return await run_search(body)
+
+    @app.get("/", include_in_schema=False)
+    def index():
+        page = WEB_DIR / "index.html"
+        if not page.exists():
+            raise HTTPException(status_code=404, detail="thiếu web/index.html")
+        return FileResponse(page, media_type="text/html")
 
     @app.post("/embed", dependencies=[Depends(auth)])
     async def embed_endpoint(body: EmbedIn):
