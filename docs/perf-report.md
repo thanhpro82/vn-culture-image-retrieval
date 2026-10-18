@@ -63,7 +63,8 @@ Xem `docs/data-notes.md`: nhúng 89.596 ảnh bằng SigLIP 2 mất khoảng 85 
 
 | Chỉ số | Giá trị |
 |---|---|
-| Kích thước image `api` (chưa gồm model) | 2,07 GB (torch CPU, transformers và FlagEmbedding là phần lớn) |
+| Kích thước image `api` (chưa gồm model) | 1,52 GB khi build sạch trên GitHub Actions (Linux); 2,07 GB bản build cục bộ trên Docker Desktop. torch CPU, transformers và FlagEmbedding là phần lớn |
+| Thời gian build sạch (không cache) | 4 phút 4 giây trên GitHub Actions (`docker` job, run 39134558606) |
 | Khởi động đến khi healthy | ~50 giây (nạp ba model và làm nóng); Qdrant healthy sau ~5 giây |
 | Model | tải vào volume `Data/hf-cache` bằng dịch vụ `model-init`, không đóng gói trong image |
 | Multi-stage, người dùng không phải root, `HEALTHCHECK` | có |
@@ -74,4 +75,4 @@ Xem `docs/data-notes.md`: nhúng 89.596 ảnh bằng SigLIP 2 mất khoảng 85 
 - Chưa đo trên VPS thật; chưa đo với GPU cho phía phục vụ.
 - Mức tải 60 giây và 300 truy vấn xoay vòng; chưa có thử nghiệm kéo dài.
 - Image 2 GB còn lớn: FlagEmbedding kéo theo nhiều thư viện (scikit-learn, datasets, peft...) mà chỉ cần một phần nhỏ; có thể thay bằng cài đặt bge-m3 tối giản nếu cần giảm.
-- Kết quả "docker compose" ở trên dùng image đã chồng mã nguồn mới lên bản build đầy đủ trước đó (xem ghi chú trong ledger); build đầy đủ từ Dockerfile được kiểm chứng bởi CI.
+- Số đo "docker compose" ở trên chạy trên image cục bộ đã chồng mã nguồn mới lên bản build đầy đủ trước đó (build lại từ đầu trên mạng của máy dev quá chậm); Dockerfile build sạch đã được kiểm chứng riêng trên GitHub Actions (xanh).
