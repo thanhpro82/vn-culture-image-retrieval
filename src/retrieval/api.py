@@ -102,15 +102,23 @@ def create_app(svc: Services) -> FastAPI:
         hits = await asyncio.to_thread(search, parsed, svc.embedder, svc.qdrant, CANDIDATES,
                                        svc.collection, 3, branches)
         t2 = time.perf_counter()
-        reranked = body.rerank and (t2 - t0) * 1000 + svc.rerank_ema_ms < svc.budget_ms
-        if reranked:
+        elapsed_ms = (t2 - t0) * 1000
+        reranked = False
+        top = hits[: body.top_k]
+        if body.rerank and elapsed_ms + svc.rerank_ema_ms < svc.budget_ms:
             queries = [u[1] for u in _units(parsed)]
-            top = await asyncio.to_thread(rerank_hits, queries, hits, svc.reranker, body.top_k, CANDIDATES)
-            took = (time.perf_counter() - t2) * 1000
-            svc.rerank_ema_ms = 0.7 * svc.rerank_ema_ms + 0.3 * took
-        else:
-            top = hits[: body.top_k]
-        t3 = time.perf_counter() if reranked else t2
+            remaining = max(svc.budget_ms - elapsed_ms, 200.0) / 1000
+            try:  # giới hạn cứng: quá hạn thì trả thứ tự hybrid, không để một lần rerank chậm phá ngân sách
+                top = await asyncio.wait_for(
+                    asyncio.to_thread(rerank_hits, queries, hits, svc.reranker, body.top_k, CANDIDATES),
+                    timeout=remaining)
+                reranked = True
+                took = (time.perf_counter() - t2) * 1000
+                svc.rerank_ema_ms = 0.7 * svc.rerank_ema_ms + 0.3 * took
+            except TimeoutError:
+                top = hits[: body.top_k]
+                svc.rerank_ema_ms = max(svc.rerank_ema_ms, remaining * 1000)
+        t3 = time.perf_counter()
         return {
             "query_type": parsed.qt,
             "reranked": reranked,

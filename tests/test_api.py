@@ -160,3 +160,25 @@ def test_rerank_runs_when_budget_allows_and_updates_estimate(client):
 def test_explicit_rerank_false_reports_not_reranked(client):
     r = client[0].post("/search", json={"query": "áo bà ba", "rerank": False}, headers=H).json()
     assert r["reranked"] is False
+
+
+def test_slow_rerank_is_cut_off_and_results_still_returned(client):
+    import time
+
+    c, svc = client
+
+    class Slow:
+        def score_pairs(self, pairs):
+            time.sleep(2.0)
+            return [0.0] * len(pairs)
+
+    svc.reranker = Slow()
+    svc.budget_ms = 700
+    svc.rerank_ema_ms = 0.0  # guard ước lượng không chặn; chỉ giới hạn cứng mới cứu
+    with c:  # giữ vòng lặp sống như uvicorn; nếu không, TestClient đợi luồng nền khi đóng vòng lặp
+        t = time.perf_counter()
+        r = c.post("/search", json={"query": "áo bà ba"}, headers=H).json()
+        elapsed = time.perf_counter() - t
+    assert elapsed < 1.6
+    assert r["reranked"] is False and len(r["results"]) >= 1
+    assert svc.rerank_ema_ms > 0  # lần sau guard biết rerank chậm
