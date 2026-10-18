@@ -24,7 +24,8 @@ def probe(base: str, key: str, queries: list[str]) -> list[tuple[str, float, dic
 
 if __name__ == "__main__":
     base, key = sys.argv[1], sys.argv[2]
-    queries = [line.strip() for line in open(sys.argv[3], encoding="utf-8") if line.strip()]
+    with open(sys.argv[3], encoding="utf-8") as f:
+        queries = [line.strip() for line in f if line.strip()]
     rows = probe(base, key, queries)
     for q, ms, d in rows:
         t = d["timings_ms"]
