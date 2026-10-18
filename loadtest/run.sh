@@ -1,17 +1,22 @@
 #!/usr/bin/env bash
 # Chạy tải bằng k6 trong Docker, xuất báo cáo vào reports/. Yêu cầu: API đang chạy, biến API_KEY.
-# Ví dụ: API_KEY=... VUS=5 DURATION=60s bash loadtest/run.sh
+# Ví dụ: API_KEY=... VUS=2 DURATION=60s bash loadtest/run.sh   (đặt PYTHON=... nếu "python" không phải Python 3)
 set -euo pipefail
 cd "$(dirname "$0")/.."
 : "${API_KEY:?cần đặt API_KEY}"
+PY=${PYTHON:-python}
 TESTSET=${TESTSET:-eval/datasets/testset-v1-seed0.jsonl}
-python loadtest/make_queries.py "$TESTSET"
+"$PY" loadtest/make_queries.py "$TESTSET"
 mkdir -p reports
+# Git Bash trên Windows làm hỏng đường dẫn có dấu cách và đường dẫn tuyệt đối trong container:
+# dùng đường dẫn kiểu Windows cho thư mục gắn vào và tắt chuyển đổi đường dẫn.
+ROOT=$(pwd -W 2>/dev/null || pwd)
+export MSYS_NO_PATHCONV=1
 docker run --rm \
-  -v "$PWD/loadtest:/scripts" -v "$PWD/reports:/reports" -w /scripts \
+  -v "$ROOT/loadtest:/scripts" -v "$ROOT/reports:/reports" -w /scripts \
   -e API_KEY -e BASE_URL="${BASE_URL:-http://host.docker.internal:8000}" \
   -e VUS="${VUS:-5}" -e DURATION="${DURATION:-60s}" \
   -e K6_WEB_DASHBOARD=true -e K6_WEB_DASHBOARD_EXPORT=/reports/loadtest-report.html \
   grafana/k6:latest run script.js
-python loadtest/report.py reports/loadtest-summary.json > reports/loadtest-report.md
+"$PY" loadtest/report.py reports/loadtest-summary.json > reports/loadtest-report.md
 echo "báo cáo: reports/loadtest-report.md, reports/loadtest-report.html"
