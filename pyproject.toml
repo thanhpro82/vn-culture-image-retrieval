@@ -4,11 +4,11 @@ version = "0.1.0"
 requires-python = ">=3.12,<3.13"
 dependencies = [
   "pydantic-settings>=2.4", "fastapi", "uvicorn", "aiohttp", "tenacity", "pandas", "pyarrow",
-  "openpyxl", "numpy", "Pillow", "rapidfuzz", "boto3", "qdrant-client", "transformers",
-  "FlagEmbedding", "sentencepiece", "protobuf", "accelerate", "huggingface_hub",
+  "openpyxl", "numpy", "Pillow", "rapidfuzz", "boto3", "qdrant-client", "huggingface_hub",
 ]
 
 [project.optional-dependencies]
+ml = ["transformers", "FlagEmbedding", "sentencepiece", "protobuf", "accelerate"]
 dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.6", "httpx", "moto[s3]"]
 
 [tool.pytest.ini_options]

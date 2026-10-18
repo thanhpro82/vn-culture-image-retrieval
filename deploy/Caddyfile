@@ -1,0 +1,5 @@
+# Thay your.domain.example bằng tên miền thật, Caddy tự cấp HTTPS (Let's Encrypt).
+{$DOMAIN:localhost} {
+	encode gzip
+	reverse_proxy api:8000
+}

@@ -8,7 +8,7 @@ RUN uv venv /opt/venv
 ENV VIRTUAL_ENV=/opt/venv PATH=/opt/venv/bin:$PATH
 # torch bản CPU (phục vụ không cần GPU); các thư viện còn lại tách lớp để cache khi sửa mã
 RUN uv pip install torch --index-url https://download.pytorch.org/whl/cpu
-RUN uv pip install -r pyproject.toml
+RUN uv pip install -r pyproject.toml --extra ml
 
 FROM python:3.12-slim
 ENV PATH=/opt/venv/bin:$PATH PYTHONUNBUFFERED=1 PYTHONPATH=/app/src HF_HOME=/models WEB_DIR=/app/web
