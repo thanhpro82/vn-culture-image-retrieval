@@ -127,3 +127,9 @@ def test_mode_and_rerank_flags(client):
     assert c.post("/search", json={"query": "áo bà ba", "mode": "bogus"}, headers=H).status_code == 422
     c.post("/search", json={"query": "áo bà ba"}, headers=H)
     assert calls  # mặc định có rerank
+
+
+def test_rerank_budget_is_16_candidates():
+    """Ngân sách rerank theo ADR-002: INT8 + 16 cặp ~0,6 s trên CPU dev (24 cặp fp32 là ~1,8 s)."""
+    from retrieval.api import CANDIDATES
+    assert CANDIDATES == 16

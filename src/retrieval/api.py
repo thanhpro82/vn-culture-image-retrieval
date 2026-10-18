@@ -22,7 +22,7 @@ from retrieval.search import BRANCHES, _units, search
 from retrieval.storage import ImageStore, LocalStore
 
 WEB_DIR = Path(os.environ.get("WEB_DIR", "web"))
-CANDIDATES = 24
+CANDIDATES = 16  # ngân sách rerank, xem ADR-002
 CACHE_SIZE = 512
 
 

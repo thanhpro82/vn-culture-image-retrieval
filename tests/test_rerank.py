@@ -61,3 +61,10 @@ def test_truncates_to_128_tokens():
     r = Reranker()
     enc = r.tokenize("áo bà ba", ["từ " * 3000])
     assert enc["input_ids"].shape[1] <= 128 and r.max_length == 128
+
+
+@pytest.mark.slow
+def test_default_reranker_is_dynamically_quantized_on_cpu():
+    import torch
+    r = Reranker()
+    assert any(isinstance(m, torch.ao.nn.quantized.dynamic.Linear) for m in r.model.modules())

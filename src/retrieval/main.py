@@ -1,4 +1,5 @@
 """Khởi chạy thật: uvicorn retrieval.main:create --factory."""
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -20,7 +21,12 @@ def build_services() -> Services:
     s = get_settings()
     path = next((p for p in CATALOG_PATHS if p.exists()), None)
     catalog = EntityCatalog.from_manifest(pd.read_parquet(path, columns=["entity_names"])) if path else None
-    return Services(settings=s, embedder=Embedder(device="cpu"), reranker=Reranker(),
+    embedder, reranker = Embedder(device="cpu"), Reranker(threads=os.cpu_count())
+    # làm nóng: nạp model lười lần đầu mất ~30 s, không để người dùng đầu tiên chịu
+    embedder.text_siglip(["khởi động"])
+    embedder.text_bge(["khởi động"])
+    reranker.score("khởi động", ["khởi động"])
+    return Services(settings=s, embedder=embedder, reranker=reranker,
                     qdrant=QdrantClient(url=s.qdrant_url, timeout=30),
                     llm=GeminiClient(s.gemini_api_key, s.gemini_model), catalog=catalog,
                     store=make_store(s))

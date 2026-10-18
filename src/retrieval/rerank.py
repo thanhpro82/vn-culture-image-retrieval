@@ -16,12 +16,18 @@ class Scorer(Protocol):
 class Reranker:
     max_length = MAX_LEN
 
-    def __init__(self, model_id: str = RERANK_ID, device: str = "cpu"):
+    def __init__(self, model_id: str = RERANK_ID, device: str = "cpu", quantize: bool = True,
+                 threads: int | None = None):
         import torch
         from transformers import AutoModelForSequenceClassification, AutoTokenizer
         self.torch = torch
+        if threads:
+            torch.set_num_threads(threads)
         self.tokenizer = AutoTokenizer.from_pretrained(model_id)
-        self.model = AutoModelForSequenceClassification.from_pretrained(model_id).to(device).eval()
+        model = AutoModelForSequenceClassification.from_pretrained(model_id).to(device).eval()
+        if quantize and device == "cpu":  # INT8 động: ~1,5x nhanh hơn fp32 trên CPU (ADR-002)
+            model = torch.quantization.quantize_dynamic(model, {torch.nn.Linear}, dtype=torch.qint8)
+        self.model = model
         self.device = device
 
     def tokenize(self, query: str, docs: list[str]):
