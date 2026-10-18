@@ -12,6 +12,7 @@ dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.6"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+asyncio_mode = "auto"
 markers = [
   "slow: needs real models or a running Qdrant",
   "integration: needs network or external services",
