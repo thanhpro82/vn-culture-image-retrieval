@@ -12,7 +12,7 @@ ml = ["transformers", "FlagEmbedding", "sentencepiece", "protobuf", "accelerate"
 dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.6", "httpx", "moto[s3]"]
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+pythonpath = ["src", "."]
 testpaths = ["tests"]
 asyncio_mode = "auto"
 markers = [
