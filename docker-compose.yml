@@ -21,7 +21,9 @@ services:
   api:
     build: .
     image: vn-culture-image-retrieval:latest
-    env_file: .env
+    env_file:
+      - path: .env
+        required: false  # bản clone mới chưa có .env; điền khoá vào .env trước khi chạy thật
     environment:
       QDRANT_URL: http://qdrant:6333
       HF_HOME: /models
