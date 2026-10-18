@@ -19,7 +19,7 @@ def render(summary: dict) -> str:
         "|---|---|",
         f"| Tổng số request (cả /embed, /rerank) | {int(_v(reqs, 'count'))} |",
         f"| Thông lượng | {_v(reqs, 'rate'):.1f} req/s |",
-        f"| Độ trễ /search p50 | {_v(s, 'p(50)'):.0f} ms |",
+        f"| Độ trễ /search p50 | {_v(s, 'p(50)', _v(s, 'med')):.0f} ms |",
         f"| Độ trễ /search p95 | {_v(s, 'p(95)'):.0f} ms |",
         f"| Độ trễ /search p99 | {_v(s, 'p(99)'):.0f} ms |",
         f"| Độ trễ /search lớn nhất | {_v(s, 'max'):.0f} ms |",
@@ -33,4 +33,5 @@ def render(summary: dict) -> str:
 
 if __name__ == "__main__":
     with open(sys.argv[1], encoding="utf-8") as f:
-        print(render(json.load(f)))
+        md = render(json.load(f))
+    sys.stdout.buffer.write(md.encode("utf-8"))  # không phụ thuộc mã hoá console của Windows

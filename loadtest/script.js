@@ -12,6 +12,7 @@ const VUS = parseInt(__ENV.VUS || '5');
 const DURATION = __ENV.DURATION || '60s';
 
 export const options = {
+  summaryTrendStats: ['avg', 'min', 'med', 'p(90)', 'p(95)', 'p(99)', 'max'],
   scenarios: {
     search: { executor: 'constant-vus', vus: VUS, duration: DURATION },
   },

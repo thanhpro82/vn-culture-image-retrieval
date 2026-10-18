@@ -12,11 +12,15 @@ mkdir -p reports
 # dùng đường dẫn kiểu Windows cho thư mục gắn vào và tắt chuyển đổi đường dẫn.
 ROOT=$(pwd -W 2>/dev/null || pwd)
 export MSYS_NO_PATHCONV=1
+set +e  # k6 trả mã lỗi khi vượt ngưỡng; vẫn phải sinh báo cáo
 docker run --rm \
   -v "$ROOT/loadtest:/scripts" -v "$ROOT/reports:/reports" -w /scripts \
   -e API_KEY -e BASE_URL="${BASE_URL:-http://host.docker.internal:8000}" \
   -e VUS="${VUS:-5}" -e DURATION="${DURATION:-60s}" \
   -e K6_WEB_DASHBOARD=true -e K6_WEB_DASHBOARD_EXPORT=/reports/loadtest-report.html \
   grafana/k6:latest run script.js
+K6_RC=$?
+set -e
 "$PY" loadtest/report.py reports/loadtest-summary.json > reports/loadtest-report.md
-echo "báo cáo: reports/loadtest-report.md, reports/loadtest-report.html"
+echo "báo cáo: reports/loadtest-report.md, reports/loadtest-report.html (k6 exit code: $K6_RC)"
+exit "$K6_RC"
