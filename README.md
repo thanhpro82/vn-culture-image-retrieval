@@ -46,7 +46,7 @@ uv venv --python 3.12 .venv
 uv pip install --python .venv/Scripts/python.exe -e ".[dev,ml]"        # cài thêm torch bản CUDA nếu có GPU
 PYTHONPATH=src python -m retrieval.manifest Data/incoming Data/manifest.parquet   # 92.339 URL được giữ
 PYTHONPATH=src python -m retrieval.download all Data/manifest.parquet Data/images --concurrency 128
-docker run -d -p 6333:6333 -v "$PWD/Data/qdrant_storage:/qdrant/storage" qdrant/qdrant   # Qdrant cho lúc dựng index
+docker compose up -d qdrant      # Qdrant cho lúc dựng index (dữ liệu ở Data/qdrant_storage)
 PYTHONPATH=src python -m retrieval.index build                         # embed ảnh + text, nạp Qdrant
 PYTHONPATH=src python -m retrieval.index entities                      # danh mục thực thể cho cổng kiểm tra
 ```

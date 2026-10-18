@@ -1,6 +1,8 @@
 services:
   qdrant:
     image: qdrant/qdrant:latest
+    ports:
+      - "127.0.0.1:6333:6333"  # để lệnh dựng index chạy ngoài container nối vào được
     volumes:
       - ${QDRANT_DIR:-./Data/qdrant_storage}:/qdrant/storage
     healthcheck:
@@ -10,7 +12,7 @@ services:
       retries: 20
 
   model-init:
-    build: .
+    image: vn-culture-image-retrieval:latest
     command: ["python", "-m", "retrieval.models"]
     volumes:
       - ${HF_CACHE:-./Data/hf-cache}:/models
@@ -18,10 +20,12 @@ services:
 
   api:
     build: .
+    image: vn-culture-image-retrieval:latest
     env_file: .env
     environment:
       QDRANT_URL: http://qdrant:6333
       HF_HOME: /models
+      TORCH_THREADS: ${TORCH_THREADS:-8}
     volumes:
       - ${HF_CACHE:-./Data/hf-cache}:/models
       - ${IMAGES_DIR:-./Data/images}:/app/Data/images:ro

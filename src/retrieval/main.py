@@ -21,7 +21,7 @@ def build_services() -> Services:
     s = get_settings()
     path = next((p for p in CATALOG_PATHS if p.exists()), None)
     catalog = EntityCatalog.from_manifest(pd.read_parquet(path, columns=["entity_names"])) if path else None
-    embedder, reranker = Embedder(device="cpu"), Reranker(threads=os.cpu_count())
+    embedder, reranker = Embedder(device="cpu"), Reranker(threads=int(os.environ.get("TORCH_THREADS", os.cpu_count() or 8)))
     # làm nóng: nạp model lười lần đầu mất ~30 s, không để người dùng đầu tiên chịu
     embedder.text_siglip(["khởi động"])
     embedder.text_bge(["khởi động"])
