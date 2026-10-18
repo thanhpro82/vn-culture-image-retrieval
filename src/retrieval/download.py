@@ -107,7 +107,7 @@ async def _download_all(df: pd.DataFrame, out_dir: Path, concurrency: int) -> pd
             async with sem:
                 raw, why = await _fetch(s, url)
             if raw:
-                dst.write_bytes(to_webp(raw))
+                dst.write_bytes(await asyncio.to_thread(to_webp, raw))
             res.append({"image_id": image_id, "ok": bool(raw), "reason": why})
         await asyncio.gather(*(one(i, u) for i, u in zip(df["image_id"], df["url"], strict=True)))
     return pd.DataFrame(res)
@@ -116,6 +116,7 @@ async def _download_all(df: pd.DataFrame, out_dir: Path, concurrency: int) -> pd
 def download_all(manifest_path: Path, out_dir: Path, concurrency: int = 48) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     df = pd.read_parquet(manifest_path, columns=["image_id", "url"])
+    df = df.sample(frac=1, random_state=0).reset_index(drop=True)  # xen kẽ domain, tránh nghẽn per-host
     status = asyncio.run(_download_all(df, out_dir, concurrency))
     status.to_parquet(out_dir.parent / "status.parquet", index=False)
 
