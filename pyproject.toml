@@ -1,0 +1,22 @@
+[project]
+name = "vn-culture-image-retrieval"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "pydantic-settings>=2.4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.6"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+markers = [
+  "slow: needs real models or a running Qdrant",
+  "integration: needs network or external services",
+]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
