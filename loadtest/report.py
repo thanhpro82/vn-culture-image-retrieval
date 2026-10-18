@@ -32,4 +32,5 @@ def render(summary: dict) -> str:
 
 
 if __name__ == "__main__":
-    print(render(json.load(open(sys.argv[1], encoding="utf-8"))))
+    with open(sys.argv[1], encoding="utf-8") as f:
+        print(render(json.load(f)))
