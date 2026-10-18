@@ -76,3 +76,27 @@ def test_request_uses_minimal_thinking_level_not_budget():
 def test_schema_asks_only_for_vi_en_ents():
     props = RESPONSE_SCHEMA["properties"]["subs"]["items"]["properties"]
     assert set(props) == {"vi", "en", "ents"}
+
+
+async def test_gemini_client_reuses_connection_between_calls():
+    from aiohttp import web
+    from aiohttp.test_utils import TestServer
+
+    from retrieval.qparse import GeminiClient
+
+    ports = []
+
+    async def handler(request):
+        ports.append(request.transport.get_extra_info("peername")[1])
+        return web.json_response({"candidates": [{"content": {"parts": [{"text": "{}"}]}}]})
+
+    app = web.Application()
+    app.router.add_post("/v1beta/models/m:generateContent", handler)
+    server = TestServer(app)
+    await server.start_server()
+    client = GeminiClient("k", "m", base_url=str(server.make_url("")).rstrip("/"))
+    await client.generate("a", {})
+    await client.generate("b", {})
+    await client.close()
+    await server.close()
+    assert len(ports) == 2 and ports[0] == ports[1]

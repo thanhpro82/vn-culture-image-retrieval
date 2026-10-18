@@ -59,21 +59,27 @@ def build_request(prompt: str, schema: dict = RESPONSE_SCHEMA) -> dict:
 
 
 class GeminiClient:
-    def __init__(self, api_key: str, model: str, session: aiohttp.ClientSession | None = None):
-        self.api_key, self.model, self._session = api_key, model, session
+    """Giữ một phiên aiohttp dùng lại giữa các lần gọi để khỏi bắt tay TLS lại (~100-200 ms)."""
+
+    def __init__(self, api_key: str, model: str,
+                 base_url: str = "https://generativelanguage.googleapis.com"):
+        self.api_key, self.model, self.base_url = api_key, model, base_url
+        self._session: aiohttp.ClientSession | None = None
 
     async def generate(self, prompt: str, schema: dict) -> str:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent"
-        body = build_request(prompt, schema)
-        session = self._session or aiohttp.ClientSession()
-        try:
-            async with session.post(url, json=body, headers={"x-goog-api-key": self.api_key}) as r:
-                r.raise_for_status()
-                data = await r.json()
-        finally:
-            if self._session is None:
-                await session.close()
+        if self._session is None:
+            self._session = aiohttp.ClientSession()
+        url = f"{self.base_url}/v1beta/models/{self.model}:generateContent"
+        async with self._session.post(url, json=build_request(prompt, schema),
+                                      headers={"x-goog-api-key": self.api_key}) as r:
+            r.raise_for_status()
+            data = await r.json()
         return data["candidates"][0]["content"]["parts"][0]["text"]
+
+    async def close(self) -> None:
+        if self._session is not None:
+            await self._session.close()
+            self._session = None
 
 
 def strip_accents(s: str) -> str:

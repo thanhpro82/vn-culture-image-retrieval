@@ -1,10 +1,9 @@
-import zlib
-
 import numpy as np
 from qdrant_client import QdrantClient
 
+from fakes import FakeEmbedder, hash_vec
 from retrieval.index import build_doc, create_collection, upsert_points
-from retrieval.qparse import ParsedQuery, SubQuery, strip_accents
+from retrieval.qparse import ParsedQuery, SubQuery
 from retrieval.search import Hit, interleave, search
 
 
@@ -44,24 +43,6 @@ def test_one_intent_empty_does_not_block_others():
 
 
 # ---------- search qua Qdrant :memory: với embedder giả ----------
-def _hv(text, dim):
-    v = np.zeros(dim, dtype="float32")
-    for w in strip_accents(text).split():
-        v[zlib.crc32(w.encode()) % dim] += 1.0
-    n = np.linalg.norm(v)
-    return v / n if n else v
-
-
-class FakeEmbedder:
-    def text_siglip(self, texts):
-        return np.stack([_hv(t, 768) for t in texts])
-
-    def text_bge(self, texts):
-        dense = np.stack([_hv(t, 1024) for t in texts])
-        sparse = [{zlib.crc32(w.encode()) % 100000: 1.0 for w in strip_accents(t).split()} for t in texts]
-        return dense, sparse
-
-
 ROWS = [
     {"image_id": "00000000000000a1", "entity_ids": ["e1"], "entity_names": ["Áo bà ba"], "caption": "người mặc áo bà ba"},
     {"image_id": "00000000000000a2", "entity_ids": ["e2"], "entity_names": ["Múa hổ"], "caption": "điệu múa hổ"},
@@ -75,7 +56,7 @@ def _client():
     emb = FakeEmbedder()
     docs = [build_doc(r) for r in ROWS]
     dense, sparse = emb.text_bge(docs)
-    upsert_points(c, "images", ROWS, {"img": np.stack([_hv(r["caption"], 768) for r in ROWS]),
+    upsert_points(c, "images", ROWS, {"img": np.stack([hash_vec(r["caption"], 768) for r in ROWS]),
                                       "txt": dense, "sparse": sparse})
     return c
 
