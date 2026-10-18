@@ -129,7 +129,34 @@ def test_mode_and_rerank_flags(client):
     assert calls  # mặc định có rerank
 
 
+def test_budget_default_leaves_margin_below_3s():
+    assert Services.__dataclass_fields__['budget_ms'].default <= 2700
+
+
 def test_rerank_budget_is_16_candidates():
     """Ngân sách rerank theo ADR-002: INT8 + 16 cặp ~0,6 s trên CPU dev (24 cặp fp32 là ~1,8 s)."""
     from retrieval.api import CANDIDATES
     assert CANDIDATES == 16
+
+
+def test_rerank_skipped_when_latency_budget_would_be_exceeded(client):
+    c, svc = client
+    calls = []
+    orig = svc.reranker.score
+    svc.reranker.score = lambda q, d: calls.append(1) or orig(q, d)
+    svc.budget_ms = 0  # không còn dư địa
+    r = c.post("/search", json={"query": "áo bà ba"}, headers=H).json()
+    assert calls == [] and r["reranked"] is False and len(r["results"]) >= 1
+
+
+def test_rerank_runs_when_budget_allows_and_updates_estimate(client):
+    c, svc = client
+    svc.rerank_ema_ms = 800.0
+    r = c.post("/search", json={"query": "áo bà ba"}, headers=H).json()
+    assert r["reranked"] is True
+    assert svc.rerank_ema_ms < 800.0  # fake reranker nhanh nên ước lượng giảm
+
+
+def test_explicit_rerank_false_reports_not_reranked(client):
+    r = client[0].post("/search", json={"query": "áo bà ba", "rerank": False}, headers=H).json()
+    assert r["reranked"] is False

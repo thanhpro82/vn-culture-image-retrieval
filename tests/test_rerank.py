@@ -68,3 +68,20 @@ def test_default_reranker_is_dynamically_quantized_on_cpu():
     import torch
     r = Reranker()
     assert any(isinstance(m, torch.ao.nn.quantized.dynamic.Linear) for m in r.model.modules())
+
+
+def test_multi_intent_is_scored_in_a_single_batched_call():
+    class Batched:
+        def __init__(self):
+            self.calls = []
+
+        def score_pairs(self, pairs):
+            self.calls.append(list(pairs))
+            return [1.0 if "tốt" in d else 0.0 for _, d in pairs]
+
+    b = Batched()
+    hits = [H(1, sub=0, caption="xấu"), H(2, sub=0, caption="tốt"), H(3, sub=1, caption="xấu"), H(4, sub=1, caption="tốt")]
+    out = rerank_hits(["hổ", "mèo"], hits, b, top_k=4)
+    assert len(b.calls) == 1 and len(b.calls[0]) == 4
+    assert {q for q, _ in b.calls[0]} == {"hổ", "mèo"}
+    assert next(h.image_id for h in out if h.source_sub == 0) == "i2"

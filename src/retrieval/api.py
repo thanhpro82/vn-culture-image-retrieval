@@ -36,6 +36,8 @@ class Services:
     catalog: EntityCatalog | None
     store: ImageStore
     collection: str = "images"
+    budget_ms: float = 2700.0  # trần thời gian một truy vấn; rerank chỉ chạy khi còn dư địa
+    rerank_ema_ms: float = 800.0  # ước lượng thời gian rerank, cập nhật theo số đo thật
 
 
 class SearchIn(BaseModel):
@@ -100,14 +102,18 @@ def create_app(svc: Services) -> FastAPI:
         hits = await asyncio.to_thread(search, parsed, svc.embedder, svc.qdrant, CANDIDATES,
                                        svc.collection, 3, branches)
         t2 = time.perf_counter()
-        if body.rerank:
+        reranked = body.rerank and (t2 - t0) * 1000 + svc.rerank_ema_ms < svc.budget_ms
+        if reranked:
             queries = [u[1] for u in _units(parsed)]
             top = await asyncio.to_thread(rerank_hits, queries, hits, svc.reranker, body.top_k, CANDIDATES)
+            took = (time.perf_counter() - t2) * 1000
+            svc.rerank_ema_ms = 0.7 * svc.rerank_ema_ms + 0.3 * took
         else:
             top = hits[: body.top_k]
-        t3 = time.perf_counter() if body.rerank else t2
+        t3 = time.perf_counter() if reranked else t2
         return {
             "query_type": parsed.qt,
+            "reranked": reranked,
             "subs": [{"vi": s.vi, "en": s.en, "ents": s.ents} for s in parsed.subs],
             "results": [{"image_id": h.image_id, "url": svc.store.url(h.image_id), "caption": h.caption,
                          "entities": h.entity_names or [], "page_title": h.page_title,
