@@ -69,6 +69,9 @@ class RerankIn(BaseModel):
 def create_app(svc: Services) -> FastAPI:
     app = FastAPI(title="VN culture image retrieval")
     cache: OrderedDict[str, ParsedQuery] = OrderedDict()
+    # Phần nặng CPU (embed, rerank) chạy lần lượt: hai yêu cầu cùng dùng đủ luồng sẽ tranh nhau và
+    # chậm cả hai. Thời gian chờ Gemini (không dùng CPU) vẫn chồng lên nhau giữa các yêu cầu.
+    cpu_slot = asyncio.Semaphore(1)
 
     def auth(x_api_key: Annotated[str | None, Header()] = None) -> None:
         key = svc.settings.api_key
@@ -92,6 +95,10 @@ def create_app(svc: Services) -> FastAPI:
                 cache.popitem(last=False)
         return parsed
 
+    async def _rerank_in_slot(queries, hits, top_k):
+        async with cpu_slot:
+            return await asyncio.to_thread(rerank_hits, queries, hits, svc.reranker, top_k, CANDIDATES)
+
     async def run_search(body: SearchIn):
         t0 = time.perf_counter()
         parsed = await understand(body.query)
@@ -100,8 +107,9 @@ def create_app(svc: Services) -> FastAPI:
         t1 = time.perf_counter()
         branches = {"hybrid": BRANCHES, "image": ("img",), "text": ("txt", "sparse")}[body.mode]
         parts: dict = {}
-        hits = await asyncio.to_thread(search, parsed, svc.embedder, svc.qdrant, CANDIDATES,
-                                       svc.collection, 3, branches, parts)
+        async with cpu_slot:
+            hits = await asyncio.to_thread(search, parsed, svc.embedder, svc.qdrant, CANDIDATES,
+                                           svc.collection, 3, branches, parts)
         t2 = time.perf_counter()
         elapsed_ms = (t2 - t0) * 1000
         reranked = False
@@ -110,9 +118,7 @@ def create_app(svc: Services) -> FastAPI:
             queries = [u[1] for u in _units(parsed)]
             remaining = max(svc.budget_ms - elapsed_ms, 200.0) / 1000
             try:  # giới hạn cứng: quá hạn thì trả thứ tự hybrid, không để một lần rerank chậm phá ngân sách
-                top = await asyncio.wait_for(
-                    asyncio.to_thread(rerank_hits, queries, hits, svc.reranker, body.top_k, CANDIDATES),
-                    timeout=remaining)
+                top = await asyncio.wait_for(_rerank_in_slot(queries, hits, body.top_k), timeout=remaining)
                 reranked = True
                 took = (time.perf_counter() - t2) * 1000
                 svc.rerank_ema_ms = 0.7 * svc.rerank_ema_ms + 0.3 * took

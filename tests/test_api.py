@@ -187,3 +187,41 @@ def test_slow_rerank_is_cut_off_and_results_still_returned(client):
 def test_search_response_splits_retrieve_into_embed_and_qdrant(client):
     t = client[0].post("/search", json={"query": "áo bà ba"}, headers=H).json()["timings_ms"]
     assert {"embed_ms", "qdrant_ms"} <= set(t)
+
+
+async def test_cpu_bound_stages_do_not_run_concurrently(client):
+    import asyncio
+    import threading
+    import time
+
+    import httpx
+
+    c, svc = client
+    state = {"active": 0, "max": 0}
+    lock = threading.Lock()
+    inner = svc.embedder
+
+    class Slow:
+        def _wrap(self, fn, *a):
+            with lock:
+                state["active"] += 1
+                state["max"] = max(state["max"], state["active"])
+            time.sleep(0.15)
+            try:
+                return fn(*a)
+            finally:
+                with lock:
+                    state["active"] -= 1
+
+        def text_siglip(self, t):
+            return self._wrap(inner.text_siglip, t)
+
+        def text_bge(self, t):
+            return self._wrap(inner.text_bge, t)
+
+    svc.embedder = Slow()
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=c.app), base_url="http://t") as ac:
+        rs = await asyncio.gather(*[ac.post("/search", json={"query": f"áo bà ba {i}", "rerank": False},
+                                            headers=H) for i in range(3)])
+    assert all(r.status_code == 200 for r in rs)
+    assert state["max"] == 1
