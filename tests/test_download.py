@@ -1,6 +1,5 @@
 import io
 
-import pytest
 from aiohttp import ClientSession, web
 from aiohttp.test_utils import TestServer
 from PIL import Image

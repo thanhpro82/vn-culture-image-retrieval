@@ -39,7 +39,7 @@ async def _fetch(session: aiohttp.ClientSession, url: str) -> tuple[bytes | None
             continue
         try:
             Image.open(io.BytesIO(raw)).load()  # ảnh cụt byte sẽ lỗi ở đây
-        except Exception:
+        except (OSError, ValueError, SyntaxError, Image.DecompressionBombError):
             return None, "decode"
         return raw, "ok"
     return None, reason
