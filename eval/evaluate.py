@@ -62,9 +62,10 @@ if __name__ == "__main__":
     ap.add_argument("--key", required=True)
     ap.add_argument("--mode", default="hybrid", choices=["hybrid", "image", "text"])
     ap.add_argument("--no-rerank", action="store_true")
+    ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--out")
     a = ap.parse_args()
-    rep = run(Path(a.testset), a.base, a.key, a.mode, not a.no_rerank)
+    rep = run(Path(a.testset), a.base, a.key, a.mode, not a.no_rerank, a.workers)
     print(json.dumps(rep, ensure_ascii=False, indent=2))
     if a.out:
         Path(a.out).parent.mkdir(parents=True, exist_ok=True)
