@@ -60,3 +60,14 @@ def test_upsert_accepts_numpy_list_columns_from_parquet():
     p = client.scroll("t3", with_payload=True, limit=1)[0][0]
     assert p.payload["entity_ids"] == ["e1", "e2"] and p.payload["entity_names"] == ["A", "B"]
     assert "A" in build_doc(row) and "B" in build_doc(row)
+
+
+def test_write_entities_is_unique_and_sorted(tmp_path):
+    import pandas as pd
+
+    from retrieval.index import write_entities
+
+    m = pd.DataFrame({"entity_names": [np.array(["B", "A"]), np.array(["A", "C"]), None]})
+    out = tmp_path / "entities.parquet"
+    write_entities(m, out)
+    assert pd.read_parquet(out)["entity_names"].tolist() == [["A"], ["B"], ["C"]]

@@ -135,7 +135,17 @@ def build(data_dir: str = "Data", batch: int = 64, collection: str = "images", l
     print("points:", client.count(collection).count)
 
 
+def write_entities(manifest, out) -> None:
+    """Danh mục tên thực thể không trùng (nhỏ) cho cổng kiểm tra; image phục vụ không cần cả manifest."""
+    import pandas as pd
+    names = sorted({str(n) for lst in manifest["entity_names"] if lst is not None for n in lst if n})
+    pd.DataFrame({"entity_names": [[n] for n in names]}).to_parquet(out, index=False)
+
+
 if __name__ == "__main__":
     import sys
     if sys.argv[1:2] == ["build"]:
         build(limit=int(sys.argv[2]) if len(sys.argv) > 2 else None)
+    elif sys.argv[1:2] == ["entities"]:
+        import pandas as pd
+        write_entities(pd.read_parquet("Data/manifest.parquet", columns=["entity_names"]), "Data/entities.parquet")

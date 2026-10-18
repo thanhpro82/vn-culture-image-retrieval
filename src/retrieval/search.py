@@ -5,6 +5,7 @@ from qdrant_client import QdrantClient, models
 
 from retrieval.qparse import ParsedQuery
 
+BRANCHES = ("img", "txt", "sparse")
 PREFETCH = 50
 PER_UNIT = 30
 
@@ -33,20 +34,24 @@ def _units(parsed: ParsedQuery) -> list[tuple[str, str]]:
 
 
 def search(parsed: ParsedQuery, embedder, client: QdrantClient, top_k: int = 10,
-           collection: str = "images", max_per_entity: int = 3) -> list[Hit]:
+           collection: str = "images", max_per_entity: int = 3,
+           branches: tuple[str, ...] = BRANCHES) -> list[Hit]:
+    if not branches or not set(branches) <= set(BRANCHES):
+        raise ValueError(f"branches phải là tập con của {BRANCHES}")
     units = _units(parsed)
     img_q = embedder.text_siglip([u[0] for u in units])
     dense_q, sparse_q = embedder.text_bge([u[1] for u in units])
     reqs = []
     for i in range(len(units)):
         sp = sparse_q[i]
+        all_pf = {
+            "img": models.Prefetch(query=img_q[i].tolist(), using="img", limit=PREFETCH),
+            "txt": models.Prefetch(query=dense_q[i].tolist(), using="txt", limit=PREFETCH),
+            "sparse": models.Prefetch(query=models.SparseVector(indices=list(sp), values=list(sp.values())),
+                                      using="sparse", limit=PREFETCH),
+        }
         reqs.append(models.QueryRequest(
-            prefetch=[
-                models.Prefetch(query=img_q[i].tolist(), using="img", limit=PREFETCH),
-                models.Prefetch(query=dense_q[i].tolist(), using="txt", limit=PREFETCH),
-                models.Prefetch(query=models.SparseVector(indices=list(sp), values=list(sp.values())),
-                                using="sparse", limit=PREFETCH),
-            ],
+            prefetch=[all_pf[b] for b in branches],
             query=models.FusionQuery(fusion=models.Fusion.RRF),
             limit=PER_UNIT, with_payload=True))
     responses = client.query_batch_points(collection, requests=reqs)

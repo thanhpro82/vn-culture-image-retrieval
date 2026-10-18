@@ -115,3 +115,15 @@ def test_demo_search_needs_no_key_but_api_search_still_does(client):
 
 def test_demo_search_validates_query(client):
     assert client[0].post("/demo/search", json={"query": "  "}).status_code == 422
+
+
+def test_mode_and_rerank_flags(client):
+    c, svc = client
+    calls = []
+    orig = svc.reranker.score
+    svc.reranker.score = lambda q, d: calls.append(len(d)) or orig(q, d)
+    r = c.post("/search", json={"query": "áo bà ba", "mode": "image", "rerank": False}, headers=H)
+    assert r.status_code == 200 and calls == [] and r.json()["timings_ms"]["rerank_ms"] == 0
+    assert c.post("/search", json={"query": "áo bà ba", "mode": "bogus"}, headers=H).status_code == 422
+    c.post("/search", json={"query": "áo bà ba"}, headers=H)
+    assert calls  # mặc định có rerank

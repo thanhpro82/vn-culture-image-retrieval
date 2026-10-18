@@ -71,3 +71,27 @@ def test_multi_hop_entities_are_searched_separately():
     pq = ParsedQuery("multi_hop", [SubQuery(vi="động vật và trang phục", en="x", ents=["Múa hổ", "Áo bà ba"])])
     ids = {h.image_id for h in search(pq, FakeEmbedder(), _client(), top_k=4)}
     assert {"00000000000000a1", "00000000000000a2"} <= ids
+
+
+def test_search_rejects_unknown_branch():
+    import pytest
+    pq = ParsedQuery("single", [SubQuery(vi="áo bà ba", en="ao ba ba")])
+    with pytest.raises(ValueError):
+        search(pq, FakeEmbedder(), _client(), top_k=3, branches=("img", "bogus"))
+
+
+def test_branches_select_which_signals_are_used():
+    c = QdrantClient(":memory:")
+    create_collection(c, "images")
+    rows = [  # ảnh 1: tên thực thể khớp query nhưng caption (vector ảnh) không; ảnh 2: ngược lại
+        {"image_id": "00000000000000b1", "entity_ids": ["x"], "entity_names": ["Áo bà ba"], "caption": "xyz"},
+        {"image_id": "00000000000000b2", "entity_ids": ["y"], "entity_names": ["Khác"], "caption": "không liên quan"},
+    ]
+    emb = FakeEmbedder()
+    dense, sparse = emb.text_bge([build_doc(r) for r in rows])
+    image_looks_like = ["xyz", "áo bà ba"]  # vector ảnh độc lập với văn bản
+    upsert_points(c, "images", rows, {"img": np.stack([hash_vec(t, 768) for t in image_looks_like]),
+                                      "txt": dense, "sparse": sparse})
+    pq = ParsedQuery("single", [SubQuery(vi="áo bà ba", en="ao ba ba")])
+    assert search(pq, emb, c, top_k=1, branches=("txt", "sparse"))[0].image_id.endswith("b1")
+    assert search(pq, emb, c, top_k=1, branches=("img",))[0].image_id.endswith("b2")

@@ -18,7 +18,7 @@ from retrieval.config import Settings
 from retrieval.grounding import EntityCatalog, ground
 from retrieval.qparse import ParsedQuery, fallback_parse, parse_query
 from retrieval.rerank import rerank_hits
-from retrieval.search import _units, search
+from retrieval.search import BRANCHES, _units, search
 from retrieval.storage import ImageStore, LocalStore
 
 WEB_DIR = Path(os.environ.get("WEB_DIR", "web"))
@@ -41,6 +41,8 @@ class Services:
 class SearchIn(BaseModel):
     query: str = Field(max_length=500)
     top_k: int = Field(default=10, ge=1, le=20)
+    mode: Literal["hybrid", "image", "text"] = "hybrid"  # để đối chứng; mặc định là hybrid
+    rerank: bool = True
 
     @field_validator("query")
     @classmethod
@@ -94,12 +96,16 @@ def create_app(svc: Services) -> FastAPI:
         if svc.catalog:
             parsed = ground(parsed, svc.catalog)
         t1 = time.perf_counter()
+        branches = {"hybrid": BRANCHES, "image": ("img",), "text": ("txt", "sparse")}[body.mode]
         hits = await asyncio.to_thread(search, parsed, svc.embedder, svc.qdrant, CANDIDATES,
-                                       svc.collection)
+                                       svc.collection, 3, branches)
         t2 = time.perf_counter()
-        queries = [u[1] for u in _units(parsed)]
-        top = await asyncio.to_thread(rerank_hits, queries, hits, svc.reranker, body.top_k, CANDIDATES)
-        t3 = time.perf_counter()
+        if body.rerank:
+            queries = [u[1] for u in _units(parsed)]
+            top = await asyncio.to_thread(rerank_hits, queries, hits, svc.reranker, body.top_k, CANDIDATES)
+        else:
+            top = hits[: body.top_k]
+        t3 = time.perf_counter() if body.rerank else t2
         return {
             "query_type": parsed.qt,
             "subs": [{"vi": s.vi, "en": s.en, "ents": s.ents} for s in parsed.subs],
