@@ -182,3 +182,8 @@ def test_slow_rerank_is_cut_off_and_results_still_returned(client):
     assert elapsed < 1.6
     assert r["reranked"] is False and len(r["results"]) >= 1
     assert svc.rerank_ema_ms > 0  # lần sau guard biết rerank chậm
+
+
+def test_search_response_splits_retrieve_into_embed_and_qdrant(client):
+    t = client[0].post("/search", json={"query": "áo bà ba"}, headers=H).json()["timings_ms"]
+    assert {"embed_ms", "qdrant_ms"} <= set(t)

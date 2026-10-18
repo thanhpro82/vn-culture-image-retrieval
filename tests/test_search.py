@@ -95,3 +95,10 @@ def test_branches_select_which_signals_are_used():
     pq = ParsedQuery("single", [SubQuery(vi="áo bà ba", en="ao ba ba")])
     assert search(pq, emb, c, top_k=1, branches=("txt", "sparse"))[0].image_id.endswith("b1")
     assert search(pq, emb, c, top_k=1, branches=("img",))[0].image_id.endswith("b2")
+
+
+def test_search_reports_embed_and_qdrant_timings():
+    pq = ParsedQuery("single", [SubQuery(vi="áo bà ba", en="ao ba ba")])
+    timings: dict = {}
+    search(pq, FakeEmbedder(), _client(), top_k=3, timings=timings)
+    assert set(timings) == {"embed_ms", "qdrant_ms"} and all(v >= 0 for v in timings.values())

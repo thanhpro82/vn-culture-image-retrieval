@@ -99,8 +99,9 @@ def create_app(svc: Services) -> FastAPI:
             parsed = ground(parsed, svc.catalog)
         t1 = time.perf_counter()
         branches = {"hybrid": BRANCHES, "image": ("img",), "text": ("txt", "sparse")}[body.mode]
+        parts: dict = {}
         hits = await asyncio.to_thread(search, parsed, svc.embedder, svc.qdrant, CANDIDATES,
-                                       svc.collection, 3, branches)
+                                       svc.collection, 3, branches, parts)
         t2 = time.perf_counter()
         elapsed_ms = (t2 - t0) * 1000
         reranked = False
@@ -127,6 +128,8 @@ def create_app(svc: Services) -> FastAPI:
                          "entities": h.entity_names or [], "page_title": h.page_title,
                          "score": round(h.score, 4)} for h in top],
             "timings_ms": {"parse_ms": round((t1 - t0) * 1000, 1), "retrieve_ms": round((t2 - t1) * 1000, 1),
+                           "embed_ms": round(parts.get("embed_ms", 0.0), 1),
+                           "qdrant_ms": round(parts.get("qdrant_ms", 0.0), 1),
                            "rerank_ms": round((t3 - t2) * 1000, 1), "total_ms": round((t3 - t0) * 1000, 1)},
         }
 

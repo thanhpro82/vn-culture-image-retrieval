@@ -29,7 +29,7 @@ if __name__ == "__main__":
     rows = probe(base, key, queries)
     for q, ms, d in rows:
         t = d["timings_ms"]
-        print(f"{ms:6.0f} ms | parse {t['parse_ms']:5.0f} retr {t['retrieve_ms']:5.0f} rerank {t['rerank_ms']:5.0f} "
+        print(f"{ms:6.0f} ms | parse {t['parse_ms']:5.0f} retr {t["retrieve_ms"]:5.0f} (emb {t.get("embed_ms", 0):4.0f} qd {t.get("qdrant_ms", 0):4.0f}) rerank {t['rerank_ms']:5.0f} "
               f"| {'R' if d['reranked'] else '-'} {d['query_type']:12s} {q}")
     lat = sorted(r[1] for r in rows)
     print(f"n={len(lat)} p50={statistics.median(lat):.0f} p95={lat[int(0.95 * len(lat)) - 1]:.0f} max={lat[-1]:.0f}"

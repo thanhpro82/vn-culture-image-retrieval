@@ -1,4 +1,5 @@
 """Tìm kiếm lai (ảnh + text + sparse, RRF) cho từng ý, rồi gộp theo hạn ngạch."""
+import time
 from dataclasses import dataclass
 
 from qdrant_client import QdrantClient, models
@@ -35,12 +36,14 @@ def _units(parsed: ParsedQuery) -> list[tuple[str, str]]:
 
 def search(parsed: ParsedQuery, embedder, client: QdrantClient, top_k: int = 10,
            collection: str = "images", max_per_entity: int = 3,
-           branches: tuple[str, ...] = BRANCHES) -> list[Hit]:
+           branches: tuple[str, ...] = BRANCHES, timings: dict | None = None) -> list[Hit]:
     if not branches or not set(branches) <= set(BRANCHES):
         raise ValueError(f"branches phải là tập con của {BRANCHES}")
     units = _units(parsed)
+    t_a = time.perf_counter()
     img_q = embedder.text_siglip([u[0] for u in units])
     dense_q, sparse_q = embedder.text_bge([u[1] for u in units])
+    t_b = time.perf_counter()
     reqs = []
     for i in range(len(units)):
         sp = sparse_q[i]
@@ -55,6 +58,9 @@ def search(parsed: ParsedQuery, embedder, client: QdrantClient, top_k: int = 10,
             query=models.FusionQuery(fusion=models.Fusion.RRF),
             limit=PER_UNIT, with_payload=True))
     responses = client.query_batch_points(collection, requests=reqs)
+    if timings is not None:
+        timings["embed_ms"] = (t_b - t_a) * 1000
+        timings["qdrant_ms"] = (time.perf_counter() - t_b) * 1000
     per_unit = [[Hit(image_id=p.payload["image_id"], score=float(p.score),
                      entity_ids=list(p.payload.get("entity_ids", [])), caption=p.payload.get("caption", ""),
                      source_sub=i, dup_group=p.payload.get("dup_group", p.payload["image_id"]),
