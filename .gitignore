@@ -19,3 +19,4 @@ venv/
 node_modules/
 .superpowers/
 *.egg-info/
+.uvcache/
