@@ -18,4 +18,4 @@ def test_settings_reads_env(monkeypatch):
 
 def test_timeout_default(monkeypatch):
     s = Settings(_env_file=None)
-    assert s.gemini_timeout_ms == 1200
+    assert s.gemini_timeout_ms == 1600

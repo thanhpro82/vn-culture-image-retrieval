@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     s3_prefix: str = "images/"
     gemini_api_key: str = ""
     gemini_model: str = "gemini-3.5-flash-lite"
-    gemini_timeout_ms: int = 1200
+    gemini_timeout_ms: int = 1600
     api_key: str = ""
     qdrant_url: str = "http://localhost:6333"
 
