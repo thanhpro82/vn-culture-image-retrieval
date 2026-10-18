@@ -1,7 +1,0 @@
-pyproject.toml
-src/vn_culture_image_retrieval.egg-info/PKG-INFO
-src/vn_culture_image_retrieval.egg-info/SOURCES.txt
-src/vn_culture_image_retrieval.egg-info/dependency_links.txt
-src/vn_culture_image_retrieval.egg-info/requires.txt
-src/vn_culture_image_retrieval.egg-info/top_level.txt
-tests/test_config.py
