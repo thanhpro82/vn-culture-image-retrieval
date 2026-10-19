@@ -21,6 +21,7 @@ Không dùng `localhost` vì trên Windows nó thử IPv6 trước và cộng th
 |---|---|---|---|---|
 | Chạy trực tiếp (không Docker), 20 truy vấn | 2.340 ms | 2.619 ms | 2.787 ms | 20/20 |
 | `docker compose` (cấu hình giao nộp), 20 truy vấn | 2.318 ms | 2.718 ms | 2.724 ms | 20/20 |
+| `docker compose` sau khi khôi phục index từ snapshot S3 (mã cuối cùng, gồm giới hạn tần suất), 10 truy vấn mới | (xem `docs/results/probe-compose-final.txt`) | | | 10/10 |
 | Bộ 300 query đánh giá chất lượng, chạy trực tiếp, tuần tự | 2.298-2.391 ms | 2.663-2.701 ms | 2.712-2.837 ms | (theo từng loại, xem `docs/eval-report.md`) |
 
 Thành phần điển hình của một truy vấn (container): Gemini 0,8-1,4 s; embed text trên CPU 0,5-1,0 s; Qdrant 0,03-0,07 s; rerank 0,8-1,1 s khi chạy.
