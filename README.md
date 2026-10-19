@@ -17,8 +17,18 @@ thêm Python 3.12, `uv` và GPU NVIDIA (RTX 3050 4 GB là đủ; CPU cũng chạ
 
 1. Tạo `.env` từ mẫu và điền khoá: `cp .env.example .env` rồi điền `GEMINI_API_KEY`, `API_KEY`, và nếu dùng S3 thì
    `S3_BUCKET`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`.
-2. Cần có trong `Data/`: `qdrant_storage/` (index), `images/` (ảnh WebP, nếu không dùng S3) và `entities.parquet`.
-   Lấy từ S3 nếu chưa có (xem "Dữ liệu và index" bên dưới).
+2. Cần có trong `Data/`: `qdrant_storage/` (index), `entities.parquet`, và ảnh (qua S3 hoặc `images/`).
+   Nếu chưa có, khôi phục từ snapshot (không cần GPU, khoảng 1,6 GB):
+
+   ```bash
+   docker compose up -d qdrant
+   PYTHONPATH=src python -m retrieval.snapshot restore "<SNAPSHOT_URL>" "<ENTITIES_URL>"
+   ```
+
+   `<SNAPSHOT_URL>` và `<ENTITIES_URL>` là link S3 ký sẵn (hết hạn sau 7 ngày) do chủ repo cấp; chủ repo tạo lại bằng
+   `PYTHONPATH=src python -m retrieval.snapshot publish` (tạo snapshot từ Qdrant đang chạy, tải lên `s3://<bucket>/index/`).
+   Ảnh: dùng bucket S3 của chủ repo (`S3_*` trong `.env`), hoặc tự tải lại từ URL gốc bằng `python -m retrieval.download all`
+   (khoảng một giờ, một số link nguồn có thể đã chết), sau đó để `S3_BUCKET` trống thì API phục vụ ảnh từ `Data/images`.
 3. Chạy:
 
 ```bash
