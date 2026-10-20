@@ -4,6 +4,7 @@ Web demo tìm ảnh theo văn bản tiếng Việt trên khoảng 89.600 ảnh �
 một ý ("bãi biển Nha Trang"), nhiều ý ("hồ bơi và công viên nước ở Phú Quốc") và truy vấn cần suy luận
 ("động vật sống trong rừng"). Bước tìm ảnh chỉ dùng embedding và rerank, không dùng agent.
 
+- Slide mô tả phương pháp (mở bằng trình duyệt, dùng phím ← →): [`docs/slides.html`](docs/slides.html)
 - Thiết kế: [`docs/architecture.md`](docs/architecture.md), [`docs/superpowers/specs/`](docs/superpowers/specs/)
 - Kết quả đánh giá: [`docs/eval-report.md`](docs/eval-report.md). Hiệu năng: [`docs/perf-report.md`](docs/perf-report.md)
 - Quyết định kỹ thuật kèm số đo: [`docs/adr/`](docs/adr/)
