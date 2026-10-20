@@ -43,6 +43,8 @@ services:
   caddy:
     image: caddy:2-alpine
     profiles: ["deploy"]
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}  # Caddyfile dùng {$DOMAIN}; thiếu dòng này Caddy chạy với "localhost" và không cấp HTTPS thật
     ports: ["80:80", "443:443"]
     volumes:
       - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro

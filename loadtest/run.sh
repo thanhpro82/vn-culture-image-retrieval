@@ -7,7 +7,7 @@ cd "$(dirname "$0")/.."
 PY=${PYTHON:-python}
 TESTSET=${TESTSET:-eval/datasets/testset-v1-seed0.jsonl}
 "$PY" loadtest/make_queries.py "$TESTSET"
-mkdir -p reports
+mkdir -p reports && chmod a+rwx reports  # container k6 chạy bằng người dùng khác, cần quyền ghi (lỗi trên Linux)
 # Git Bash trên Windows làm hỏng đường dẫn có dấu cách và đường dẫn tuyệt đối trong container:
 # dùng đường dẫn kiểu Windows cho thư mục gắn vào và tắt chuyển đổi đường dẫn.
 ROOT=$(pwd -W 2>/dev/null || pwd)

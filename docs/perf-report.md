@@ -93,3 +93,27 @@ và sau một lỗi endpoint ngoài bị bỏ qua 30 giây. `/rerank` (endpoint 
 Đó không phải số đo cho truy vấn mới hoàn toàn. Hai lần đầu ngay sau khi khởi động lại container chậm hơn (7/10 dưới 3 giây) do chưa nóng máy.
 Chất lượng: Recall@10 ngang bộ local trên 300 query (`docs/results/rerank-ab.json`, mục "So sánh bộ rerank" trong `docs/eval-report.md`).
 Rủi ro: địa chỉ endpoint là tunnel tạm và hạn mức dùng chung; bộ k6 phải chạy với tuỳ chọn này tắt.
+
+## Triển khai trên VPS (AWS EC2 `c6i.2xlarge`, 8 vCPU, 16 GB, Ubuntu; đo 2026-10-20)
+
+Truy cập: `https://13-251-152-106.sslip.io` (Caddy + Let's Encrypt). Máy chỉ chạy hệ thống này, không có việc nền khác. Rerank qua endpoint của mentor bật (giới hạn tự đặt 40 yêu cầu/phút, hết lượt thì dùng bộ local).
+
+**Độ trễ một người dùng** (10 truy vấn mới, gọi qua HTTPS từ máy dev, nên có cả độ trễ mạng):
+
+| Lần đo | p50 | p95 | max | Dưới 3 s |
+|---|---|---|---|---|
+| Lần 1: Gemini chưa cache (`docs/results/probe-vps-cold.txt`) | 1.780 ms | 2.170 ms | 2.803 ms | 10/10 |
+| Lần 2: Gemini đã cache (`docs/results/probe-vps-warm.txt`) | 693 ms | 880 ms | 1.069 ms | 10/10 |
+
+**Tải k6 chạy ngay trên VPS** (gọi nội bộ, 60 giây mỗi mức, `loadtest/run.sh`; báo cáo thô ở `docs/results/vps/`):
+
+| Người dùng đồng thời | Thông lượng | /search p50 | /search p95 | /search p99 | Dưới 3 s | Lỗi |
+|---|---|---|---|---|---|---|
+| 1 | 0,9 req/s | 802 ms | 2.676 ms | 2.708 ms | 100,0% | 0% |
+| 2 | 1,6 req/s | 1.277 ms | 2.292 ms | 2.580 ms | 100,0% | 0% |
+| 3 | 1,7 req/s | 1.958 ms | 2.654 ms | 2.709 ms | 100,0% | 0% |
+| 5 | 2,1 req/s | 2.706 ms | 3.070 ms | 3.541 ms | 92,2% | 0% |
+
+So với laptop dev (bảng ở trên: 3 người chỉ 21,6% dưới 3 giây, khoảng 1 req/s): VPS đạt mục tiêu với tới 3 người đồng thời và thông lượng khoảng gấp đôi.
+Điều kiện và hạn chế: bộ truy vấn k6 lặp từ 300 query nên Gemini được cache sau lượt đầu (như lần đo trên laptop); chưa đo tỉ lệ truy vấn thực sự được rerank qua endpoint ngoài
+so với bộ local trong lúc tải (giới hạn 40 yêu cầu/phút nên phần lớn lượt dưới tải dùng rerank local hoặc bị bỏ theo ngân sách thời gian); mỗi mức chỉ chạy một lần.

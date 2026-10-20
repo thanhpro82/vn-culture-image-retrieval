@@ -1,0 +1,11 @@
+   864 ms | parse     3 retr   324 (emb  314 qd   10) rerank   200 | R single       hát chèo
+   628 ms | parse     3 retr   185 (emb  175 qd   10) rerank   242 | R single       mặt nạ tuồng
+   512 ms | parse     2 retr   210 (emb  200 qd   10) rerank   125 | R single       nhà thờ Phát Diệm
+  1069 ms | parse     5 retr   449 (emb  419 qd   29) rerank   448 | R multi_hop    áo dài Huế
+   541 ms | parse     0 retr   186 (emb  176 qd   10) rerank   178 | R single       gánh hàng rong
+   880 ms | parse    10 retr   414 (emb  396 qd   17) rerank   270 | R multi_intent lễ hội đền Hùng và giỗ tổ
+   563 ms | parse     2 retr   212 (emb  201 qd   10) rerank   174 | R single       tranh dân gian Hàng Trống
+   689 ms | parse     3 retr   337 (emb  327 qd   10) rerank   166 | R single       đình làng Tây Nguyên
+   697 ms | parse     2 retr   354 (emb  344 qd   10) rerank   163 | R single       cầu Long Biên
+   777 ms | parse     2 retr   377 (emb  366 qd   10) rerank   188 | R single       rối nước
+n=10 p50=693 p95=880 max=1069 under3s=10/10
