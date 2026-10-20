@@ -70,3 +70,18 @@ cấu hình "luôn chạy rerank" chạy 2 luồng nên CPU bị chia, vượt 3
   di sản này (kết quả thực tế: tranh, đền, tháp Po Nagar, Nhà tù Phú Quốc). Đó là giới hạn của dữ liệu chứ không phải của hệ thống.
 - Truy vấn kiểu "con trai của X" chỉ đúng khi LLM biết quan hệ và thực thể có trong dữ liệu; thử với "con trai chủ tịch Phạm Nhật Vượng" không ra
   ảnh liên quan vì dữ liệu không có.
+
+## So sánh bộ rerank (đo ngày 2026-10-20)
+
+Cùng danh sách 16 ứng viên hybrid cho mỗi truy vấn, 300 query, chạy trong cùng môi trường với API (`eval/compare_rerank.py`, kết quả `docs/results/rerank-ab.json`).
+Khác với bảng trên, phép đo này không có ngân sách thời gian: rerank luôn chạy, nên số tuyệt đối khác bảng trên (ví dụ single 0,97 thay vì 0,96).
+
+| Loại query | Không rerank | bge-reranker-base (local, INT8) | jina-reranker-v2 (endpoint của mentor) |
+|---|---|---|---|
+| single (100) | 0,92 | 0,97 | 0,97 |
+| multi_intent (100) | 1,00 | 1,00 | 1,00 |
+| multi_hop (100) | 0,30 | 0,34 | 0,34 |
+
+- **Hai bộ rerank cho Recall@10 như nhau** trên bộ test này (mỗi nhóm 100 query, chênh lệch dưới ngưỡng phân biệt được).
+- Độ trễ gọi endpoint ngoài p50 152 ms cho 16 văn bản (434 yêu cầu, 0 lỗi); local khoảng 0,7-1,0 s trên CPU (xem bảng trên).
+- Hạn chế: endpoint ngoài có hạn mức chung 50 yêu cầu/phút và là tunnel tạm, nên chỉ dùng như tuỳ chọn có quay về local; chưa tích hợp vào API.
