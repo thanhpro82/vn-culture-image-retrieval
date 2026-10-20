@@ -1,7 +1,13 @@
 """Rerank bằng cross-encoder (bge-reranker-base) trên CPU, cắt 128 token, tối đa 24 cặp."""
-from collections import defaultdict
+import json
+import threading
+import time
+from collections import defaultdict, deque
+from collections.abc import Callable
 from dataclasses import replace
 from typing import Protocol
+
+import httpx
 
 from retrieval.search import Hit, interleave
 
@@ -50,6 +56,80 @@ class Reranker:
 
     def score(self, query: str, docs: list[str]) -> list[float]:
         return self.score_pairs([(query, d) for d in docs])
+
+
+class HttpRerankClient:
+    """Gọi endpoint rerank tương thích OpenAI/Jina (`POST /v1/rerank`). Lỗi HTTP hoặc mạng thì ném ngoại lệ."""
+
+    def __init__(self, base_url: str, api_key: str, model: str, timeout_s: float = 0.8,
+                 transport: httpx.BaseTransport | None = None):
+        self.url = base_url.rstrip("/") + "/v1/rerank"
+        self.headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+        self.model = model
+        self.client = httpx.Client(timeout=timeout_s, transport=transport)
+
+    def __call__(self, query: str, docs: list[str]) -> list[float]:
+        body = json.dumps({"model": self.model, "query": query, "documents": docs}, ensure_ascii=False)
+        r = self.client.post(self.url, content=body.encode("utf-8"), headers=self.headers)
+        r.raise_for_status()
+        out = [0.0] * len(docs)
+        for item in r.json()["results"]:
+            out[item["index"]] = float(item["relevance_score"])
+        return out
+
+
+class RemoteFallbackScorer:
+    """Ưu tiên rerank ở endpoint ngoài (nhanh hơn, nhưng hạn mức dùng chung và địa chỉ có thể chết);
+    hết lượt, lỗi, quá hạn hoặc kết quả sai độ dài thì dùng bộ rerank local.
+
+    Sau một lỗi, endpoint ngoài bị bỏ qua `cooldown_s` giây để không chờ timeout lặp lại ở mọi truy vấn."""
+
+    def __init__(self, local, remote_call: Callable[[str, list[str]], list[float]], rpm: int = 40,
+                 cooldown_s: float = 30.0, clock: Callable[[], float] = time.monotonic):
+        self.local, self.remote_call = local, remote_call
+        self.rpm, self.cooldown_s, self.clock = rpm, cooldown_s, clock
+        self._stamps: deque[float] = deque()
+        self._blocked_until = 0.0
+        self._lock = threading.Lock()
+        self.remote_ok = self.fallbacks = 0
+
+    def _reserve(self, n: int) -> bool:
+        with self._lock:
+            now = self.clock()
+            if now < self._blocked_until:
+                return False
+            while self._stamps and now - self._stamps[0] >= 60.0:
+                self._stamps.popleft()
+            if len(self._stamps) + n > self.rpm:
+                return False
+            self._stamps.extend([now] * n)
+            return True
+
+    def score(self, query: str, docs: list[str]) -> list[float]:
+        return self.score_pairs([(query, d) for d in docs])
+
+    def score_pairs(self, pairs: list[tuple[str, str]]) -> list[float]:
+        if not pairs:
+            return []
+        by_query: dict[str, list[int]] = defaultdict(list)
+        for i, (q, _) in enumerate(pairs):
+            by_query[q].append(i)
+        if self._reserve(len(by_query)):
+            try:
+                out = [0.0] * len(pairs)
+                for q, idx in by_query.items():
+                    scores = self.remote_call(q, [pairs[i][1] for i in idx])
+                    if len(scores) != len(idx):
+                        raise ValueError("endpoint ngoài trả sai số điểm")
+                    for i, sc in zip(idx, scores, strict=True):
+                        out[i] = sc
+                self.remote_ok += 1
+                return out
+            except Exception:  # noqa: BLE001 - mọi lỗi của endpoint ngoài (mạng, 4xx/5xx, JSON) đều quay về local
+                with self._lock:
+                    self._blocked_until = self.clock() + self.cooldown_s
+        self.fallbacks += 1
+        return self.local.score_pairs(pairs)
 
 
 def doc_text(h: Hit) -> str:

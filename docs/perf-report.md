@@ -77,3 +77,19 @@ Xem `docs/data-notes.md`: nhúng 89.596 ảnh bằng SigLIP 2 mất khoảng 85 
 - Mức tải 60 giây và 300 truy vấn xoay vòng; chưa có thử nghiệm kéo dài.
 - Image 2 GB còn lớn: FlagEmbedding kéo theo nhiều thư viện (scikit-learn, datasets, peft...) mà chỉ cần một phần nhỏ; có thể thay bằng cài đặt bge-m3 tối giản nếu cần giảm.
 - Số đo "docker compose" ở trên chạy trên image cục bộ đã chồng mã nguồn mới lên bản build đầy đủ trước đó (build lại từ đầu trên mạng của máy dev quá chậm); Dockerfile build sạch đã được kiểm chứng riêng trên GitHub Actions (xanh).
+
+## Rerank qua endpoint ngoài (tuỳ chọn, đo 2026-10-20)
+
+Bật bằng `EXT_RERANK_ENABLED=true` (cần `EXT_BASE_URL`, `EXT_API_KEY`); mặc định tắt. `/search` gọi `jina-reranker-v2` ở endpoint của mentor;
+hết lượt (`EXT_RPM`, mặc định 40/phút trên hạn mức chung 50), lỗi, quá `EXT_TIMEOUT_MS` hoặc trả sai độ dài thì dùng `bge-reranker-base` local,
+và sau một lỗi endpoint ngoài bị bỏ qua 30 giây. `/rerank` (endpoint chấm tự động) luôn dùng bộ local để không tiêu hạn mức chung.
+
+| Cấu hình | Rerank mỗi truy vấn | Số truy vấn được rerank (10 truy vấn) |
+|---|---|---|
+| Local (`probe-compose-final.txt`) | 640-940 ms | 5/10 (còn lại bị bỏ vì không đủ dư địa thời gian) |
+| Endpoint ngoài | 140-323 ms | 10/10 |
+
+Điều kiện đo: lần chạy thứ ba trên cùng 10 truy vấn nên bước phân tích Gemini đã được cache (4-12 ms), tổng p50 1.333 ms, p95 1.943 ms, 10/10 dưới 3 giây.
+Đó không phải số đo cho truy vấn mới hoàn toàn. Hai lần đầu ngay sau khi khởi động lại container chậm hơn (7/10 dưới 3 giây) do chưa nóng máy.
+Chất lượng: Recall@10 ngang bộ local trên 300 query (`docs/results/rerank-ab.json`, mục "So sánh bộ rerank" trong `docs/eval-report.md`).
+Rủi ro: địa chỉ endpoint là tunnel tạm và hạn mức dùng chung; bộ k6 phải chạy với tuỳ chọn này tắt.

@@ -40,6 +40,7 @@ class Services:
     rerank_ema_ms: float = 800.0  # ước lượng thời gian rerank, cập nhật theo số đo thật
     max_inflight: int = 6  # số /search đang xử lý tối đa; vượt thì trả 503 thay vì xếp hàng vô hạn
     demo_rate_per_min: int = 20  # giới hạn /demo/search theo client
+    search_reranker: Any = None  # bộ rerank riêng cho /search (ưu tiên endpoint ngoài); /rerank luôn dùng reranker local
 
 
 class SearchIn(BaseModel):
@@ -103,7 +104,7 @@ def create_app(svc: Services) -> FastAPI:
         async with cpu_slot:
             t = time.perf_counter()
             try:
-                return await asyncio.to_thread(rerank_hits, queries, hits, svc.reranker, top_k, CANDIDATES)
+                return await asyncio.to_thread(rerank_hits, queries, hits, svc.search_reranker or svc.reranker, top_k, CANDIDATES)
             finally:
                 took = (time.perf_counter() - t) * 1000
                 svc.rerank_ema_ms = 0.7 * svc.rerank_ema_ms + 0.3 * took
