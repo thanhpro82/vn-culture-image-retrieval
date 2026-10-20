@@ -1,0 +1,38 @@
+{
+  "mode": "hybrid",
+  "rerank": true,
+  "n": 300,
+  "by_type": {
+    "multi_hop": {
+      "n": 100,
+      "recall@10": 0.37,
+      "mrr@10": 0.1996,
+      "latency_ms": {
+        "p50": 2360,
+        "p95": 2663,
+        "max": 2712
+      }
+    },
+    "multi_intent": {
+      "n": 100,
+      "recall@10": 1.0,
+      "mrr@10": 0.9089,
+      "latency_ms": {
+        "p50": 2391,
+        "p95": 2693,
+        "max": 2736
+      },
+      "intent_coverage@10": 0.935
+    },
+    "single": {
+      "n": 100,
+      "recall@10": 0.96,
+      "mrr@10": 0.8199,
+      "latency_ms": {
+        "p50": 2298,
+        "p95": 2701,
+        "max": 2837
+      }
+    }
+  }
+}

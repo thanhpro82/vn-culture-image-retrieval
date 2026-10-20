@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tìm ảnh theo văn bản tiếng Việt</title>
+<style>
+:root {
+  --bg: #f6f5f1; --panel: #ffffff; --ink: #1d2433; --muted: #5d6679; --line: #d9d6cc;
+  --accent: #b4432c; --accent-soft: #f3e3de; --blue: #2a5d9f; --blue-soft: #e1ebf7;
+  --green: #2f7d4f; --green-soft: #e0f0e6; --amber: #9a6a00; --amber-soft: #f7ecce;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14171f; --panel: #1d222d; --ink: #e8e9ee; --muted: #9aa3b5; --line: #323a4a;
+    --accent: #ef8a73; --accent-soft: #3a2420; --blue: #7fb0ec; --blue-soft: #1f2e45;
+    --green: #6dc896; --green-soft: #1b3326; --amber: #e5b94f; --amber-soft: #38301a;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14171f; --panel: #1d222d; --ink: #e8e9ee; --muted: #9aa3b5; --line: #323a4a;
+  --accent: #ef8a73; --accent-soft: #3a2420; --blue: #7fb0ec; --blue-soft: #1f2e45;
+  --green: #6dc896; --green-soft: #1b3326; --amber: #e5b94f; --amber-soft: #38301a;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--ink);
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+body { overflow-x: hidden; }
+.deck { height: 100vh; overflow-y: auto; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+section { min-height: 100vh; scroll-snap-align: start; padding: 5vh 6vw; display: flex; flex-direction: column;
+  justify-content: center; gap: 2.2vh; max-width: 1280px; margin: 0 auto; }
+h1 { font-size: clamp(2rem, 4.6vw, 3.6rem); line-height: 1.1; margin: 0; letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.5rem, 3vw, 2.3rem); margin: 0; line-height: 1.15; }
+h2 small { display: block; font-size: 0.9rem; color: var(--accent); font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; margin-bottom: 0.4rem; }
+p, li { font-size: clamp(1rem, 1.55vw, 1.25rem); line-height: 1.5; margin: 0; }
+.lead { font-size: clamp(1.1rem, 1.9vw, 1.5rem); color: var(--muted); }
+ul { margin: 0; padding-left: 1.2em; display: grid; gap: 0.5em; }
+.grid { display: grid; gap: 16px; }
+.g2 { grid-template-columns: repeat(2, 1fr); } .g3 { grid-template-columns: repeat(3, 1fr); }
+.g4 { grid-template-columns: repeat(4, 1fr); }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
+.card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+.card p, .card li { font-size: clamp(0.9rem, 1.3vw, 1.05rem); }
+.big { font-size: clamp(1.8rem, 3.6vw, 3rem); font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
+.cap { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+.tag { display: inline-block; font-size: 0.78rem; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+.t-b { background: var(--blue-soft); color: var(--blue); } .t-g { background: var(--green-soft); color: var(--green); }
+.t-a { background: var(--amber-soft); color: var(--amber); } .t-r { background: var(--accent-soft); color: var(--accent); }
+table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; overflow: hidden; font-size: clamp(0.85rem, 1.25vw, 1.02rem); }
+th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { background: var(--bg); color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase;
+  letter-spacing: 0.04em; }
+tr:last-child td { border-bottom: 0; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+.good { color: var(--green); font-weight: 600; } .bad { color: var(--accent); font-weight: 600; }
+/* sơ đồ luồng */
+.flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; }
+.node { background: var(--panel); border: 1.5px solid var(--line); border-radius: 8px; padding: 9px 12px;
+  font-size: clamp(0.82rem, 1.15vw, 0.98rem); line-height: 1.3; flex: 1 1 130px; min-width: 120px; }
+.node b { display: block; font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 3px;
+  color: var(--muted); }
+.node.n-blue { border-color: var(--blue); background: var(--blue-soft); }
+.node.n-green { border-color: var(--green); background: var(--green-soft); }
+.node.n-red { border-color: var(--accent); background: var(--accent-soft); }
+.node.n-amber { border-color: var(--amber); background: var(--amber-soft); }
+.arrow { align-self: center; color: var(--muted); font-size: 1.3rem; flex: 0 0 auto; }
+.lane { border: 1px dashed var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 10px; }
+.lane > .lbl { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+code, .mono { font-family: Consolas, "Cascadia Mono", monospace; font-size: 0.92em; background: var(--bg);
+  padding: 1px 5px; border-radius: 4px; border: 1px solid var(--line); }
+pre { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px;
+  overflow-x: auto; font-family: Consolas, "Cascadia Mono", monospace; font-size: clamp(0.78rem, 1.1vw, 0.95rem); line-height: 1.5; }
+.nav { position: fixed; right: 16px; bottom: 12px; font-size: 0.85rem; color: var(--muted); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; }
+.src { font-size: 0.8rem; color: var(--muted); }
+@media (max-width: 800px) { .g2, .g3, .g4 { grid-template-columns: 1fr; } section { padding: 4vh 16px; } }
+@media print { .deck { height: auto; overflow: visible; } section { min-height: auto; page-break-after: always; }
+  .nav { display: none; } }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 -->
+<section>
+  <span class="tag t-r">Capstone · Image Data Processing &amp; Retrieval · Phần B</span>
+  <h1>Tìm ảnh theo văn bản tiếng Việt<br>trên 89.596 ảnh, dưới 3 giây</h1>
+  <p class="lead">Hybrid retrieval (vector ảnh + vector văn bản + sparse) trên Qdrant, rerank trên CPU, Gemini chỉ để hiểu truy vấn. Không dùng agent để tìm ảnh.</p>
+  <div class="grid g4">
+    <div class="card"><div class="big">89.596</div><div class="cap">ảnh được index và truy xuất</div></div>
+    <div class="card"><div class="big">3</div><div class="cap">loại truy vấn: một ý, nhiều ý, suy luận</div></div>
+    <div class="card"><div class="big">0,96 / 1,00 / 0,37</div><div class="cap">Recall@10 theo ba loại (300 query)</div></div>
+    <div class="card"><div class="big">&lt; 3 s</div><div class="cap">với 1 người dùng (10/10 truy vấn đo ngày 20/10/2026)</div></div>
+  </div>
+  <p class="src">Phím ← → hoặc cuộn để chuyển slide. Mọi con số là ảnh chụp có ngày, nguồn ở <code>docs/eval-report.md</code> và <code>docs/perf-report.md</code>.</p>
+</section>
+
+<!-- 2 -->
+<section>
+  <h2><small>Bài toán</small>Yêu cầu và ràng buộc</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Đề bài</h3>
+      <ul>
+        <li>Ít nhất 80.000 ảnh, <code>docker compose</code>, web demo.</li>
+        <li>Độ trễ &lt; 3 giây cho cả ba loại truy vấn.</li>
+        <li>Chỉ dùng embedding và rerank để tìm ảnh; LLM chỉ xử lý truy vấn (Gemini 3.5 Flash Lite).</li>
+        <li>Endpoint <code>/embed</code>, <code>/rerank</code> có API key cho auto-test.</li>
+      </ul></div>
+    <div class="card"><h3>Ba loại truy vấn</h3>
+      <ul>
+        <li><b>Một ý:</b> "hát chèo", "cầu Long Biên".</li>
+        <li><b>Nhiều ý:</b> "hồ bơi và công viên nước ở Phú Quốc": top 10 phải phủ cả hai ý.</li>
+        <li><b>Suy luận:</b> "ảnh con trai chủ tịch Phạm Nhật Vượng", "động vật sống trong rừng".</li>
+      </ul></div>
+  </div>
+  <div class="card"><h3>Ràng buộc phần cứng</h3>
+    <p>Lập chỉ mục trên laptop RTX 3050 4 GB; phục vụ hoàn toàn trên CPU (Ryzen 7 6800H, 8 nhân) trong <code>docker compose</code>, không GPU.</p></div>
+</section>
+
+<!-- 3 -->
+<section>
+  <h2><small>Kiến trúc</small>Tách luồng ngoại tuyến và trực tuyến</h2>
+  <div class="lane"><div class="lbl">Ngoại tuyến · một lần · máy dev có GPU</div>
+    <div class="flow">
+      <div class="node"><b>Dữ liệu team</b>21 file Excel, cờ Giữ/Bỏ</div><span class="arrow">→</span>
+      <div class="node"><b>Manifest</b>92.339 URL</div><span class="arrow">→</span>
+      <div class="node"><b>Tải + chuẩn hoá</b>WebP ≤ 640 px, pHash gom ảnh gần trùng</div><span class="arrow">→</span>
+      <div class="node n-amber"><b>S3</b>ảnh gốc WebP + snapshot index</div><span class="arrow">→</span>
+      <div class="node n-blue"><b>Embed</b>SigLIP2 B/16 (ảnh), bge-m3 (dense + sparse)</div><span class="arrow">→</span>
+      <div class="node n-green"><b>Qdrant</b>89.596 điểm, 3 vector, INT8</div>
+    </div></div>
+  <div class="lane"><div class="lbl">Trực tuyến · mỗi truy vấn · CPU · docker compose</div>
+    <div class="flow">
+      <div class="node"><b>Truy vấn</b>NFC, cache LRU</div><span class="arrow">→</span>
+      <div class="node n-red"><b>Gemini (1 lệnh gọi)</b>loại truy vấn, tách ý, thực thể, cụm tiếng Anh</div><span class="arrow">→</span>
+      <div class="node"><b>Grounding</b>bỏ thực thể không có trong dữ liệu</div><span class="arrow">→</span>
+      <div class="node n-blue"><b>Embed truy vấn</b>mỗi ý một lượt</div><span class="arrow">→</span>
+      <div class="node n-green"><b>Qdrant hybrid</b>3 nhánh, RRF</div><span class="arrow">→</span>
+      <div class="node"><b>Hạn ngạch ý</b>≤ 3 ảnh / thực thể</div><span class="arrow">→</span>
+      <div class="node n-amber"><b>Rerank</b>16 ứng viên</div><span class="arrow">→</span>
+      <div class="node"><b>Top 10</b>gộp ảnh gần trùng</div>
+    </div></div>
+  <p class="src">Dịch vụ: <code>caddy</code> (HTTPS, profile deploy) · <code>qdrant</code> · <code>api</code> (FastAPI: <code>/search</code>, <code>/embed</code>, <code>/rerank</code>, <code>/healthz</code>, giao diện web).</p>
+</section>
+
+<!-- 4 -->
+<section>
+  <h2><small>Pipeline dữ liệu</small>Từ file Excel đến index tìm được</h2>
+  <table>
+    <tr><th>Bước</th><th>Kết quả (đo 18/10/2026)</th></tr>
+    <tr><td>Manifest</td><td>92.339 URL giữ lại từ 21 file Excel (ô Giữ/Bỏ trống tính là giữ)</td></tr>
+    <tr><td>Tải ảnh</td><td><b>89.596 ảnh (97,03%)</b>, WebP cạnh dài ≤ 640 px, trung bình khoảng 52 KB; lên S3 không lỗi</td></tr>
+    <tr><td>Ảnh gần trùng</td><td>pHash, khoảng cách Hamming ≤ 4: không loại khỏi index, gắn <code>dup_group</code> và gộp lúc trả kết quả (loại thẳng sẽ xuống dưới 80k)</td></tr>
+    <tr><td>Embed ảnh</td><td>SigLIP2 B/16 FP16, batch 64: khoảng 85 phút (máy vừa chạy việc khác)</td></tr>
+    <tr><td>Embed văn bản</td><td>bge-m3 FP16: khoảng 25 phút; văn bản ghép từ tên thực thể, mô tả, caption, tiêu đề trang</td></tr>
+    <tr><td>Nạp Qdrant</td><td>89.596 điểm, 3 vector mỗi điểm, scalar INT8; <b>snapshot 1,04 GB trên S3, đã khôi phục thử vào máy trống</b></td></tr>
+  </table>
+  <p class="src">Nguồn: <code>docs/data-notes.md</code>. Số ảnh gần trùng không nêu ở đây vì chưa đo lại.</p>
+</section>
+
+<!-- 5 -->
+<section>
+  <h2><small>Truy xuất</small>Một pipeline cho ba loại truy vấn</h2>
+  <div class="grid g3">
+    <div class="card"><span class="tag t-b">Một ý</span><h3>"hát chèo"</h3>
+      <p>Không tách. Tìm thẳng bằng ba nhánh: vector ảnh (cụm tiếng Anh), vector văn bản và sparse (tiếng Việt + tên thực thể).</p></div>
+    <div class="card"><span class="tag t-g">Nhiều ý</span><h3>"hồ bơi và công viên nước ở Phú Quốc"</h3>
+      <p>Gemini tách thành "hồ bơi ở Phú Quốc" và "công viên nước ở Phú Quốc", giữ bối cảnh chung. Mỗi ý tìm riêng, rồi <b>xen kẽ theo hạn ngạch</b> để không ý nào chiếm hết top 10.</p></div>
+    <div class="card"><span class="tag t-a">Suy luận</span><h3>"động vật sống trong rừng"</h3>
+      <p>Gemini suy ra tối đa vài thực thể cụ thể; <b>grounding</b> loại thực thể không có trong dữ liệu; mỗi thực thể còn lại được tìm riêng.</p></div>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h3>Hybrid trong Qdrant</h3>
+      <p>Mỗi ý: ba <code>Prefetch</code> (img, txt, sparse), mỗi nhánh 50 ứng viên, hợp nhất bằng <b>RRF</b>. RRF tránh phải chuẩn hoá điểm giữa cosine của SigLIP, cosine của bge-m3 và điểm sparse.</p></div>
+    <div class="card"><h3>Rerank có ngân sách</h3>
+      <p>Cross-encoder chấm 16 ứng viên, mỗi hit so với đúng truy vấn con của nó. Chỉ chạy khi còn dư địa thời gian (trần 2,7 s); nếu quá hạn thì trả thứ tự hybrid.</p></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section>
+  <h2><small>Schema</small>Collection <code>images</code> trong Qdrant</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Vector (mỗi ảnh)</h3>
+<pre>img     768   SigLIP2 B/16, cosine, INT8
+txt     1024  bge-m3 dense,   cosine, INT8
+sparse  —     bge-m3 lexical weights</pre>
+    </div>
+    <div class="card"><h3>Payload</h3>
+<pre>image_id      khoá ảnh (S3 / thư mục)
+entity_ids    thực thể gắn với ảnh
+entity_names  tên thực thể đã duyệt
+caption       mô tả ảnh
+page_title    tiêu đề trang nguồn
+branch        nhánh phân loại
+region        địa bàn
+dup_group     nhóm ảnh gần trùng (pHash)</pre>
+    </div>
+  </div>
+  <p class="lead">Sơ đồ Mermaid chi tiết (kiến trúc, luồng một truy vấn, schema) nằm ở <code>docs/architecture.md</code>.</p>
+</section>
+
+<!-- 7 -->
+<section>
+  <h2><small>Lựa chọn</small>Vì sao chọn như vậy</h2>
+  <table>
+    <tr><th>Quyết định</th><th>Lý do (kèm số đo)</th></tr>
+    <tr><td>Hybrid thay vì chỉ vector ảnh</td><td>Vector ảnh không biết tên riêng ("Chiến khu D"): Recall@10 chỉ 0,32 / 0,35 / 0,11; hybrid đạt 0,93 / 0,99 / 0,34</td></tr>
+    <tr><td>RRF để hợp nhất</td><td>Ba nhánh khác thang điểm; RRF chỉ dùng thứ hạng</td></tr>
+    <tr><td>Gemini một lệnh gọi, timeout 1,6 s, có fallback</td><td>p50 thực đo khoảng 1 s; timeout 1,2 s sẽ cắt nhiều lệnh gọi hợp lệ. Lỗi thì dùng tách ý bằng quy tắc, không trả lỗi 500</td></tr>
+    <tr><td>Giữ ảnh gần trùng, gộp lúc trả kết quả</td><td>Loại thẳng sẽ xuống dưới 80.000 ảnh</td></tr>
+    <tr><td>Rerank có ngân sách thời gian</td><td>Rerank luôn chạy làm p50 vượt 3 giây khi 2 luồng; chỉ cộng khoảng +0,03 Recall@10</td></tr>
+    <tr><td>Rerank qua endpoint của mentor (tuỳ chọn)</td><td>Cùng Recall@10 với bộ local, nhanh hơn (140-323 ms so với 640-940 ms); tự quay về local khi lỗi hoặc hết lượt</td></tr>
+    <tr><td>Không dùng agent, không dùng VLM ở bước tìm ảnh</td><td>Đúng ràng buộc đề bài (chỉ embedding và rerank); LLM chỉ dùng để hiểu truy vấn</td></tr>
+  </table>
+</section>
+
+<!-- 8 -->
+<section>
+  <h2><small>Chất lượng</small>Recall@10 trên 300 query (100 mỗi loại)</h2>
+  <table>
+    <tr><th>Cấu hình</th><th class="n">Một ý</th><th class="n">Nhiều ý</th><th class="n">Suy luận</th></tr>
+    <tr><td>Chỉ vector ảnh</td><td class="n">0,32</td><td class="n">0,35</td><td class="n">0,11</td></tr>
+    <tr><td>Hybrid, không rerank</td><td class="n">0,93</td><td class="n">0,99</td><td class="n">0,34</td></tr>
+    <tr><td><b>Cấu hình cuối: hybrid + rerank có ngân sách</b></td><td class="n good">0,96</td><td class="n good">1,00</td><td class="n bad">0,37</td></tr>
+  </table>
+  <div class="grid g2">
+    <div class="card"><h3>Cách tạo test case</h3>
+      <p>Sinh từ tên thực thể và quan hệ giữa thực thể và danh mục, <b>không</b> sinh từ caption đã index (tránh rò rỉ). Đáp án: các ảnh thuộc thực thể được nhắm tới. Chia nhóm theo <code>entity_id</code>.</p></div>
+    <div class="card"><h3>Hạn chế của phép đo</h3>
+      <ul><li>Bộ test chưa có người duyệt.</li>
+      <li>Query một ý dùng tên thực thể nên dễ hơn thực tế.</li>
+      <li>Query suy luận yếu vì nhiều thực thể suy ra không có ảnh trong dữ liệu di sản.</li></ul></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section>
+  <h2><small>Hiệu năng</small>Độ trễ và tải</h2>
+  <div class="grid g3">
+    <div class="card"><div class="big good">10/10</div><div class="cap">truy vấn dưới 3 giây, 1 người dùng, <code>docker compose</code>, p95 1,78 s (20/10/2026)</div></div>
+    <div class="card"><div class="big">~1 req/s</div><div class="cap">thông lượng tối đa của cấu hình CPU hiện tại (k6)</div></div>
+    <div class="card"><div class="big">140-323 ms</div><div class="cap">rerank qua endpoint mentor, so với 640-940 ms bộ local</div></div>
+  </div>
+  <table>
+    <tr><th>Người dùng đồng thời (k6)</th><th class="n">/search p50</th><th class="n">/search p95</th><th class="n">Dưới 3 giây</th><th class="n">Lỗi</th></tr>
+    <tr><td>1</td><td class="n">1.958 ms</td><td class="n">2.668 ms</td><td class="n good">100,0%</td><td class="n">0%</td></tr>
+    <tr><td>2</td><td class="n">2.337 ms</td><td class="n">2.926 ms</td><td class="n">95,7%</td><td class="n">0%</td></tr>
+    <tr><td>3</td><td class="n">3.374 ms</td><td class="n">4.136 ms</td><td class="n bad">21,6%</td><td class="n">0%</td></tr>
+  </table>
+  <p class="src">Một truy vấn điển hình: Gemini 0,8-1,4 s, embed văn bản 0,5-1,0 s, Qdrant 0,03-0,07 s, rerank 0,8-1,1 s. Hệ thống bị giới hạn bởi CPU. Báo cáo k6 HTML/JSON tự sinh, chạy lại bằng <code>loadtest/run.sh</code>. CI: lint, 111 test, build Docker sạch.</p>
+</section>
+
+<!-- 10 -->
+<section>
+  <h2><small>Hạn chế</small>Điều chưa tốt và chưa làm</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Hạn chế đã biết</h3>
+      <ul>
+        <li>Truy vấn suy luận chỉ đạt 0,37.</li>
+        <li>Từ 3 người dùng đồng thời, độ trễ vượt 3 giây (CPU bão hoà).</li>
+        <li>Phụ thuộc Gemini (mạng, khoá) và endpoint rerank tạm của mentor (hạn mức chung 50 yêu cầu/phút).</li>
+        <li>Truy vấn ngoài dữ liệu: không từ chối, chỉ gắn cờ <code>low_confidence</code>.</li>
+      </ul></div>
+    <div class="card"><h3>Chưa làm</h3>
+      <ul>
+        <li>Deploy lên tên miền (đã có workflow và Caddyfile, chưa chạy vì chưa có VPS).</li>
+        <li>Người duyệt bộ test; k6 smoke trong CI.</li>
+        <li>ONNX INT8 cho rerank; ColBERT/<code>maxsim-cpu</code>; cache ngữ nghĩa; A/B ViSigLIP-OT.</li>
+        <li>Embedding của mentor (chênh số chiều 2560 và 1024; hạn mức quá thấp để embed lại 89.596 caption).</li>
+      </ul></div>
+  </div>
+  <p class="lead">Hướng cải thiện nếu có thêm thời gian: tăng thông lượng (nhiều nhân hơn, rerank ngoài), duyệt tay bộ test, và bổ sung caption cho nhóm truy vấn suy luận.</p>
+</section>
+
+</div>
+<div class="nav" id="nav">1 / 10</div>
+<script>
+(function () {
+  var deck = document.getElementById("deck"), nav = document.getElementById("nav");
+  var secs = Array.prototype.slice.call(deck.querySelectorAll("section"));
+  function cur() {
+    var h = deck.clientHeight, i = Math.round(deck.scrollTop / h);
+    return Math.max(0, Math.min(secs.length - 1, i));
+  }
+  function go(i) { secs[Math.max(0, Math.min(secs.length - 1, i))].scrollIntoView({ behavior: "smooth" }); }
+  deck.addEventListener("scroll", function () { nav.textContent = (cur() + 1) + " / " + secs.length; });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") { e.preventDefault(); go(cur() + 1); }
+    if (e.key === "ArrowLeft" || e.key === "ArrowUp" || e.key === "PageUp") { e.preventDefault(); go(cur() - 1); }
+    if (e.key === "Home") go(0);
+    if (e.key === "End") go(secs.length - 1);
+  });
+  nav.textContent = "1 / " + secs.length;
+})();
+</script>
+</body>
+</html>

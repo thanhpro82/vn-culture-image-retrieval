@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tìm ảnh văn hoá Việt Nam</title>
+<style>
+  :root { --bg:#fbfaf7; --fg:#1f2328; --muted:#6b7280; --card:#fff; --line:#e5e1d8; --accent:#a4322b; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#16181b; --fg:#e8e6e1; --muted:#9aa0a6; --card:#1f2226; --line:#32363b; --accent:#e5776f; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  main { max-width:1100px; margin:0 auto; padding:24px 16px 48px; }
+  h1 { font-size:1.5rem; margin:0 0 4px; }
+  .sub { color:var(--muted); margin:0 0 16px; }
+  form { display:flex; gap:8px; }
+  input[type=search] { flex:1; padding:12px 14px; font-size:1rem; border:1px solid var(--line); border-radius:8px; background:var(--card); color:var(--fg); min-width:0; }
+  button { padding:12px 18px; font-size:1rem; border:0; border-radius:8px; background:var(--accent); color:#fff; cursor:pointer; }
+  button:disabled { opacity:.6; cursor:wait; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 4px; }
+  .chip { padding:6px 10px; border:1px solid var(--line); border-radius:999px; background:var(--card); color:var(--fg); font-size:.875rem; cursor:pointer; }
+  #meta { color:var(--muted); font-size:.875rem; margin:16px 0 8px; min-height:1.4em; }
+  #grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .card img { display:block; width:100%; aspect-ratio:4/3; object-fit:cover; background:var(--line); }
+  .card .t { padding:8px 10px; font-size:.875rem; }
+  .card .e { font-weight:600; }
+  .card .c { color:var(--muted); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .err { color:var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Tìm ảnh văn hoá Việt Nam</h1>
+  <p class="sub">Nhập mô tả bằng tiếng Việt: một ý, nhiều ý, hoặc câu cần suy luận.</p>
+  <form id="f">
+    <input id="q" type="search" placeholder="Ví dụ: áo bà ba, hay lễ hội và trang phục ở Nam Bộ" maxlength="500" autocomplete="off" required>
+    <button id="go" type="submit">Tìm</button>
+  </form>
+  <div class="chips" id="chips"></div>
+  <div id="meta" aria-live="polite"></div>
+  <div id="grid"></div>
+</main>
+<script>
+const examples = ["áo bà ba", "bãi biển Nha Trang", "hồ bơi và công viên nước ở Phú Quốc", "con hổ và con mèo", "động vật sống trong rừng", "ảnh con trai chủ tịch Phạm Nhật Vượng"];
+const $ = (id) => document.getElementById(id);
+const typeLabel = { single: "một ý", multi_intent: "nhiều ý", multi_hop: "suy luận" };
+examples.forEach((t) => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "chip"; b.textContent = t;
+  b.onclick = () => { $("q").value = t; $("f").requestSubmit(); };
+  $("chips").appendChild(b);
+});
+$("f").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const query = $("q").value.trim();
+  if (!query) return;
+  $("go").disabled = true; $("meta").className = ""; $("meta").textContent = "Đang tìm...";
+  try {
+    const r = await fetch("/demo/search", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query, top_k: 10 }) });
+    if (!r.ok) throw new Error(r.status === 422 ? "Câu hỏi không hợp lệ (1 đến 500 ký tự)." : r.status === 429 ? "Bạn gửi hơi nhanh, thử lại sau ít giây." : r.status === 503 ? "Máy chủ đang bận, thử lại sau ít giây." : "Lỗi máy chủ (" + r.status + ").");
+    const d = await r.json();
+    $("grid").replaceChildren();
+    d.results.forEach((x) => {
+      const card = document.createElement("div"); card.className = "card";
+      const img = new Image(); img.src = x.url; img.alt = x.entities.join(", "); img.loading = "lazy";
+      img.onerror = () => card.remove();
+      const t = document.createElement("div"); t.className = "t";
+      const e = document.createElement("div"); e.className = "e"; e.textContent = x.entities.join(" / ");
+      const c = document.createElement("div"); c.className = "c"; c.textContent = x.caption;
+      t.append(e, c); card.append(img, t); $("grid").appendChild(card);
+    });
+    $("meta").textContent = d.results.length ? d.results.length + " ảnh · loại truy vấn: " + (typeLabel[d.query_type] || d.query_type) + " · " + Math.round(d.timings_ms.total_ms) + " ms" : "Không tìm thấy ảnh phù hợp.";
+    if (d.low_confidence) $("meta").textContent += " · Không có nội dung khớp chính xác trong dữ liệu; các ảnh dưới đây chỉ gần đúng.";
+  } catch (err) {
+    $("meta").className = "err"; $("meta").textContent = err.message;
+  } finally { $("go").disabled = false; }
+});
+</script>
+</body>
+</html>

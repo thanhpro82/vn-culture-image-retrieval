@@ -1,0 +1,28 @@
+{
+  "n": 300,
+  "candidates": 16,
+  "rpm": 40,
+  "remote_calls": 434,
+  "remote_failures": 0,
+  "remote_latency_ms_p50": 152,
+  "by_type": {
+    "multi_intent": {
+      "n": 100,
+      "none": 1.0,
+      "local": 1.0,
+      "remote": 1.0
+    },
+    "multi_hop": {
+      "n": 100,
+      "none": 0.3,
+      "local": 0.34,
+      "remote": 0.34
+    },
+    "single": {
+      "n": 100,
+      "none": 0.92,
+      "local": 0.97,
+      "remote": 0.97
+    }
+  }
+}

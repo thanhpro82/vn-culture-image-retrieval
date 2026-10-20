@@ -21,6 +21,7 @@ Nguồn: 21 file Excel của team 3 (`Data/incoming/final`, `Data/incoming/reche
 
 - Ảnh dùng để index: sheet "Ảnh đã thẩm định", lấy nhãn `Giữ/Bỏ` của file recheck mới nhất, nếu chưa recheck thì dùng file final. Ô trống là giữ, `x` là bỏ (đã xác nhận; toàn bộ ảnh đã thẩm định đều đã được duyệt).
 - Kết quả: **92.339 URL ảnh khác nhau** được giữ (130.262 cặp thực thể-URL, nên nhiều ảnh gắn nhiều thực thể).
+- Đã tải: **89.596 ảnh (97,0%)** (ADR-001). Ảnh gần trùng (pHash Hamming <= 4) không bị loại khỏi index mà gắn `dup_group` và được gộp khi trả kết quả, để vẫn phục vụ > 80.000 ảnh.
 - Không dùng sheet "Ảnh ứng viên" (chưa người duyệt). Không dùng cột "Số ảnh sau verify" (cộng ra 163.910, không khớp dữ liệu).
 - Mỗi ảnh đã có: mô tả Gemini Vision, tên thực thể, tiêu đề trang nguồn, tên miền, độ phân giải, pHash, dHash. Mỗi thực thể có: nhánh phân loại, địa bàn, thể loại văn hoá.
 - **Chưa biết:** tỉ lệ link ảnh còn sống. Nếu chết quá ~13% thì số ảnh dùng được xuống dưới 80k. Phải đo trước khi chốt.
@@ -57,7 +58,7 @@ Container: `api` (FastAPI), `qdrant`, `caddy` (HTTPS, tên miền). Models xuấ
 
 ## 4. Xử lý ba loại query (một pipeline)
 
-1. **Single:** không tách, search thẳng. Vector query gốc được tính sẵn trong lúc chờ LLM.
+1. **Single:** không tách, search thẳng. Vector query gốc được tính sẵn trong lúc chờ LLM (không cài đặt: đổi văn bản truy xuất, chưa đo Recall; xem ledger).
 2. **Multi-intent** ("hổ và mèo"): LLM tách thành sub-query giữ nguyên bối cảnh chung (địa danh). Mỗi sub-query search riêng rồi xen kẽ, mỗi ý có hạn ngạch ~ 10/số ý trong top 10. Giới hạn 2-3 ảnh mỗi thực thể.
 3. **Multi-hop / khái niệm:** LLM mở rộng thành tối đa 4 thực thể cụ thể. Cổng kiểm tra bỏ thực thể không có trong dữ liệu, rồi chạy như multi-intent.
 
@@ -70,7 +71,7 @@ Cổng kiểm tra chỉ xác nhận thực thể **tồn tại trong dữ liệu
 | Bước | Ước lượng p50 / p95 (ms) |
 |---|---|
 | Cache + chuẩn hoá | 1 / 5 |
-| Gemini (song song với embed query gốc) | 450 / 880, timeout 1.200 |
+| Gemini (đo thật 2026-10-18, xem ADR-003) | 991 / 1.214, timeout 1.600 (thay cho 1.200 trong bản đầu) |
 | Kiểm tra thực thể | 2 / 5 |
 | Embed sub-query | 35 / 85 |
 | Qdrant hybrid | 12 / 28 |

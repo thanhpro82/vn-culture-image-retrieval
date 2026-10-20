@@ -1,0 +1,25 @@
+name: Deploy
+
+# Chỉ chạy khi đã cấu hình VPS: đặt biến repo DEPLOY_ENABLED=true và các secrets VPS_HOST, VPS_USER, VPS_SSH_KEY.
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    if: ${{ vars.DEPLOY_ENABLED == 'true' && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cập nhật và khởi động lại trên VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd ~/vn-culture-image-retrieval
+            git pull --ff-only
+            bash deploy/deploy.sh

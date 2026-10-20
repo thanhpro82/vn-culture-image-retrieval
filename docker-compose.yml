@@ -1,0 +1,53 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.19.2
+    ports:
+      - "127.0.0.1:6333:6333"  # để lệnh dựng index chạy ngoài container nối vào được
+    volumes:
+      - ${QDRANT_DIR:-./Data/qdrant_storage}:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c ':> /dev/tcp/127.0.0.1/6333'"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  model-init:
+    image: vn-culture-image-retrieval:latest
+    command: ["python", "-m", "retrieval.models"]
+    volumes:
+      - ${HF_CACHE:-./Data/hf-cache}:/models
+    restart: "no"
+
+  api:
+    build: .
+    image: vn-culture-image-retrieval:latest
+    env_file:
+      - path: .env
+        required: false  # bản clone mới chưa có .env; điền khoá vào .env trước khi chạy thật
+    environment:
+      QDRANT_URL: http://qdrant:6333
+      HF_HOME: /models
+      TORCH_THREADS: ${TORCH_THREADS:-8}
+    volumes:
+      - ${HF_CACHE:-./Data/hf-cache}:/models
+      - ${IMAGES_DIR:-./Data/images}:/app/Data/images:ro
+      - ${ENTITIES_FILE:-./Data/entities.parquet}:/app/Data/entities.parquet:ro
+    ports:
+      - "${PORT:-8000}:8000"
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      model-init:
+        condition: service_completed_successfully
+
+  caddy:
+    image: caddy:2-alpine
+    profiles: ["deploy"]
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on: [api]
+
+volumes:
+  caddy_data:
