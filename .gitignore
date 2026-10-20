@@ -20,3 +20,9 @@ node_modules/
 .superpowers/
 *.egg-info/
 .uvcache/
+
+# Khoá riêng / chứng chỉ: không bao giờ commit
+*.pem
+*.ppk
+*.key
+ir-key*
