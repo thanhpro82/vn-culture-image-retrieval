@@ -16,3 +16,10 @@ Sinh bởi `eval/build_testset.py` (Task 13). Mỗi lần sinh ghi seed và ngà
 Gợi ý theo loại: `single`: truy vấn là tên thực thể, đáp án có đúng là ảnh của thực thể đó không. `multi_intent`: mỗi ý (`Ý 1`, `Ý 2`) có hợp lý và đáp án từng ý có đúng không.
 `multi_hop`: truy vấn là một nhóm khái niệm (văn hoá + vùng); các thực thể đáp án có phải thứ người dùng mong đợi không. Cột `note` để ghi lý do khi chọn `sai` hoặc `mo_ho`.
 Ghi tên người duyệt và ngày ở cuối file hoặc trong báo cáo. Khi có kết quả, báo cáo ghi tỉ lệ `dung`/`sai`/`mo_ho` theo từng loại và đo lại Recall@10 trên phần `dung`.
+
+### Duyệt nhanh bằng trang HTML
+
+`python -m eval.make_review_html` sinh `review-form-seed0.html` từ bảng CSV ở trên (đã commit sẵn, mở thẳng bằng trình duyệt, không cần mạng).
+Mỗi lần hiện một truy vấn: phím **1** = đúng, **2** = sai, **3** = mơ hồ (tự chuyển sang truy vấn tiếp theo), **←/→** đi lại, **N** gõ ghi chú, **Esc** thoát ô ghi chú.
+Tiến độ tự lưu trong trình duyệt (đóng tab rồi mở lại vẫn còn, cùng máy và cùng trình duyệt). Bấm **Xuất CSV** để tải file `review-done-<ngày>.csv`
+(thêm cột `reviewer`); gửi file đó để đưa kết quả vào báo cáo.
