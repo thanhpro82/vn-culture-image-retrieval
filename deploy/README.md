@@ -43,5 +43,8 @@ Khi VPS tắt thì đặt `DEPLOY_ENABLED=false` để mỗi lần push vào `ma
 
 - Chạy tay từ nhánh `ci/deploy-hardening`: [run 39557409198](https://github.com/thanhpro82/vn-culture-image-retrieval/actions/runs/39557409198), thành công (lần đầu thất bại vì vân tay ED25519 không khớp, xem ghi chú ECDSA ở trên).
 - Chạy **hoàn toàn tự động** sau khi merge PR #8 vào `main` (push → CI xanh → Deploy tự chạy): [run 39558277555](https://github.com/thanhpro82/vn-culture-image-retrieval/actions/runs/39558277555), thành công; VPS cập nhật đúng commit `07719b8` và `/healthz` trả 200.
-- **Hiện CD đã tắt** (`DEPLOY_ENABLED=false`, các secrets `VPS_*` đã xoá, khoá CD đã gỡ khỏi VPS, cổng 22 trả về trạng thái hạn chế): máy chủ chỉ bật khi cần nên mỗi lần push vào `main` lúc VPS tắt sẽ báo lỗi nếu để bật.
-  Muốn bật lại: làm theo các bước ở mục trên (tạo khoá SSH CD mới, đặt lại secrets và biến, mở cổng 22 cho GitHub).
+- **Hiện CD đang bật** (từ 2026-10-21, theo yêu cầu): biến `DEPLOY_ENABLED=true`, secrets `VPS_*` có trong repo, khoá CD riêng (`ci-deploy-persistent-2026-10-21`) nằm trong `~/.ssh/authorized_keys` của VPS,
+  cổng 22 của VPS mở cho GitHub (chỉ đăng nhập bằng khoá). Lúc VPS tắt thì bước kiểm tra cổng 22 bỏ qua deploy bằng cảnh báo, workflow không đỏ.
+  Chạy lại thành công sau khi merge PR #12: commit `59cc2fe` tự deploy lên VPS.
+  Muốn tắt: `DEPLOY_ENABLED=false`, xoá secrets `VPS_*`, xoá dòng `ci-deploy-persistent-...` khỏi `authorized_keys`, đóng cổng 22 lại.
+  Khi dừng hẳn dự án nên gỡ khoá CD và xoá VPS.
