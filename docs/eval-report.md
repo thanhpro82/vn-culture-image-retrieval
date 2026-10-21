@@ -171,3 +171,22 @@ Kết luận và hạn chế:
   Hai lần chạy có thể khác nhau do phân tích Gemini không hoàn toàn lặp lại (so sánh `both` chỉ truy xuất 0,675 với 0,725 ở lần chạy API không rerank, cùng cấu hình).
 - **Cảnh báo ngoài dữ liệu yếu:** cờ `low_confidence` bật cho 7/20 (35%) truy vấn ngoài dữ liệu và 2/45 (4,4%) truy vấn trong dữ liệu (`docs/results/abstain-v2.json`).
   Cờ chỉ bật khi Gemini đề xuất thực thể mà không thực thể nào có trong dữ liệu, nên truy vấn mà Gemini không đề xuất thực thể thì không bị cảnh báo.
+
+## Cờ `low_confidence`: sửa cảnh báo oan (đo 2026-10-21)
+
+**Lỗi quan sát được:** truy vấn mẫu "nhà thờ Phát Diệm" trả toàn ảnh Nhà thờ Phát Diệm nhưng vẫn hiện cảnh báo "Không có nội dung khớp chính xác trong dữ liệu".
+**Nguyên nhân:** cờ bật khi Gemini đề xuất thực thể mà không thực thể nào khớp danh mục. Bộ đối chiếu chỉ chấp nhận cụm liền nhau hoặc gần giống cả chuỗi, nên "Nhà thờ Phát Diệm" không khớp
+"Nhà thờ chính tòa Phát Diệm (Nhà thờ đá)" (có từ chen giữa) và bị coi là thực thể không có trong dữ liệu.
+**Cách sửa:** `retrieval.grounding.entities_supported`: nếu mọi từ của một thực thể đề xuất nằm trong cùng **một tên thực thể** của 5 ảnh đầu thì bỏ cờ. Chỉ dùng tên thực thể; thử dùng cả tiêu đề trang thì làm mất cảnh báo đúng
+(ví dụ "con hổ" với đề xuất "Hổ Đông Dương" có các từ rải rác trong tiêu đề tranh Đông Hồ).
+
+**So sánh có kiểm soát** (`eval/flag_ablation.py`, `docs/results/flag-ablation.json`; cùng phân tích của Gemini và cùng ảnh cho cờ cũ và mới):
+
+| Nhóm | Số truy vấn | Cờ cũ | Cờ mới |
+|---|---|---|---|
+| Trong dữ liệu (bộ v1 một ý, bộ v2, 14 câu mẫu của trang demo): đáng lẽ không bị cờ | 234 | 14 (6,0%) | 11 (4,7%) |
+| Ngoài dữ liệu (`testset-v2-oos.jsonl`): đáng lẽ bị cờ | 20 | 10 (50%) | 10 (50%) |
+
+Được xoá oan: 3 truy vấn (gồm "nhà thờ Phát Diệm"). Không mất cảnh báo đúng nào.
+Hạn chế: cải thiện khiêm tốn. Vẫn còn khoảng 4,7% cờ oan, và chỉ bắt được một nửa truy vấn ngoài dữ liệu; cờ phụ thuộc vào việc Gemini có đề xuất thực thể hay không
+(Gemini không trả lời giống nhau mỗi lần). Muốn tốt hơn cần một thước đo dựa trên độ giống giữa truy vấn và ảnh thay vì tên thực thể; chưa làm.

@@ -1,4 +1,5 @@
 """Cổng kiểm tra thực thể: bỏ thực thể do LLM sinh ra mà không có trong dữ liệu."""
+import re
 import unicodedata
 from dataclasses import dataclass, field, replace
 
@@ -67,3 +68,16 @@ def ground(parsed: ParsedQuery, catalog: EntityCatalog) -> ParsedQuery:
                     found.append(n)
         subs.append(replace(s, ents=found[:MAX_ENTS]))
     return replace(parsed, subs=subs)
+
+
+def _tokens(s: str) -> set[str]:
+    return set(re.findall(r"\w+", _fold(s)))
+
+
+def entities_supported(ents: list[str], names: list[str]) -> bool:
+    """Thực thể LLM đề xuất có hiện diện ở ảnh trả về không, kể cả khi tên không khớp danh mục theo cụm liền nhau
+    (ví dụ "Nhà thờ Phát Diệm" so với "Nhà thờ chính tòa Phát Diệm (Nhà thờ đá)"): mọi từ của thực thể phải nằm trong
+    cùng MỘT tên thực thể của ảnh. Không dùng tiêu đề trang hay chú thích vì các từ rải rác trong văn bản dài làm
+    cảnh báo bị xoá oan (ví dụ "Hổ Đông Dương" với một tiêu đề tranh Đông Hồ có chữ hổ)."""
+    wanted = [t for t in (_tokens(e) for e in ents) if t]
+    return any(w <= _tokens(name) for name in names for w in wanted)
