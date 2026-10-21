@@ -1,0 +1,107 @@
+{
+  "candidates": 16,
+  "policies": {
+    "current": {
+      "multi_hop": {
+        "n": 40,
+        "recall@10": 0.275,
+        "intent_cov@10": 0.275
+      },
+      "multi_intent": {
+        "n": 40,
+        "recall@10": 0.775,
+        "intent_cov@10": 0.5375
+      },
+      "single": {
+        "n": 40,
+        "recall@10": 0.625,
+        "intent_cov@10": 0.625
+      }
+    },
+    "vi_only": {
+      "multi_hop": {
+        "n": 40,
+        "recall@10": 0.325,
+        "intent_cov@10": 0.325
+      },
+      "multi_intent": {
+        "n": 40,
+        "recall@10": 0.875,
+        "intent_cov@10": 0.5875
+      },
+      "single": {
+        "n": 40,
+        "recall@10": 0.7,
+        "intent_cov@10": 0.7
+      }
+    },
+    "mh_keep_query": {
+      "multi_hop": {
+        "n": 40,
+        "recall@10": 0.35,
+        "intent_cov@10": 0.35
+      },
+      "multi_intent": {
+        "n": 40,
+        "recall@10": 0.825,
+        "intent_cov@10": 0.5625
+      },
+      "single": {
+        "n": 40,
+        "recall@10": 0.65,
+        "intent_cov@10": 0.65
+      }
+    },
+    "both": {
+      "multi_hop": {
+        "n": 40,
+        "recall@10": 0.4,
+        "intent_cov@10": 0.4
+      },
+      "multi_intent": {
+        "n": 40,
+        "recall@10": 0.875,
+        "intent_cov@10": 0.5875
+      },
+      "single": {
+        "n": 40,
+        "recall@10": 0.75,
+        "intent_cov@10": 0.75
+      }
+    },
+    "ignore_ents": {
+      "multi_hop": {
+        "n": 40,
+        "recall@10": 0.4,
+        "intent_cov@10": 0.4
+      },
+      "multi_intent": {
+        "n": 40,
+        "recall@10": 0.875,
+        "intent_cov@10": 0.5875
+      },
+      "single": {
+        "n": 40,
+        "recall@10": 0.75,
+        "intent_cov@10": 0.75
+      }
+    },
+    "anchor": {
+      "multi_hop": {
+        "n": 40,
+        "recall@10": 0.4,
+        "intent_cov@10": 0.4
+      },
+      "multi_intent": {
+        "n": 40,
+        "recall@10": 0.875,
+        "intent_cov@10": 0.575
+      },
+      "single": {
+        "n": 40,
+        "recall@10": 0.725,
+        "intent_cov@10": 0.725
+      }
+    }
+  }
+}
