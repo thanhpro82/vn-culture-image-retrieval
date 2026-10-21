@@ -458,21 +458,29 @@ dup_group     nhóm ảnh gần trùng</pre></div>
         counters.set(el, { final: el.textContent, to: parseFloat(el.dataset.to), dec: parseInt(el.dataset.dec || "0", 10) });
     });
     function fmt(v, dec) { return v.toLocaleString("vi-VN", { minimumFractionDigits: dec, maximumFractionDigits: dec }); }
+    var counterTimer = null;
     function runCounters(slide) {
         if (raf) cancelAnimationFrame(raf);
+        clearTimeout(counterTimer);
         var items = [];
         slide.querySelectorAll(".count").forEach(function (el) { items.push([el, counters.get(el)]); });
         if (!items.length) return;
-        if (calm) { items.forEach(function (it) { it[0].textContent = it[1].final; }); return; }
-        items.forEach(function (it) { it[0].textContent = fmt(0, it[1].dec); });
+        // Luôn bắt đầu bằng số đúng: nếu hoạt ảnh không chạy được (tab ẩn, cửa sổ xem trước) người xem vẫn thấy số thật
+        items.forEach(function (it) { it[0].textContent = it[1].final; });
+        if (calm) return;
         var t0 = null, dur = 1300;
         function step(ts) {
-            if (t0 === null) t0 = ts + 450;               // chờ khối trồi lên
+            if (t0 === null) {                               // chỉ về 0 khi khung hình đầu tiên thực sự chạy
+                t0 = ts + 450;                               // chờ khối trồi lên
+                items.forEach(function (it) { it[0].textContent = fmt(0, it[1].dec); });
+            }
             var p = Math.max(0, Math.min(1, (ts - t0) / dur)), e = 1 - Math.pow(1 - p, 3);
             items.forEach(function (it) { it[0].textContent = p >= 1 ? it[1].final : fmt(it[1].to * e, it[1].dec); });
             if (p < 1) raf = requestAnimationFrame(step);
         }
         raf = requestAnimationFrame(step);
+        // Lưới an toàn: dù rAF bị chặn hay chậm, sau một lúc luôn hiện số đúng
+        counterTimer = setTimeout(function () { items.forEach(function (it) { it[0].textContent = it[1].final; }); }, dur + 2500);
     }
 
     // Hiện một slide

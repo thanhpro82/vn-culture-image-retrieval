@@ -40,3 +40,16 @@ def test_navigation_keys_and_deep_link_are_wired():
 def test_pdf_export_exists_and_has_ten_pages():
     pdf = Path("docs/slides.pdf").read_bytes()
     assert pdf.startswith(b"%PDF") and len(re.findall(rb"/Type\s*/Page[^s]", pdf)) == 10
+
+
+def test_counters_show_final_values_unless_the_animation_really_runs():
+    """Lỗi cũ: số bị đặt về 0 ngay khi vào slide, nên nếu trình duyệt không chạy khung hình (tab ẩn, cửa sổ xem trước)
+    thì kẹt ở 0. Nay: luôn bắt đầu bằng số đúng, chỉ về 0 khi khung hình đầu tiên chạy, và có đồng hồ dự phòng."""
+    js = HTML[HTML.index("function runCounters"):HTML.index("// Hiện một slide")]
+    # đặt số đúng trước, trước mọi thao tác đặt về 0
+    assert js.index("it[1].final") < js.index("fmt(0, it[1].dec)")
+    # việc đặt về 0 nằm trong bước hoạt ảnh đầu tiên (khi t0 còn null), không nằm ngoài
+    first_step = js[js.index("if (t0 === null)"):]
+    assert "fmt(0, it[1].dec)" in first_step.split("}")[0] + "}" + first_step.split("}")[1]
+    # đồng hồ dự phòng đưa số về giá trị đúng dù rAF không bao giờ chạy
+    assert "setTimeout(function () { items.forEach" in js and "clearTimeout" in js
