@@ -2,6 +2,8 @@ name: Deploy
 
 # Chỉ chạy khi đã cấu hình VPS: đặt biến repo DEPLOY_ENABLED=true và VPS_FINGERPRINT (SHA256 của khoá máy chủ), cùng các secrets
 # VPS_HOST, VPS_USER, VPS_SSH_KEY. Dùng khoá SSH riêng cho CD (không dùng khoá cá nhân) và cổng 22 của VPS phải cho GitHub truy cập.
+# VPS_FINGERPRINT phải là vân tay **ECDSA** của máy chủ (thư viện SSH của action chọn ECDSA; ED25519 làm bước kết nối báo mismatch):
+#   ssh-keygen -lf /etc/ssh/ssh_host_ecdsa_key.pub
 on:
   workflow_run:
     workflows: [CI]

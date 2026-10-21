@@ -30,3 +30,11 @@ git clone https://github.com/thanhpro82/vn-culture-image-retrieval.git && cd vn-
 5. Tải k6 trên chính VPS: `API_KEY=... PYTHON=python3 BASE_URL=http://172.17.0.1:8000 VUS=3 bash loadtest/run.sh`.
 
 Tắt máy khi không dùng (EC2 Stop) để không tốn tiền; sau khi bật lại chạy lại bước 4. Không commit file khoá `.pem` (`.gitignore` đã chặn).
+
+## Deploy tự động (GitHub Actions, đã chạy thử 2026-10-21)
+
+`.github/workflows/deploy.yml` chạy sau khi CI trên `main` xanh (hoặc chạy tay): SSH vào VPS, `git pull --ff-only`, `bash deploy/deploy.sh` (build, khởi động lại, chờ `/healthz`).
+Cần đặt trên repo: biến `DEPLOY_ENABLED=true`, biến `VPS_FINGERPRINT` (vân tay **ECDSA** của máy chủ: `ssh-keygen -lf /etc/ssh/ssh_host_ecdsa_key.pub`),
+secrets `VPS_HOST`, `VPS_USER`, `VPS_SSH_KEY` (khoá SSH riêng cho CD, thêm khoá công khai vào `~/.ssh/authorized_keys` của VPS).
+Cổng 22 của VPS phải cho GitHub truy cập (IP của GitHub không cố định); chỉ mở khi cần và chỉ cho đăng nhập bằng khoá.
+Khi VPS tắt thì đặt `DEPLOY_ENABLED=false` để mỗi lần push vào `main` không báo lỗi.
