@@ -1,0 +1,28 @@
+{
+  "oos": {
+    "n": 20,
+    "flagged_rate": 0.5,
+    "not_flagged": [
+      "hồ bơi và công viên nước ở Phú Quốc",
+      "ảnh con trai chủ tịch Phạm Nhật Vượng",
+      "ca sĩ biểu diễn trên sân khấu hiện đại",
+      "tòa nhà chọc trời ở Thành phố Hồ Chí Minh về đêm",
+      "chó và mèo thú cưng trong nhà",
+      "sân golf ở Đà Lạt",
+      "cảnh quay phim siêu anh hùng",
+      "người mẫu trình diễn thời trang cao cấp",
+      "robot công nghiệp trong nhà máy",
+      "tàu vũ trụ phóng lên quỹ đạo"
+    ]
+  },
+  "in_scope": {
+    "n": 100,
+    "flagged_rate": 0.04,
+    "wrongly_flagged": [
+      "Lư hương/chân đèn gỗ tiện chạm",
+      "Con dấu khắc Óc Eo",
+      "Khuyên tai hai đầu thú Sa Huỳnh",
+      "Múa tứ linh long-lân-quy-phụng"
+    ]
+  }
+}

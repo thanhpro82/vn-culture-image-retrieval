@@ -46,3 +46,21 @@ def test_scattered_tokens_do_not_match():
 def test_short_accented_word_does_not_match_other_accents():
     cat = EntityCatalog.from_manifest(pd.DataFrame({"entity_names": [["Múa hổ"], ["Hồ Gươm"], ["Hò Huế"]]}))
     assert ground(_pq(["hổ"]), cat).subs[0].ents == ["Múa hổ"]
+
+
+# ---------- cờ độ tin cậy dựa trên bằng chứng ở kết quả ----------
+def test_entities_supported_when_all_words_appear_in_one_result_text():
+    from retrieval.grounding import entities_supported
+    texts = ["Nhà thờ chính tòa Phát Diệm (Nhà thờ đá)", "Chùa Một Cột"]
+    assert entities_supported(["Nhà thờ Phát Diệm"], texts)            # từ chen ở giữa vẫn tính
+    assert entities_supported(["Phát Diệm nhà thờ"], texts)             # thứ tự từ không quan trọng
+    assert entities_supported(["Sư tử", "Nhà thờ Phát Diệm"], texts)    # chỉ cần một thực thể được hậu thuẫn
+
+
+def test_entities_not_supported_when_words_are_split_across_results_or_absent():
+    from retrieval.grounding import entities_supported
+    texts = ["Tranh Ngũ hổ", "Miếu Ông Hổ", "Làng tranh Đông Hồ"]
+    assert not entities_supported(["Hổ Đông Dương"], texts)             # các từ nằm ở các tên khác nhau
+    assert not entities_supported(["VinFast"], texts)
+    assert not entities_supported([], texts)
+    assert not entities_supported(["Nhà thờ"], [])

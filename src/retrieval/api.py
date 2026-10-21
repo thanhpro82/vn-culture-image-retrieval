@@ -15,7 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 
 from retrieval.config import Settings
-from retrieval.grounding import EntityCatalog, ground
+from retrieval.grounding import EntityCatalog, entities_supported, ground
 from retrieval.qparse import ParsedQuery, fallback_parse, parse_query
 from retrieval.rerank import rerank_hits
 from retrieval.search import BRANCHES, _units, search
@@ -24,6 +24,7 @@ from retrieval.storage import ImageStore, LocalStore
 WEB_DIR = Path(os.environ.get("WEB_DIR", "web"))
 CANDIDATES = 16  # ngân sách rerank, xem ADR-002
 CACHE_SIZE = 512
+LOW_CONF_CHECK = 5  # số ảnh đầu dùng để kiểm tra bằng chứng cho cờ độ tin cậy thấp
 
 
 @dataclass
@@ -117,7 +118,8 @@ def create_app(svc: Services) -> FastAPI:
     async def run_search(body: SearchIn):
         t0 = time.perf_counter()
         parsed = await understand(body.query)
-        proposed = any(s.ents for s in parsed.subs)
+        proposed_ents = [e for s in parsed.subs for e in s.ents]
+        proposed = bool(proposed_ents)
         if svc.catalog:
             parsed = ground(parsed, svc.catalog)
         low_confidence = proposed and not any(s.ents for s in parsed.subs)  # mọi thực thể LLM đề xuất đều không có trong dữ liệu
@@ -128,6 +130,9 @@ def create_app(svc: Services) -> FastAPI:
             hits = await asyncio.to_thread(search, parsed, svc.embedder, svc.qdrant, CANDIDATES,
                                            svc.collection, 3, branches, parts)
         t2 = time.perf_counter()
+        if low_confidence and entities_supported(
+                proposed_ents, [n for h in hits[:LOW_CONF_CHECK] for n in (h.entity_names or [])]):
+            low_confidence = False  # tên đề xuất không khớp danh mục nhưng ảnh trả về đúng là thực thể đó: không cảnh báo
         elapsed_ms = (t2 - t0) * 1000
         reranked = False
         top = hits[: body.top_k]

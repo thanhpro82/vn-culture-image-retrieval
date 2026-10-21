@@ -1,0 +1,18 @@
+{
+  "in_scope": {
+    "n": 234,
+    "old_flagged": 14,
+    "new_flagged": 11,
+    "cleared_by_evidence": [
+      "Lư hương/chân đèn gỗ tiện chạm",
+      "ảnh kiến trúc ngôi đình cổ ở vùng núi Bình Liêu",
+      "nhà thờ Phát Diệm"
+    ]
+  },
+  "out_of_scope": {
+    "n": 20,
+    "old_flagged": 10,
+    "new_flagged": 10,
+    "cleared_by_evidence": []
+  }
+}

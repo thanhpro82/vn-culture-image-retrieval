@@ -404,3 +404,19 @@ async def test_embed_and_rerank_endpoints_share_the_cpu_slot(client):
             ac.post("/embed", json={"texts": ["b"], "space": "image"}, headers=H))
     assert all(r.status_code == 200 for r in rs)
     assert state["max"] == 1
+
+
+def test_low_confidence_cleared_when_results_visibly_contain_the_proposed_entity(client):
+    """Gemini đề xuất tên không khớp danh mục theo cụm liền nhau, nhưng ảnh trả về đúng là thực thể đó: không cảnh báo."""
+    import json
+
+    class SwappedWordsLLM:
+        async def generate(self, prompt, schema):
+            return json.dumps({"qt": "single", "subs": [{"vi": "chợ nổi miền tây", "en": "chợ nổi miền tây", "ents": ["nổi chợ"]}]})
+
+    c, svc = client
+    svc.llm = SwappedWordsLLM()
+    r = c.post("/search", json={"query": "chợ nổi miền tây", "rerank": False}, headers=H).json()
+    assert any("Chợ nổi" in " ".join(x["entities"]) for x in r["results"][:5])
+    assert r["subs"][0]["ents"] == []  # tên đề xuất vẫn không khớp danh mục (đúng như mô tả test)
+    assert r["low_confidence"] is False

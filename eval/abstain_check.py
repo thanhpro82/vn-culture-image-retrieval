@@ -29,6 +29,10 @@ if __name__ == "__main__":
     oos = [json.loads(line) for line in Path(sys.argv[4] if len(sys.argv) > 4 else "eval/datasets/testset-v2-oos.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
     n = int(sys.argv[5]) if len(sys.argv) > 5 else 45
     sample = random.Random(0).sample(inscope, min(n, len(inscope)))
-    out = {"oos": {"n": len(oos), "flagged_rate": rate([flagged(base, key, t["query"]) for t in oos])},
-           "in_scope": {"n": len(sample), "flagged_rate": rate([flagged(base, key, t["query"]) for t in sample])}}
+    oos_flags = [flagged(base, key, t["query"]) for t in oos]
+    in_flags = [flagged(base, key, t["query"]) for t in sample]
+    out = {"oos": {"n": len(oos), "flagged_rate": rate(oos_flags),
+                   "not_flagged": [t["query"] for t, f in zip(oos, oos_flags, strict=True) if not f]},
+           "in_scope": {"n": len(sample), "flagged_rate": rate(in_flags),
+                        "wrongly_flagged": [t["query"] for t, f in zip(sample, in_flags, strict=True) if f][:25]}}
     print(json.dumps(out, ensure_ascii=False, indent=2))
