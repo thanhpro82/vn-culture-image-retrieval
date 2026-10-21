@@ -112,3 +112,37 @@ Hạn chế khi đọc kết quả này:
 - Mẫu nhỏ (14-15 truy vấn mỗi loại): chênh lệch vài điểm so với 300 query (0,96 / 1,00 / 0,37) nằm trong dao động của mẫu nhỏ, không kết luận được hệ thống tốt hơn hay kém hơn trên phần đã duyệt.
 - Kết quả duyệt (44/45 đúng) cho thấy đáp án sinh tự động hợp lý với truy vấn trên mẫu này; không chứng minh 255 truy vấn còn lại cũng vậy.
 - Truy vấn một ý vẫn dùng tên thực thể nên dễ hơn truy vấn của người dùng thật (đã nêu ở phần hạn chế phía trên).
+
+## Cải tiến cách ghép truy vấn (đo 2026-10-21)
+
+**Chẩn đoán** (100 truy vấn suy luận, chỉ truy xuất): chỉ 32/100 trúng. Truy vấn suy luận của bộ test là "thể loại + vùng" (ví dụ "di tích lịch sử - văn hóa hải dương"), mà văn bản đã index
+có sẵn "Địa bàn" và "Thể loại" của từng ảnh. Nguyên nhân sai: (1) mã nối tên các **thực thể do Gemini đoán** vào văn bản tìm, nên các thực thể đoán sai
+(ví dụ "Bánh đậu xanh Hải Dương" cho truy vấn di tích) kéo kết quả sang thực thể khác; (2) với truy vấn Gemini phân loại là suy luận, mã bỏ truy vấn gốc và chỉ tìm riêng từng thực thể đoán.
+
+**So sánh có kiểm soát** (cùng kết quả phân tích Gemini cho 300 query, chỉ truy xuất, chưa rerank; `eval/ablate_units.py`, kết quả `docs/results/units-ablation.json`; Recall@10, phủ ý của nhiều ý trong ngoặc):
+
+| Cách ghép (`retrieval.search.POLICIES`) | Suy luận | Nhiều ý | Một ý |
+|---|---|---|---|
+| `current` (trước đó) | 0,30 | 0,99 (0,92) | 0,92 |
+| `vi_only`: không nối thực thể vào văn bản | 0,43 | 1,00 (0,965) | 1,00 |
+| `mh_keep_query`: suy luận tìm thêm truy vấn gốc | 0,32 | 0,99 (0,92) | 0,92 |
+| **`both`** (chọn) | **0,45** | 1,00 (0,965) | 1,00 |
+| `ignore_ents`: bỏ hẳn thực thể | 0,44 | 1,00 (0,965) | 1,00 |
+
+Chọn `both` thay vì `ignore_ents` vì vẫn giữ các thực thể Gemini suy ra như những ý tìm thêm, cần cho truy vấn quan hệ thật (ví dụ "con trai chủ tịch ...").
+Bộ test không có truy vấn quan hệ thật, nên khả năng này **chưa được đo**; chỉ được giữ lại theo thiết kế.
+
+**Đo toàn bộ qua API** (hybrid + rerank, 300 query, `docs/results/eval-units-both.json`, 2026-10-21) so với lần đo 2026-10-19 (`eval-final.json`):
+
+| Loại | Recall@10 trước | Recall@10 sau | MRR@10 trước | MRR@10 sau |
+|---|---|---|---|---|
+| single | 0,96 | 0,99 | 0,820 | 0,944 |
+| multi_intent (phủ ý) | 1,00 (0,935) | 1,00 (0,975) | 0,909 | 0,965 |
+| multi_hop | 0,37 | 0,50 | 0,200 | 0,373 |
+
+Hạn chế khi đọc bảng này:
+- Hai lần đo cách nhau hai ngày và khác điều kiện (lần sau rerank qua endpoint của mentor có quay về local, và trạng thái cache Gemini khác), nên phần cải thiện **không hoàn toàn do cách ghép truy vấn**;
+  phép so sánh có kiểm soát ở bảng trên (cùng phân tích, không rerank) là bằng chứng chính.
+- Một truy vấn suy luận chạm 3.198 ms (p95 2.676 ms; max trước đó 2.712 ms): cách ghép mới thêm một lần nhúng cho truy vấn suy luận.
+- Bộ test sinh từ chính các trường "thể loại" và "địa bàn" của dữ liệu nên có lợi cho cách ghép dựa vào văn bản; truy vấn của người dùng thật có thể kém hơn.
+- Suy luận vẫn là điểm yếu: 0,50.

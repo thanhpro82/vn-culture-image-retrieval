@@ -46,7 +46,7 @@ Kết quả có thể lệch đôi chút giữa các lần chạy; **hãy chạy
 8. **`con hổ`**: kết quả là Tranh Ngũ hổ, Tranh Bạch Hổ, Miếu Ông Hổ; giao diện hiện cảnh báo độ tin cậy thấp. Nói: dữ liệu là di sản văn hoá, không có ảnh con hổ thật,
    nên hệ thống trả các hình ảnh văn hoá liên quan thay vì giả vờ chắc chắn (cờ `low_confidence`).
 9. **`động vật sống trong rừng`** hoặc **`ảnh con trai chủ tịch Phạm Nhật Vượng`**: ra kết quả không liên quan và có cờ cảnh báo. Nói rõ đây là điểm yếu:
-   nhóm truy vấn suy luận chỉ đạt Recall@10 khoảng 0,37 vì thực thể suy ra không có trong dữ liệu; hệ thống lọc thực thể bịa (grounding) và không bịa ảnh.
+   nhóm truy vấn suy luận chỉ đạt Recall@10 khoảng 0,50 (sau cải tiến ghép truy vấn ngày 21/10; trước đó 0,37) vì thực thể suy ra không có trong dữ liệu; hệ thống lọc thực thể bịa (grounding) và không bịa ảnh.
 
 **Không nên demo:** `hồ bơi và công viên nước ở Phú Quốc` (ra nhà tù Phú Quốc, vì dữ liệu không có ảnh hồ bơi) và `bãi biển Nha Trang` (ra Tháp Bà Po Nagar). Nếu bị hỏi
 đúng các câu này, trả lời: dữ liệu tập trung di sản văn hoá, nên các truy vấn mẫu về du lịch biển không có ảnh đúng trong index (đã ghi trong báo cáo).
@@ -55,7 +55,7 @@ Kết quả có thể lệch đôi chút giữa các lần chạy; **hãy chạy
 
 | Câu hỏi | Trả lời ngắn (kèm số) |
 |---|---|
-| Vì sao không chỉ dùng vector ảnh? | Vector ảnh không biết tên riêng. Recall@10: chỉ ảnh 0,32 / 0,35 / 0,11; hybrid 0,93 / 0,99 / 0,34 (300 query) |
+| Vì sao không chỉ dùng vector ảnh? | Vector ảnh không biết tên riêng. Recall@10: chỉ ảnh 0,32 / 0,35 / 0,11; hybrid 0,93 / 0,99 / 0,34; sau cải tiến ghép truy vấn: 0,99 / 1,00 / 0,50 (300 query, rerank bật) |
 | Có dùng agent không? | Không. Bước tìm ảnh chỉ dùng embedding và rerank; Gemini chỉ hiểu truy vấn |
 | Độ trễ bao nhiêu, đo thế nào? | 10/10 truy vấn dưới 3 giây (p95 1,78 s) với 1 người dùng, `docker compose`, đo bằng `loadtest/latency_probe.py`; k6 cho 1-3 người dùng |
 | Vì sao 3 người dùng thì chậm? | CPU bão hoà (embed và rerank trên CPU): thông lượng khoảng 1 yêu cầu/giây. Hướng cải thiện: thêm nhân CPU hoặc rerank ngoài |
