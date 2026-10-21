@@ -89,7 +89,7 @@ Khác với bảng trên, phép đo này không có ngân sách thời gian: rer
 ## Duyệt tay một mẫu bộ test (2026-10-21)
 
 Bảng duyệt `eval/datasets/review-sheet-seed0.csv`: 45 truy vấn (15 mỗi loại, lấy mẫu cố định theo seed 0) từ bộ test 300 query. Người duyệt xem truy vấn, các thực thể đáp án và ảnh mẫu của đáp án
-(`python -m eval.make_review_html`), rồi chọn `dung` / `sai` / `mo_ho`. Kết quả thô: `eval/datasets/review-done-seed0.csv`. **Cột `reviewer` để trống: chưa ghi tên người duyệt.**
+(`python -m eval.make_review_html`), rồi chọn `dung` / `sai` / `mo_ho`. Kết quả thô: `eval/datasets/review-done-seed0.csv`. Người duyệt: Nguyễn Tuấn Thành (duyệt ngày 2026-10-21; cùng người làm dự án, không phải người duyệt độc lập).
 
 | Loại | Đúng | Mơ hồ | Sai | Tổng |
 |---|---|---|---|---|
