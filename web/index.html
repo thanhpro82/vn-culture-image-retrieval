@@ -6,108 +6,154 @@
 <title>Tìm ảnh văn hoá Việt Nam</title>
 <meta name="description" content="Tìm ảnh di sản văn hoá Việt Nam bằng mô tả tiếng Việt: một ý, nhiều ý hoặc câu cần suy luận.">
 <style>
+  /* Một nền, một màu chữ, một màu nhấn. Các mặt được tách bằng bậc tông màu, không dùng viền mảnh hay bóng đổ.
+     Chuyển động chỉ dùng transform và opacity (chạy trên GPU) và tắt hết khi người dùng chọn giảm chuyển động. */
   :root {
-    --bg: #f7f4ee; --panel: #ffffff; --fg: #1d2127; --muted: #565c66; --line: #ddd7cb; --soft: #efe9dd;
-    --accent: #9b2c24; --on-accent: #ffffff; --accent-soft: #f6e3e0;
-    --warn-bg: #fbf0d0; --warn-fg: #6b4a00; --warn-line: #e3c36a;
-    --err-bg: #fbe3e0; --err-fg: #8a1f17;
-    --t1: #2a5d9f; --t2: #2f7d4f; --t3: #8a5a00;
-    --shadow: 0 1px 2px rgba(0,0,0,.06), 0 4px 14px rgba(0,0,0,.05);
+    --ground: #efede6; --surface: #e3e0d6; --ink: #14181a; --muted: #4d5558; --accent: #b8321f; --on-accent: #ffffff;
+    --warn-bg: #f3dd9a; --warn-ink: #3d2c00; --err-bg: #f1c9c2; --err-ink: #6e150c;
+    --display: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+    --ease: cubic-bezier(.2, .7, .2, 1);
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #14161a; --panel: #1d2025; --fg: #ebe8e2; --muted: #a8aeb8; --line: #333840; --soft: #262a30;
-      --accent: #f0928a; --on-accent: #1d0f0d; --accent-soft: #3a2421;
-      --warn-bg: #3a3118; --warn-fg: #f0d58a; --warn-line: #6b5a22;
-      --err-bg: #3d2320; --err-fg: #f5b3ac;
-      --t1: #8db8f0; --t2: #7fcf9f; --t3: #e8bd5c;
-      --shadow: none;
+      --ground: #0d1311; --surface: #18211e; --ink: #ece9e1; --muted: #a7b0ab; --accent: #ff8a66; --on-accent: #1c0b05;
+      --warn-bg: #4a3d12; --warn-ink: #f5e2a1; --err-bg: #4a211c; --err-ink: #f6bdb5;
     }
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  main { max-width: 1120px; margin: 0 auto; padding: 32px 16px 56px; }
-  .eyebrow { font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
-  h1 { font-size: clamp(1.7rem, 4vw, 2.6rem); line-height: 1.15; margin: 0 0 8px; letter-spacing: -.01em; }
-  .sub { color: var(--muted); margin: 0 0 22px; font-size: 1.05rem; max-width: 62ch; }
-  form { display: flex; gap: 10px; }
-  input[type=search] { flex: 1; min-width: 0; padding: 15px 16px; font: inherit; font-size: 1.1rem; color: var(--fg); background: var(--panel);
-    border: 2px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
-  input[type=search]:focus { outline: none; border-color: var(--accent); }
-  button { font: inherit; cursor: pointer; }
-  button:focus-visible, input:focus-visible, .card:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-  .go { padding: 0 26px; font-weight: 700; font-size: 1.05rem; border: 0; border-radius: 12px; background: var(--accent); color: var(--on-accent); }
-  .go:disabled { opacity: .65; cursor: progress; }
-  .try { margin: 16px 0 0; }
-  .try h2 { font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 6px 14px; color: var(--fg); background: var(--panel);
-    border: 1px solid var(--line); border-radius: 999px; font-size: .95rem; }
-  .chip:hover { border-color: var(--accent); }
-  .chip b { font-size: .72rem; font-weight: 700; padding: 1px 7px; border-radius: 999px; background: var(--soft); }
-  .chip b.k1 { color: var(--t1); } .chip b.k2 { color: var(--t2); } .chip b.k3 { color: var(--t3); }
-  #status { margin: 26px 0 10px; }
-  .summary { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; color: var(--muted); font-size: .95rem; }
-  .summary strong { color: var(--fg); font-size: 1.1rem; }
-  .understood { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; font-size: .92rem; color: var(--muted); }
-  .pill { padding: 3px 12px; border-radius: 999px; background: var(--soft); color: var(--fg); border: 1px solid var(--line); }
-  .pill small { color: var(--muted); }
-  .banner { margin-top: 12px; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--warn-line); background: var(--warn-bg); color: var(--warn-fg); font-weight: 500; }
-  .banner.err { border-color: transparent; background: var(--err-bg); color: var(--err-fg); display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-  .banner button { padding: 6px 14px; border: 1px solid currentColor; border-radius: 8px; background: transparent; color: inherit; }
-  .hint { color: var(--muted); font-size: .95rem; }
-  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
-  .card { position: relative; display: block; width: 100%; padding: 0; text-align: left; color: inherit; background: var(--panel); border: 1px solid var(--line);
-    border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); transition: transform .12s ease, border-color .12s ease; }
-  button.card:hover { transform: translateY(-2px); border-color: var(--accent); }
-  .card .ph { aspect-ratio: 4/3; width: 100%; background: var(--soft); display: grid; place-items: center; color: var(--muted); font-size: .85rem; }
-  .card img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; background: var(--soft); }
-  .card .t { padding: 10px 12px 12px; font-size: .9rem; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 17px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 1280px; margin: 0 auto; padding: 56px 24px 72px; }
+  h1 { font: 700 clamp(2.3rem, 6.4vw, 5rem)/1.04 var(--display); letter-spacing: -.035em; margin: 0 0 18px; max-width: 14ch; }
+  h1 .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; }
+  h1 .wi { display: inline-block; animation: word .8s var(--ease) both; animation-delay: calc(var(--d) * 90ms); }
+  @keyframes word { from { transform: translateY(105%); } }
+  .sub { font-size: 1.15rem; color: var(--muted); margin: 0 0 40px; max-width: 58ch; animation: fade-up .7s var(--ease) .35s both; }
+  @keyframes fade-up { from { opacity: 0; transform: translateY(12px); } }
+  button { font: inherit; cursor: pointer; border-radius: 0; }
+  button:focus-visible, input:focus-visible, .card:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  .field { position: relative; display: flex; animation: fade-up .7s var(--ease) .5s both; }
+  .field::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .45s var(--ease); pointer-events: none; }
+  .field:focus-within::after { transform: scaleX(1); }
+  input[type=search] { flex: 1; min-width: 0; height: 68px; padding: 0 22px; font: inherit; font-size: 1.3rem; color: var(--ink); background: var(--surface); border: 0; border-radius: 0; }
+  input[type=search]:focus-visible { outline: none; }
+  input[type=search]::placeholder { color: var(--muted); }
+  .go { height: 68px; padding: 0 34px; font-weight: 700; font-size: 1.1rem; border: 0; background: var(--accent); color: var(--on-accent); transition: transform .15s var(--ease), filter .15s; }
+  .go:hover:not(:disabled) { filter: brightness(1.08); }
+  .go:active:not(:disabled) { transform: scale(.97); }
+  .go:disabled { opacity: .7; cursor: progress; }
+
+  .try { margin: 28px 0 0; display: grid; gap: 8px; animation: fade-up .7s var(--ease) .65s both; }
+  .try p { margin: 0 0 4px; color: var(--muted); font-size: .95rem; }
+  .row { display: grid; grid-template-columns: 6rem 1fr; gap: 12px; align-items: baseline; }
+  .row > span { font-weight: 700; font-size: .95rem; }
+  .ex { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { position: relative; overflow: hidden; min-height: 40px; padding: 7px 14px; color: var(--ink); background: var(--surface); border: 0; font-size: .98rem; isolation: isolate; transition: color .25s; }
+  .chip::before { content: ""; position: absolute; inset: 0; background: var(--accent); transform: translateX(-101%); transition: transform .35s var(--ease); z-index: -1; }
+  .chip:hover, .chip:focus-visible { color: var(--on-accent); }
+  .chip:hover::before, .chip:focus-visible::before { transform: translateX(0); }
+  .chip:active { transform: scale(.98); }
+
+  #status { margin: 56px 0 18px; scroll-margin-top: 16px; }
+  .summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 22px; animation: fade-up .5s var(--ease) both; }
+  .summary strong { font: 700 clamp(2rem, 4.5vw, 3.2rem)/1 var(--display); letter-spacing: -.03em; }
+  .summary span { color: var(--muted); }
+  .understood { margin-top: 18px; padding: 16px 20px; background: var(--surface); display: grid; gap: 8px; animation: fade-up .5s var(--ease) .08s both; }
+  .understood h2 { margin: 0; font-size: 1rem; }
+  .understood ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+  .understood li { animation: slide-in .45s var(--ease) both; animation-delay: calc(.2s + var(--i, 0) * 90ms); }
+  @keyframes slide-in { from { opacity: 0; transform: translateX(-14px); } }
+  .understood li b { font-weight: 700; }
+  .understood li small { color: var(--muted); font-size: .92rem; }
+  .banner { margin-top: 16px; padding: 14px 20px; background: var(--warn-bg); color: var(--warn-ink); font-weight: 600; animation: fade-up .5s var(--ease) .15s both; }
+  .banner.err { background: var(--err-bg); color: var(--err-ink); display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .banner button { padding: 8px 16px; border: 2px solid currentColor; background: transparent; color: inherit; font-weight: 600; }
+  .hint { color: var(--muted); animation: fade-up .4s var(--ease) both; }
+
+  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; grid-auto-flow: dense; }
+  .card { position: relative; display: flex; flex-direction: column; width: 100%; padding: 0; text-align: left; color: inherit; background: var(--surface); border: 0; overflow: hidden; }
+  .card .ph { flex: 1 1 auto; aspect-ratio: 4/3; display: grid; place-items: center; color: var(--muted); font-size: .9rem; background: var(--surface); }
+  .card .im { flex: 1 1 auto; min-height: 0; overflow: hidden; aspect-ratio: 4/3; background: var(--surface); }
+  .card img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.12); transition: opacity .6s var(--ease), transform 1s var(--ease); }
+  .card img.in { opacity: 1; transform: scale(1); }
+  button.card { transition: transform .25s var(--ease); }
+  button.card:hover { transform: translateY(-4px); }
+  button.card:hover img.in { transform: scale(1.05); transition-duration: .5s; }
+  .card .t { padding: 12px 14px 16px; }
   .card .e { font-weight: 700; line-height: 1.3; }
-  .card .c { margin-top: 3px; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .rank { position: absolute; top: 8px; left: 8px; min-width: 26px; height: 26px; padding: 0 7px; display: grid; place-items: center; border-radius: 13px;
-    background: rgba(20,22,26,.78); color: #fff; font-size: .8rem; font-weight: 700; }
-  .skeleton .ph, .skeleton .l { background: linear-gradient(90deg, var(--soft) 25%, var(--line) 50%, var(--soft) 75%); background-size: 200% 100%; animation: shimmer 1.3s infinite linear; }
-  .skeleton .l { height: 12px; border-radius: 6px; margin: 8px 12px 0; }
-  .skeleton .l.s { width: 55%; margin-bottom: 14px; }
-  @keyframes shimmer { to { background-position: -200% 0; } }
-  @media (prefers-reduced-motion: reduce) { .skeleton .ph, .skeleton .l { animation: none; } button.card:hover { transform: none; } html { scroll-behavior: auto; } .card { transition: none; } }
-  dialog { width: min(920px, 94vw); max-height: 94vh; padding: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); color: var(--fg); overflow: auto; }
-  dialog::backdrop { background: rgba(0,0,0,.72); }
-  .dlg-body { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 0; }
-  .dlg-img { background: #0c0d0f; display: grid; place-items: center; min-height: 260px; }
-  .dlg-img img { max-width: 100%; max-height: 82vh; object-fit: contain; }
-  .dlg-info { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-  .dlg-info h3 { margin: 0; font-size: 1.15rem; line-height: 1.3; }
+  .card .c { margin-top: 4px; font-size: .92rem; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .rank { position: absolute; top: 0; left: 0; min-width: 32px; height: 32px; padding: 0 9px; display: grid; place-items: center; background: var(--ink); color: var(--ground); font-weight: 700; }
+  @media (min-width: 760px) {
+    .card.first { grid-column: span 2; grid-row: span 2; }
+    .card.first .e { font: 700 1.5rem/1.2 var(--display); letter-spacing: -.01em; }
+    .card.first .c { font-size: 1rem; -webkit-line-clamp: 3; }
+  }
+  .card.rise { animation: rise .55s var(--ease) both; animation-delay: calc(var(--i, 0) * 70ms); }
+  @keyframes rise { from { opacity: 0; transform: translateY(26px); } }
+  .skeleton .ph { animation: pulse 1.1s ease-in-out infinite alternate; background: var(--surface); }
+  .skeleton .l { height: 14px; margin: 14px 14px 0; background: var(--ground); animation: pulse 1.1s ease-in-out infinite alternate; }
+  .skeleton .l.s { width: 50%; margin-bottom: 18px; }
+  @keyframes pulse { from { opacity: .45; } to { opacity: 1; } }
+
+  footer { margin-top: 72px; color: var(--muted); font-size: .95rem; max-width: 70ch; }
+
+  dialog { width: min(980px, 95vw); max-height: 94vh; padding: 0; border: 0; border-radius: 0; background: var(--ground); color: var(--ink); overflow: auto; }
+  dialog[open] { animation: dlg-in .35s var(--ease) both; }
+  dialog[open]::backdrop { animation: back-in .35s ease both; }
+  @keyframes dlg-in { from { opacity: 0; transform: translateY(24px) scale(.97); } }
+  @keyframes back-in { from { opacity: 0; } }
+  dialog::backdrop { background: rgba(0,0,0,.82); }
+  .dlg-body { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+  .dlg-img { background: #070908; display: grid; place-items: center; min-height: 260px; }
+  .dlg-img img { max-width: 100%; max-height: 86vh; object-fit: contain; animation: back-in .4s ease both; }
+  .dlg-info { padding: 26px; display: flex; flex-direction: column; gap: 12px; }
+  .dlg-info h3 { margin: 0; font: 700 1.5rem/1.2 var(--display); letter-spacing: -.01em; }
   .dlg-info p { margin: 0; color: var(--muted); }
-  .dlg-info .src { font-size: .85rem; }
+  .dlg-info .src { font-size: .9rem; }
   .dlg-bar { margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap; }
-  .dlg-bar button { padding: 9px 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--fg); }
-  .dlg-bar button:hover { border-color: var(--accent); }
-  @media (max-width: 700px) { .dlg-body { grid-template-columns: 1fr; } form { flex-direction: column; } .go { padding: 14px; } main { padding-top: 20px; } }
+  .dlg-bar button { padding: 10px 18px; border: 0; background: var(--surface); color: var(--ink); transition: background .2s, color .2s, transform .15s; }
+  .dlg-bar button:hover:not(:disabled) { background: var(--accent); color: var(--on-accent); }
+  .dlg-bar button:active:not(:disabled) { transform: scale(.97); }
+  .dlg-bar button:disabled { opacity: .5; cursor: default; }
+  @media (max-width: 700px) {
+    main { padding: 32px 16px 56px; }
+    .field { flex-direction: column; } .go { width: 100%; }
+    .row { grid-template-columns: 1fr; gap: 4px; }
+    .dlg-body { grid-template-columns: 1fr; }
+  }
   .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .card img { opacity: 1; transform: none; }
+    h1 .wi { transform: none; }
+  }
 </style>
 </head>
 <body>
 <main>
-  <p class="eyebrow">Capstone · Truy xuất ảnh</p>
-  <h1>Tìm ảnh văn hoá Việt Nam</h1>
-  <p class="sub">Mô tả bằng tiếng Việt: một ý, nhiều ý, hoặc một câu cần suy luận. Hệ thống tìm trong hơn 89.000 ảnh di sản.</p>
+  <h1 id="title" aria-label="Tìm ảnh văn hoá Việt Nam">Tìm ảnh văn hoá Việt Nam</h1>
+  <p class="sub">Gõ một câu mô tả bằng tiếng Việt, một ý, nhiều ý hoặc cần suy luận. Hệ thống tìm trong hơn 89.000 ảnh di sản.</p>
 
   <form id="f" role="search">
     <label for="q" class="vh">Mô tả ảnh cần tìm</label>
-    <input id="q" type="search" placeholder="Mô tả ảnh cần tìm, ví dụ: cầu Long Biên" maxlength="500" autocomplete="off" required>
-    <button id="go" class="go" type="submit">Tìm ảnh</button>
+    <div class="field">
+      <input id="q" type="search" placeholder="Mô tả ảnh cần tìm, ví dụ: cầu Long Biên" maxlength="500" autocomplete="off" required>
+      <button id="go" class="go" type="submit">Tìm ảnh</button>
+    </div>
   </form>
 
-  <section class="try" aria-labelledby="try-h">
-    <h2 id="try-h">Thử ngay</h2>
-    <div class="chips" id="chips"></div>
+  <section class="try" aria-label="Câu hỏi mẫu">
+    <p>Thử một câu mẫu</p>
+    <div id="chips" style="display:grid;gap:8px"></div>
   </section>
 
   <div id="status" aria-live="polite"></div>
   <div id="grid"></div>
+
+  <footer>Gemini hiểu câu hỏi và tách các ý. Ảnh được tìm bằng vector ảnh, vector văn bản và từ khoá, rồi sắp xếp lại bằng mô hình rerank. Không dùng agent để tìm ảnh.</footer>
 </main>
 
 <dialog id="dlg" aria-label="Xem ảnh lớn">
@@ -128,30 +174,43 @@
 
 <script>
 const examples = [
-  ["cầu Long Biên", "Một ý", "k1"],
-  ["nhà thờ Phát Diệm", "Một ý", "k1"],
-  ["đồ chơi dân gian làm bằng bột gạo", "Khái niệm", "k3"],
-  ["áo dài Huế và nhà thờ Phát Diệm", "Nhiều ý", "k2"],
-  ["chợ nổi và múa lân", "Nhiều ý", "k2"],
-  ["nghệ thuật sân khấu dân gian miền Bắc", "Suy luận", "k3"],
+  ["Một ý", ["cầu Long Biên", "nhà thờ Phát Diệm"]],
+  ["Khái niệm", ["đồ chơi dân gian làm bằng bột gạo"]],
+  ["Nhiều ý", ["áo dài Huế và nhà thờ Phát Diệm", "chợ nổi và múa lân"]],
+  ["Suy luận", ["nghệ thuật sân khấu dân gian miền Bắc"]],
 ];
 const typeLabel = { single: "Một ý", multi_intent: "Nhiều ý", multi_hop: "Suy luận" };
 const $ = (id) => document.getElementById(id);
+const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let results = [], cur = 0, slowTimer = null;
 
 function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; }
 
-examples.forEach(([text, label, k]) => {
-  const b = el("button", "chip"); b.type = "button";
-  b.append(text, el("b", k, label));
-  b.addEventListener("click", () => { $("q").value = text; $("f").requestSubmit(); });
-  $("chips").appendChild(b);
+// Tiêu đề hiện từng chữ (chỉ làm khi không giảm chuyển động; tên truy cập vẫn đọc nguyên câu nhờ aria-label)
+if (!calm) {
+  const h = $("title"), words = h.textContent.split(" ");
+  h.textContent = "";
+  words.forEach((w, i) => {
+    const o = el("span", "w"), inner = el("span", "wi", w); inner.style.setProperty("--d", i);
+    o.appendChild(inner); h.appendChild(o); if (i < words.length - 1) h.appendChild(document.createTextNode(" "));
+  });
+}
+
+examples.forEach(([label, list]) => {
+  const row = el("div", "row"), box = el("div", "ex");
+  row.appendChild(el("span", "", label));
+  list.forEach((text) => {
+    const b = el("button", "chip", text); b.type = "button";
+    b.addEventListener("click", () => { $("q").value = text; $("f").requestSubmit(); });
+    box.appendChild(b);
+  });
+  row.appendChild(box); $("chips").appendChild(row);
 });
 
 function showSkeleton() {
   const g = $("grid"); g.replaceChildren();
   for (let i = 0; i < 10; i++) {
-    const c = el("div", "card skeleton"); c.setAttribute("aria-hidden", "true");
+    const c = el("div", "card skeleton" + (i === 0 ? " first" : "")); c.setAttribute("aria-hidden", "true");
     c.append(el("div", "ph"), el("div", "l"), el("div", "l s"));
     g.appendChild(c);
   }
@@ -174,13 +233,14 @@ function renderResults(d) {
   const nodes = [sum];
   const subs = (d.subs || []).filter((s) => s.vi);
   if (subs.length) {
-    const u = el("div", "understood"); u.append(el("span", "", "Hệ thống hiểu:"));
-    subs.forEach((s) => {
-      const p = el("span", "pill", s.vi);
-      if (s.ents && s.ents.length) p.append(" ", el("small", "", "→ " + s.ents.slice(0, 3).join(", ")));
-      u.appendChild(p);
+    const u = el("div", "understood"); u.appendChild(el("h2", "", "Hệ thống hiểu câu hỏi thành"));
+    const ul = el("ul");
+    subs.forEach((s, i) => {
+      const li = el("li"); li.style.setProperty("--i", i); li.appendChild(el("b", "", s.vi));
+      if (s.ents && s.ents.length) li.append(" ", el("small", "", "→ " + s.ents.slice(0, 3).join(", ")));
+      ul.appendChild(li);
     });
-    nodes.push(u);
+    u.appendChild(ul); nodes.push(u);
   }
   if (d.low_confidence) {
     const w = el("div", "banner", "Không có nội dung khớp chính xác trong dữ liệu; các ảnh dưới đây chỉ gần đúng."); w.setAttribute("role", "status");
@@ -189,16 +249,21 @@ function renderResults(d) {
   if (!d.results.length) nodes.push(el("p", "hint", "Không tìm thấy ảnh nào. Thử mô tả khác hoặc ngắn gọn hơn."));
   setStatus(nodes);
   d.results.forEach((x, i) => {
-    const card = el("button", "card"); card.type = "button";
+    const card = el("button", "card rise" + (i === 0 ? " first" : "")); card.type = "button"; card.style.setProperty("--i", i);
     card.setAttribute("aria-label", "Xem ảnh " + (i + 1) + ": " + (x.entities.join(", ") || "không có tên"));
-    const img = new Image(); img.src = x.url; img.alt = x.entities.join(", "); img.loading = "lazy"; img.decoding = "async";
-    img.onerror = () => { const ph = el("div", "ph", "Ảnh không tải được"); img.replaceWith(ph); };
+    const frame = el("div", "im");
+    const img = new Image(); img.alt = x.entities.join(", "); img.loading = "lazy"; img.decoding = "async";
+    img.onload = () => img.classList.add("in");
+    img.onerror = () => { frame.replaceWith(el("div", "ph", "Ảnh không tải được")); };
+    img.src = x.url;
+    frame.appendChild(img);
     const t = el("div", "t");
     t.append(el("div", "e", x.entities.join(" / ") || "(không có tên)"), el("div", "c", x.caption));
-    card.append(img, el("span", "rank", String(i + 1)), t);
+    card.append(frame, el("span", "rank", String(i + 1)), t);
     card.addEventListener("click", () => openDialog(i));
     $("grid").appendChild(card);
   });
+  $("status").scrollIntoView({ behavior: calm ? "auto" : "smooth", block: "start" });  // đưa kết quả vào tầm nhìn
 }
 
 async function search(query) {
