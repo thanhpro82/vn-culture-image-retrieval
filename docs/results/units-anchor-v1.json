@@ -1,0 +1,107 @@
+{
+  "candidates": 16,
+  "policies": {
+    "current": {
+      "multi_hop": {
+        "n": 100,
+        "recall@10": 0.31,
+        "intent_cov@10": 0.31
+      },
+      "multi_intent": {
+        "n": 100,
+        "recall@10": 0.99,
+        "intent_cov@10": 0.905
+      },
+      "single": {
+        "n": 100,
+        "recall@10": 0.94,
+        "intent_cov@10": 0.94
+      }
+    },
+    "vi_only": {
+      "multi_hop": {
+        "n": 100,
+        "recall@10": 0.44,
+        "intent_cov@10": 0.44
+      },
+      "multi_intent": {
+        "n": 100,
+        "recall@10": 1.0,
+        "intent_cov@10": 0.975
+      },
+      "single": {
+        "n": 100,
+        "recall@10": 0.99,
+        "intent_cov@10": 0.99
+      }
+    },
+    "mh_keep_query": {
+      "multi_hop": {
+        "n": 100,
+        "recall@10": 0.34,
+        "intent_cov@10": 0.34
+      },
+      "multi_intent": {
+        "n": 100,
+        "recall@10": 0.99,
+        "intent_cov@10": 0.91
+      },
+      "single": {
+        "n": 100,
+        "recall@10": 0.94,
+        "intent_cov@10": 0.94
+      }
+    },
+    "both": {
+      "multi_hop": {
+        "n": 100,
+        "recall@10": 0.49,
+        "intent_cov@10": 0.49
+      },
+      "multi_intent": {
+        "n": 100,
+        "recall@10": 1.0,
+        "intent_cov@10": 0.975
+      },
+      "single": {
+        "n": 100,
+        "recall@10": 0.98,
+        "intent_cov@10": 0.98
+      }
+    },
+    "ignore_ents": {
+      "multi_hop": {
+        "n": 100,
+        "recall@10": 0.47,
+        "intent_cov@10": 0.47
+      },
+      "multi_intent": {
+        "n": 100,
+        "recall@10": 1.0,
+        "intent_cov@10": 0.975
+      },
+      "single": {
+        "n": 100,
+        "recall@10": 0.98,
+        "intent_cov@10": 0.98
+      }
+    },
+    "anchor": {
+      "multi_hop": {
+        "n": 100,
+        "recall@10": 0.46,
+        "intent_cov@10": 0.46
+      },
+      "multi_intent": {
+        "n": 100,
+        "recall@10": 1.0,
+        "intent_cov@10": 0.97
+      },
+      "single": {
+        "n": 100,
+        "recall@10": 0.99,
+        "intent_cov@10": 0.99
+      }
+    }
+  }
+}

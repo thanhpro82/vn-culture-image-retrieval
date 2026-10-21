@@ -132,6 +132,24 @@ có sẵn "Địa bàn" và "Thể loại" của từng ảnh. Nguyên nhân sai
 Chọn `both` thay vì `ignore_ents` vì vẫn giữ các thực thể Gemini suy ra như những ý tìm thêm, cần cho truy vấn quan hệ thật (ví dụ "con trai chủ tịch ...").
 Bộ test không có truy vấn quan hệ thật, nên khả năng này **chưa được đo**; chỉ được giữ lại theo thiết kế.
 
+**Thử `anchor` (kết quả âm, không bật mặc định; đo 2026-10-21).** Trong 340 câu thử tay có lỗi kiểu TC022 ("đình cổ có mái ngói **và sân rộng**" kéo ảnh "Sân bay Mường Thanh") và
+TC313/TC316 (vế phi lý như "máy bay phản lực", "tàu vũ trụ" được tìm riêng nên kéo cả ảnh MiG-21). Chính sách `anchor` gộp vế không có thực thể vào vế có thực thể đầu tiên
+thay vì tìm riêng. Cùng kết quả phân tích Gemini, chỉ truy xuất, so với `both` (Recall@10; phủ ý trong ngoặc):
+
+| Bộ | Loại | `both` | `anchor` |
+|---|---|---|---|
+| v1 (300) | nhiều ý | 1,00 (0,975) | 1,00 (0,970) |
+| v1 (300) | một ý / suy luận | 0,98 / 0,49 | 0,99 / 0,46 |
+| v2 (120) | nhiều ý | 0,875 (0,5875) | 0,875 (0,575) |
+| v2 (120) | một ý / suy luận | 0,75 / 0,40 | 0,725 / 0,40 |
+
+`anchor` không đổi nhánh một ý và suy luận, nên chênh lệch ở hai dòng đó (±0,01–0,03) là **nhiễu giữa các lần chạy**, và mức nhiễu này cũng bao trùm chênh lệch ở dòng nhiều ý.
+Bộ test mà ý nào cũng có thực thể nên không thể hiện được lỗi cần sửa. Trên 24 câu `multi_intent` của bộ 340 (`docs/results/units-anchor-tc340-multi-intent.json`), thứ hạng đổi ở 14 câu:
+tốt hơn ở TC316 (hết ảnh MiG-21) và TC314 (nhiều ảnh Chùa Một Cột hơn); **xấu hơn** ở TC321 (vế "kiến trúc cổ kính" bị nuốt vào "áo dài", mất ảnh phố cổ Hội An và đình);
+**không sửa được** TC313 (MiG-21 lên top 1). Gemini cũng phân tích TC022 khác lần đo trước (thành một ý), nên lỗi này không tái hiện được trong lần so sánh này.
+Kết luận: lợi ích không ổn định và có hồi quy trên câu nhiều ý hợp lệ, nên giữ `UNIT_POLICY = "both"`. Hướng đúng hơn là kiểm tra từng vế có khớp thực thể/ảnh hay không rồi mới xếp hạng
+(rerank theo ràng buộc), chưa làm.
+
 **Đo toàn bộ qua API** (hybrid + rerank, 300 query, `docs/results/eval-units-both.json`, 2026-10-21) so với lần đo 2026-10-19 (`eval-final.json`):
 
 | Loại | Recall@10 trước | Recall@10 sau | MRR@10 trước | MRR@10 sau |

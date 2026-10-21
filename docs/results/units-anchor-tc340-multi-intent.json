@@ -1,0 +1,1026 @@
+[
+ {
+  "id": "TC022",
+  "query": "Một ngôi đình cổ có mái ngói và sân rộng",
+  "qt": "single",
+  "subs": [
+   [
+    "Một ngôi đình cổ có mái ngói và sân rộng",
+    []
+   ]
+  ],
+  "both": [
+   "Đình So (Cộng Hòa, Quốc Oai)",
+   "Đình Tây Đằng (Hà Nội-Ba Vì)",
+   "Đình So (Cộng Hòa, Quốc Oai)",
+   "Di tích Đình Tân Trào",
+   "Khu lưu niệm Nguyễn Khuyến",
+   "Đình Đào Xá (Thanh Thủy, Phú Thọ)",
+   "Di tích An Khê Đình - Tây Sơn thượng đạo (Gia Lai)",
+   "Đình Phùng (Phùng Khoang)",
+   "Đình So (Cộng Hòa, Quốc Oai)",
+   "Làng cổ Phước Tích (Huế)"
+  ],
+  "anchor": [
+   "Đình So (Cộng Hòa, Quốc Oai)",
+   "Đình Tây Đằng (Hà Nội-Ba Vì)",
+   "Đình So (Cộng Hòa, Quốc Oai)",
+   "Di tích Đình Tân Trào",
+   "Khu lưu niệm Nguyễn Khuyến",
+   "Đình Đào Xá (Thanh Thủy, Phú Thọ)",
+   "Di tích An Khê Đình - Tây Sơn thượng đạo (Gia Lai)",
+   "Đình Phùng (Phùng Khoang)",
+   "Làng cổ Phước Tích (Huế)",
+   "Đình So (Cộng Hòa, Quốc Oai)"
+  ]
+ },
+ {
+  "id": "TC025",
+  "query": "Ngôi chùa nằm bên hồ nước và có cây cổ thụ",
+  "qt": "multi_intent",
+  "subs": [
+   [
+    "Ngôi chùa nằm bên hồ nước",
+    [
+     "Tháp tổ chùa Trấn Quốc",
+     "Chợ hoa Hồ Tây (chợ hoa Quảng Bá)",
+     "Giải Bơi chải thuyền rồng Hồ Tây mở rộng",
+     "Chợ đêm Hồ Tây (phố đi bộ Trịnh Công Sơn)"
+    ]
+   ],
+   [
+    "Ngôi chùa có cây cổ thụ",
+    [
+     "Lễ hội chùa Một Cột (Diên Hựu)",
+     "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+     "Tượng Quan Âm chùa Một Cột (Hà Nội)"
+    ]
+   ]
+  ],
+  "both": [
+   "Chùa Lý Quốc Sư",
+   "Chùa Hương Lãng",
+   "Hội chùa Hương (Hà Nội)",
+   "Chùa Mui",
+   "Đền thờ Cao Sơn - Quý Minh (Ninh Bình)",
+   "Chùa Hoa Yên Yên Tử Quảng Ninh",
+   "Chùa Bà Già",
+   "Đền Po Klong Garai (không gian thờ Bàlamôn)",
+   "Khu du lịch chùa Hương (Hương Sơn)",
+   "Chùa Thánh Chúa"
+  ],
+  "anchor": [
+   "Chùa Lý Quốc Sư",
+   "Đền Po Klong Garai (không gian thờ Bàlamôn)",
+   "Đền thờ Cao Sơn - Quý Minh (Ninh Bình)",
+   "Chùa Hương Lãng",
+   "Hội chùa Hương (Hà Nội)",
+   "Chùa Mui",
+   "Chùa Bà Già",
+   "Chùa Hoa Yên Yên Tử Quảng Ninh",
+   "Đền thờ Lý Thái Tổ (Đền Đô, Đình Bảng)",
+   "Chùa Thánh Chúa"
+  ]
+ },
+ {
+  "id": "TC040",
+  "query": "Lễ hội có trống, cờ và nhiều người tham gia",
+  "qt": "single",
+  "subs": [
+   [
+    "Lễ hội có trống, cờ và nhiều người tham gia",
+    [
+     "Lễ hội Gióng đền Sóc",
+     "Lễ hội Gióng đền Phù Đổng",
+     "Trang phục đội tế lễ hội Gióng",
+     "Lễ hội chọi trâu"
+    ]
+   ]
+  ],
+  "both": [
+   "Lễ hội Chùa Láng (Đống Đa, Hà Nội)",
+   "Lễ hội Lồng Tồng Trùng Khánh (Cao Bằng)",
+   "Múa trống cơm",
+   "Lễ hội Chùa Láng (Đống Đa, Hà Nội)",
+   "Lễ hội cầu ngư Phú Thuận (Phú Vang, Huế)",
+   "Múa trống (múa trống hội)",
+   "Lễ hội Nghinh Ông Duyên Hải (Trà Vinh)",
+   "Múa trống (múa trống hội)",
+   "Múa võ trống trận Tây Sơn (võ nhạc)",
+   "Lễ hội Tết Nguyên Đán người Hoa Chợ Lớn"
+  ],
+  "anchor": [
+   "Lễ hội Chùa Láng (Đống Đa, Hà Nội)",
+   "Lễ hội Lồng Tồng Trùng Khánh (Cao Bằng)",
+   "Múa trống cơm",
+   "Lễ hội Chùa Láng (Đống Đa, Hà Nội)",
+   "Lễ hội cầu ngư Phú Thuận (Phú Vang, Huế)",
+   "Múa trống (múa trống hội)",
+   "Lễ hội Nghinh Ông Duyên Hải (Trà Vinh)",
+   "Múa trống (múa trống hội)",
+   "Lễ hội Tết Nguyên Đán người Hoa Chợ Lớn",
+   "Múa võ trống trận Tây Sơn (võ nhạc)"
+  ]
+ },
+ {
+  "id": "TC055",
+  "query": "Kiến trúc thể hiện sự giao thoa văn hóa Việt Nam và Trung Hoa",
+  "qt": "multi_intent",
+  "subs": [
+   [
+    "Kiến trúc thể hiện sự giao thoa văn hóa Việt Nam",
+    [
+     "Khu phố cổ Hội An",
+     "Tết Trung thu phố cổ Hội An",
+     "Lễ hội đêm rằm phố cổ Hội An"
+    ]
+   ],
+   [
+    "Kiến trúc thể hiện sự giao thoa văn hóa Trung Hoa",
+    [
+     "Chùa Bà Thiên Hậu Bình Dương",
+     "Chùa Bà Thiên Hậu (Bình Dương)",
+     "Chùa Bà Thiên Hậu (Tuệ Thành) TP.HCM",
+     "Hội quán Quảng Đông (Quảng Triệu, Hội An)"
+    ]
+   ]
+  ],
+  "both": [
+   "Người Ra Glai",
+   "Vía Bà Chúa Xứ Núi Sam",
+   "Đền thờ và mộ Nguyễn Đình Chiểu (Ba Tri, Bến Tre)",
+   "Người Hoa Phúc Kiến",
+   "Khuê Văn Các",
+   "Khu di tích rừng Trần Hưng Đạo",
+   "Làng Văn hóa - Du lịch các dân tộc Việt Nam",
+   "Người Hoa Phúc Kiến",
+   "Đình Nại Nam (Đà Nẵng)",
+   "Đền Bà Chúa Xứ Núi Sam (Châu Đốc, An Giang)"
+  ],
+  "anchor": [
+   "Khuê Văn Các",
+   "Người Hoa Phúc Kiến",
+   "Đền thờ và mộ Nguyễn Đình Chiểu (Ba Tri, Bến Tre)",
+   "Khu di tích rừng Trần Hưng Đạo",
+   "Người Ra Glai",
+   "Vía Bà Chúa Xứ Núi Sam",
+   "Làng Văn hóa - Du lịch các dân tộc Việt Nam",
+   "Người Hoa Phúc Kiến",
+   "Đền Bến Dược (Củ Chi)",
+   "Đền Bà Chúa Xứ Núi Sam (Châu Đốc, An Giang)"
+  ]
+ },
+ {
+  "id": "TC066",
+  "query": "Nhà sàn của người Thái ở Tây Bắc",
+  "qt": "single",
+  "subs": [
+   [
+    "Nhà sàn của người Thái ở Tây Bắc",
+    [
+     "Nhà sàn Mường",
+     "Nhà sàn Bác Hồ",
+     "Nhà sàn Thái Trắng",
+     "Người Thái"
+    ]
+   ]
+  ],
+  "both": [
+   "Nhà sàn Thái Trắng",
+   "Nhà sàn Thái Trắng",
+   "Nhà sàn Thái Trắng",
+   "Di tích Đình Nông Lục (Bắc Sơn, Lạng Sơn)",
+   "Nhà sàn người Kháng",
+   "Nhà sàn Mường",
+   "Nhà sàn Mường",
+   "Nhà sàn Mường",
+   "Đồng bào Thái",
+   "Đồng bào Thái"
+  ],
+  "anchor": [
+   "Nhà sàn Thái Trắng",
+   "Nhà sàn Thái Trắng",
+   "Nhà sàn Thái Trắng",
+   "Di tích Đình Nông Lục (Bắc Sơn, Lạng Sơn)",
+   "Nhà sàn người Kháng",
+   "Nhà sàn Mường",
+   "Nhà sàn Mường",
+   "Nhà sàn Mường",
+   "Đồng bào Thái",
+   "Đồng bào Thái"
+  ]
+ },
+ {
+  "id": "TC117",
+  "query": "Múa lân trong dịp Tết",
+  "qt": "multi_intent",
+  "subs": [
+   [
+    "Múa lân trong dịp Tết",
+    [
+     "Múa lân",
+     "Múa lân Tết",
+     "Múa Lân hí cầu",
+     "Tết Nguyên Đán"
+    ]
+   ]
+  ],
+  "both": [
+   "Múa lân Tết",
+   "Múa lân Tết",
+   "Làng đầu lân – sư – rồng Bình An (TP Hồ Chí Minh)",
+   "Múa lân Tết",
+   "Múa lân (múa sư rồng) Trung Thu",
+   "Làng đầu lân – sư – rồng Bình An (TP Hồ Chí Minh)",
+   "Múa lân Phật Sơn",
+   "Múa Thiên cẩu (người Hoa - Hội An/Nam Bộ)",
+   "Làng đầu lân – sư – rồng Bình An (TP Hồ Chí Minh)",
+   "Múa lân"
+  ],
+  "anchor": [
+   "Múa lân Tết",
+   "Múa lân Tết",
+   "Làng đầu lân – sư – rồng Bình An (TP Hồ Chí Minh)",
+   "Múa lân Tết",
+   "Múa lân (múa sư rồng) Trung Thu",
+   "Làng đầu lân – sư – rồng Bình An (TP Hồ Chí Minh)",
+   "Múa lân Phật Sơn",
+   "Múa Thiên cẩu (người Hoa - Hội An/Nam Bộ)",
+   "Làng đầu lân – sư – rồng Bình An (TP Hồ Chí Minh)",
+   "Múa lân"
+  ]
+ },
+ {
+  "id": "TC123",
+  "query": "Tường vàng và cửa gỗ nâu",
+  "qt": "multi_intent",
+  "subs": [
+   [
+    "Tường vàng",
+    [
+     "Lụa Hội An",
+     "Áo dài Hội An",
+     "Bánh mì Hội An"
+    ]
+   ],
+   [
+    "Cửa gỗ nâu",
+    [
+     "Lụa Hội An",
+     "Áo dài Hội An",
+     "Bánh mì Hội An"
+    ]
+   ]
+  ],
+  "both": [
+   "Chợ Bình Tây (chợ Lớn - đầu mối)",
+   "Áo nâu sồng",
+   "Người Mường",
+   "Vùng nghề thủ công Hội An",
+   "Chiến thắng Vạn Tường (Quảng Ngãi)",
+   "Đền thờ Nguyễn Bỉnh Khiêm (Bạch Vân Am)",
+   "Hoàng thành Thăng Long",
+   "Vùng nghề thủ công Hội An",
+   "Mường Hoa (Sa Pa) mùa vàng - Di tích quốc gia",
+   "Bộ cánh cửa chùa Phổ Minh"
+  ],
+  "anchor": [
+   "Người Mường",
+   "Áo nâu sồng",
+   "Chiến thắng Vạn Tường (Quảng Ngãi)",
+   "Vùng nghề thủ công Hội An",
+   "Chợ Bình Tây (chợ Lớn - đầu mối)",
+   "Đền thờ Nguyễn Bỉnh Khiêm (Bạch Vân Am)",
+   "Hoàng thành Thăng Long",
+   "Vùng nghề thủ công Hội An",
+   "Chùa Phổ Minh (Gò Vấp)",
+   "Bộ cánh cửa chùa Phổ Minh"
+  ]
+ },
+ {
+  "id": "TC148",
+  "query": "Người mặc áo dài đứng cạnh người mặc áo tứ thân",
+  "qt": "single",
+  "subs": [
+   [
+    "Người mặc áo dài đứng cạnh người mặc áo tứ thân",
+    [
+     "Áo dài",
+     "Áo dài Tết",
+     "Áo dài lụa",
+     "Áo tứ thân"
+    ]
+   ]
+  ],
+  "both": [
+   "Áo tứ thân hát chèo",
+   "Áo dài tứ thân",
+   "Áo dài họa tiết tranh Đông Hồ",
+   "Áo dài tứ thân",
+   "Áo dài tứ thân (cổ)",
+   "Áo dài tứ thân",
+   "Áo dài tấc (áo tấc)",
+   "Áo dài cách tân kết hợp áo khoác (áo dài blazer)",
+   "Áo dài tứ thân hội Lim",
+   "Áo dài tứ thân (cổ)"
+  ],
+  "anchor": [
+   "Áo tứ thân hát chèo",
+   "Áo dài tứ thân",
+   "Áo dài họa tiết tranh Đông Hồ",
+   "Áo dài tứ thân",
+   "Áo dài tứ thân (cổ)",
+   "Áo dài tứ thân",
+   "Áo dài tấc (áo tấc)",
+   "Áo dài cách tân kết hợp áo khoác (áo dài blazer)",
+   "Áo dài tứ thân hội Lim",
+   "Áo dài tứ thân (cổ)"
+  ]
+ },
+ {
+  "id": "TC156",
+  "query": "Một người chèo thuyền và một người ngồi trên thuyền",
+  "qt": "single",
+  "subs": [
+   [
+    "Một người chèo thuyền và một người ngồi trên thuyền",
+    []
+   ]
+  ],
+  "both": [
+   "Căn cứ Xẻo Quýt",
+   "Đò ngang (đò chèo qua sông)",
+   "Đò ngang (đò chèo qua sông)",
+   "Múa chèo thuyền (giá Cô Bơ)",
+   "Lễ hội Đua thuyền Sông Son (Phong Nha)",
+   "Múa chèo thuyền (múa bơi chải)",
+   "Đò ngang (đò chèo qua sông)",
+   "Hò chèo ghe Nam Bộ",
+   "Áo bà ba",
+   "Lễ giỗ Tổ nghề Chiếu Định Yên (Đồng Tháp)"
+  ],
+  "anchor": [
+   "Căn cứ Xẻo Quýt",
+   "Đò ngang (đò chèo qua sông)",
+   "Đò ngang (đò chèo qua sông)",
+   "Múa chèo thuyền (giá Cô Bơ)",
+   "Lễ hội Đua thuyền Sông Son (Phong Nha)",
+   "Múa chèo thuyền (múa bơi chải)",
+   "Đò ngang (đò chèo qua sông)",
+   "Hò chèo ghe Nam Bộ",
+   "Áo bà ba",
+   "Hát quan họ"
+  ]
+ },
+ {
+  "id": "TC167",
+  "query": "Thuyền trên sông nhưng không phải chợ nổi",
+  "qt": "multi_hop",
+  "subs": [
+   [
+    "Thuyền trên sông ở Việt Nam không phải chợ nổi",
+    [
+     "Mè xửng Sông Hương Huế",
+     "Thuyền trên sông Hương (Tô Ngọc Vân)",
+     "Đồ sứ ký kiểu vẽ phong cảnh sông Hương - núi Ngự",
+     "Lễ hội Tràng An"
+    ]
+   ]
+  ],
+  "both": [
+   "Căn cứ Dương Hòa (Thừa Thiên Huế)",
+   "Mè xửng Sông Hương Huế",
+   "Thuyền trên sông Hương (Tô Ngọc Vân)",
+   "Đồ sứ men lam Huế đề tài phong cảnh Huế (sông Hương - núi Ngự)",
+   "Lễ hội Tràng An",
+   "Đò ngang (đò chèo qua sông)",
+   "Mè xửng Sông Hương Huế",
+   "Thuyền trên sông Hương (Tô Ngọc Vân)",
+   "Đồ sứ men lam Huế đề tài phong cảnh Huế (sông Hương - núi Ngự)",
+   "Lễ hội Tràng An"
+  ],
+  "anchor": [
+   "Căn cứ Dương Hòa (Thừa Thiên Huế)",
+   "Mè xửng Sông Hương Huế",
+   "Thuyền trên sông Hương (Tô Ngọc Vân)",
+   "Đồ sứ men lam Huế đề tài phong cảnh Huế (sông Hương - núi Ngự)",
+   "Lễ hội Tràng An",
+   "Đò ngang (đò chèo qua sông)",
+   "Mè xửng Sông Hương Huế",
+   "Thuyền trên sông Hương (Tô Ngọc Vân)",
+   "Đồ sứ men lam Huế đề tài phong cảnh Huế (sông Hương - núi Ngự)",
+   "Lễ hội Tràng An"
+  ]
+ },
+ {
+  "id": "TC175",
+  "query": "Tìm cổng làng, loại trừ cổng chùa",
+  "qt": "single",
+  "subs": [
+   [
+    "Tìm cổng làng, loại trừ cổng chùa",
+    [
+     "Đồ da thủ công làng Kiêu Kỵ",
+     "Bia Thánh Đức Thần Công lăng Gia Long",
+     "Bia Thánh Đức Thần Công lăng Minh Mạng"
+    ]
+   ]
+  ],
+  "both": [
+   "Cổng làng/cổng tam quan chùa bằng gỗ chạm",
+   "Cổng làng/cổng tam quan chùa bằng gỗ chạm",
+   "Cổng làng/cổng tam quan chùa bằng gỗ chạm",
+   "Đền thờ An Sinh (Đông Triều, Quảng Ninh)",
+   "Đền Bia (Cẩm Giàng, Hải Dương)",
+   "Làng chạm bạc Đồng Xâm (Hồng Thái, Kiến Xương, Thái Bình)",
+   "Đền thờ Lê Hồng Phong (Nghệ An)",
+   "Làng gốm Phước Tích (Phong Hòa, Phong Điền, Huế)",
+   "Làng gốm Bát Tràng (Hà Nội)",
+   "Chùa Tam Bửu (Ba Chúc, Tri Tôn, An Giang)"
+  ],
+  "anchor": [
+   "Cổng làng/cổng tam quan chùa bằng gỗ chạm",
+   "Cổng làng/cổng tam quan chùa bằng gỗ chạm",
+   "Cổng làng/cổng tam quan chùa bằng gỗ chạm",
+   "Đền thờ An Sinh (Đông Triều, Quảng Ninh)",
+   "Đền Bia (Cẩm Giàng, Hải Dương)",
+   "Làng chạm bạc Đồng Xâm (Hồng Thái, Kiến Xương, Thái Bình)",
+   "Đền thờ Lê Hồng Phong (Nghệ An)",
+   "Làng gốm Phước Tích (Phong Hòa, Phong Điền, Huế)",
+   "Làng gốm Bát Tràng (Hà Nội)",
+   "Chùa Tam Bửu (Ba Chúc, Tri Tôn, An Giang)"
+  ]
+ },
+ {
+  "id": "TC179",
+  "query": "Kiến trúc cổ không có mái ngói",
+  "qt": "multi_hop",
+  "subs": [
+   [
+    "kiến trúc cổ Việt Nam không sử dụng mái ngói",
+    [
+     "Lễ hội chùa Một Cột (Diên Hựu)",
+     "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+     "Tượng Quan Âm chùa Một Cột (Hà Nội)",
+     "Bài chiêng Lễ cúng nhà rông"
+    ]
+   ]
+  ],
+  "both": [
+   "Cầu ngói chợ Thượng (Nam Định)",
+   "Lễ hội chùa Một Cột (Diên Hựu)",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Tượng Quan Âm chùa Một Cột (Hà Nội)",
+   "Bài chiêng Lễ cúng nhà rông",
+   "Khu di tích ATK Định Hóa (Thái Nguyên)",
+   "Hành hương chùa Tây Phương",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Tượng Quan Âm chùa Một Cột (Hà Nội)",
+   "Bài chiêng Lễ cúng nhà rông"
+  ],
+  "anchor": [
+   "Cầu ngói chợ Thượng (Nam Định)",
+   "Lễ hội chùa Một Cột (Diên Hựu)",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Tượng Quan Âm chùa Một Cột (Hà Nội)",
+   "Bài chiêng Lễ cúng nhà rông",
+   "Khu di tích ATK Định Hóa (Thái Nguyên)",
+   "Hành hương chùa Tây Phương",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Tượng Quan Âm chùa Một Cột (Hà Nội)",
+   "Bài chiêng Lễ cúng nhà rông"
+  ]
+ },
+ {
+  "id": "TC235",
+  "query": "Ảnh về lễ hội, có trống ấy",
+  "qt": "single",
+  "subs": [
+   [
+    "Ảnh về lễ hội, có trống ấy",
+    [
+     "Lễ hội Gióng đền Sóc",
+     "Lễ hội Gióng đền Phù Đổng",
+     "Trang phục đội tế lễ hội Gióng",
+     "Lễ hội chọi trâu"
+    ]
+   ]
+  ],
+  "both": [
+   "Múa trống (múa trống hội)",
+   "Múa trống (múa trống hội)",
+   "Múa võ trống trận Tây Sơn (võ nhạc)",
+   "Hội Lam Kinh (Thanh Hóa)",
+   "Múa trống (trống hội)",
+   "Múa trống (múa trống hội)",
+   "Lễ hội làng làng Nhật Tân",
+   "Múa trống (trống hội)",
+   "Múa trống (trống hội)",
+   "Diễn tấu nhạc lễ (phường bát âm)"
+  ],
+  "anchor": [
+   "Múa trống (múa trống hội)",
+   "Múa trống (múa trống hội)",
+   "Múa võ trống trận Tây Sơn (võ nhạc)",
+   "Hội Lam Kinh (Thanh Hóa)",
+   "Múa trống (trống hội)",
+   "Múa trống (múa trống hội)",
+   "Lễ hội làng làng Nhật Tân",
+   "Múa trống (trống hội)",
+   "Múa trống (trống hội)",
+   "Diễn tấu nhạc lễ (phường bát âm)"
+  ]
+ },
+ {
+  "id": "TC313",
+  "query": "Người đánh trống đồng và đang lái máy bay phản lực",
+  "qt": "multi_intent",
+  "subs": [
+   [
+    "Người đánh trống đồng",
+    [
+     "Trống đồng Đông Sơn (Heger I)",
+     "Trống đồng Đông Sơn (loại Heger I)",
+     "Trống đồng Đông Sơn (Hà Nội) bảo vật"
+    ]
+   ],
+   [
+    "đang lái máy bay phản lực",
+    []
+   ]
+  ],
+  "both": [
+   "Lễ hội Xuống đồng (Quảng Ninh)",
+   "Máy bay MiG-21 số hiệu 4324",
+   "Làm trống",
+   "Máy bay MiG-21 số hiệu 4324",
+   "Thạp đồng nắp hình tượng",
+   "Máy bay MiG-21 số hiệu 4324",
+   "Hát bài chòi (lớp trò bài chòi)",
+   "Di tích lịch sử quốc gia đặc biệt Chiến thắng Chương Thiện",
+   "Trống đồng Lô Lô (trống tang lễ người Lô Lô)",
+   "Chiến dịch Linebacker II (Điện Biên Phủ trên không 1972)"
+  ],
+  "anchor": [
+   "Máy bay MiG-21 số hiệu 4324",
+   "Trống đồng Lô Lô (trống tang lễ người Lô Lô)",
+   "Đánh trống quân",
+   "Làm trống",
+   "Máy bay MiG-21 số hiệu 4324",
+   "Làng đúc đồng Trà Đông",
+   "Lễ hội Xuống đồng (Quảng Ninh)",
+   "Trống bục (trống đệm hát xẩm)",
+   "Đánh trống quân",
+   "Người Co"
+  ]
+ },
+ {
+  "id": "TC314",
+  "query": "Chùa Một Cột ở giữa quảng trường Times Square",
+  "qt": "multi_intent",
+  "subs": [
+   [
+    "Chùa Một Cột",
+    [
+     "Lễ hội chùa Một Cột (Diên Hựu)",
+     "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+     "Tượng Quan Âm chùa Một Cột (Hà Nội)"
+    ]
+   ],
+   [
+    "quảng trường Times Square",
+    []
+   ]
+  ],
+  "both": [
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Chợ đêm Đà Lạt (chợ Âm Phủ)",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Tượng đài Khâm Thiên",
+   "Đền Đuổm (Thái Nguyên)",
+   "Tượng đài Bác Hồ Quảng trường Hồ Chí Minh (Nghệ An)",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Sông Bạch Đằng (di tích chiến thắng)",
+   "Chùa Lý Quốc Sư",
+   "Tượng đài Khâm Thiên"
+  ],
+  "anchor": [
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Chùa Núi Châu Thới (Dĩ An)",
+   "Chùa Lý Quốc Sư",
+   "Chùa Phổ Chiếu",
+   "Chùa Diệu Viên",
+   "Đền Đuổm (Thái Nguyên)",
+   "Chùa Lý Quốc Sư",
+   "Tịnh xá Trung Tâm (Bình Thạnh)"
+  ]
+ },
+ {
+  "id": "TC316",
+  "query": "Hội An cổ có tàu vũ trụ hạ cánh",
+  "qt": "multi_intent",
+  "subs": [
+   [
+    "Hội An cổ",
+    [
+     "Lụa Hội An",
+     "Áo dài Hội An",
+     "Bánh mì Hội An"
+    ]
+   ],
+   [
+    "tàu vũ trụ hạ cánh",
+    []
+   ]
+  ],
+  "both": [
+   "Khu phố cổ Hội An",
+   "Hạc thờ (hạc gỗ-đồng)",
+   "Khu phố cổ Hội An",
+   "Máy bay MiG-21 số hiệu 5121",
+   "Khu phố cổ Hội An",
+   "Máy bay MiG-21 số hiệu 5121",
+   "Vùng nghề thủ công Hội An",
+   "Điện Biên Phủ trên không 1972",
+   "Nhà rường Quảng Nam (nhà cổ Hội An)",
+   "Máy bay MiG-21 số hiệu 5121"
+  ],
+  "anchor": [
+   "Khu phố cổ Hội An",
+   "Khu phố cổ Hội An",
+   "Chợ Hội An Trung tâm (Quảng Nam)",
+   "Di chỉ thương cảng Hội An (lớp khảo cổ)",
+   "Khu phố cổ Hội An",
+   "Di chỉ thương cảng Hội An (lớp khảo cổ)",
+   "Chợ đêm Hội An (Quảng Nam)",
+   "Nhà rường Quảng Nam (nhà cổ Hội An)",
+   "Phố cổ Hội An (ngập lụt thường niên)",
+   "Thất Phủ Thiên Hậu Cung (Hội An)"
+  ]
+ },
+ {
+  "id": "TC321",
+  "query": "Tôi muốn tìm một bức ảnh cho bài thuyết trình về vẻ đẹp văn hóa Việt Nam, trong đó có những người phụ nữ mặc áo dài truyền thống và không gian kiến trúc cổ kính.",
+  "qt": "multi_intent",
+  "subs": [
+   [
+    "ảnh văn hoá áo dài truyền thống Việt Nam",
+    [
+     "Áo dài",
+     "Áo dài Tết",
+     "Áo dài lụa"
+    ]
+   ],
+   [
+    "không gian kiến trúc cổ kính Việt Nam",
+    []
+   ]
+  ],
+  "both": [
+   "Áo dài truyền thống Việt Nam",
+   "Khu phố cổ Hội An",
+   "Áo dài học sinh nữ sinh Đồng Khánh (Huế)",
+   "Miếu Bà Chúa Xứ (các tỉnh Nam Bộ)",
+   "Áo dài",
+   "Đình So (Cộng Hòa, Quốc Oai)",
+   "Áo dài",
+   "Miếu Bà Chúa Xứ (các tỉnh Nam Bộ)",
+   "Áo dài",
+   "Đình So (Cộng Hòa, Quốc Oai)"
+  ],
+  "anchor": [
+   "Áo dài",
+   "Áo dài truyền thống Việt Nam",
+   "Nhà tù Sơn La",
+   "Áo dài",
+   "Áo dài truyền thống",
+   "Trang phục ông đồ (viết câu đối Tết)",
+   "Đền thờ Nguyễn Công Trứ (Nghi Xuân, Hà Tĩnh)",
+   "Áo dài (trang phục dân tộc Kinh)",
+   "Áo tấc gấm (lễ phục nữ)",
+   "Áo dài Việt Nam trang phục dân tộc quốc tế"
+  ]
+ },
+ {
+  "id": "TC326",
+  "query": "Cho mình xem hình ảnh văn hóa của một dân tộc ở vùng núi phía Bắc, có họa tiết thổ cẩm, trang phục sặc sỡ và bối cảnh phiên chợ.",
+  "qt": "single",
+  "subs": [
+   [
+    "Cho mình xem hình ảnh văn hóa của một dân tộc ở vùng núi phía Bắc, có họa tiết thổ cẩm, trang phục sặc sỡ và bối cảnh phiên chợ.",
+    [
+     "Co",
+     "Người Co",
+     "Kéo co (Thái-Tày)",
+     "Cơ Ho"
+    ]
+   ]
+  ],
+  "both": [
+   "Chợ phiên Bắc Hà",
+   "Toàn cảnh chợ phiên Bắc Hà đông đúc",
+   "Chợ phiên Bắc Hà",
+   "Làng nghề dệt thổ cẩm Lào bản Na Sang (xã Núa Ngam, huyện Điện Biên, Điện Biên)",
+   "Chợ phiên Bắc Hà",
+   "Toàn cảnh chợ phiên Bắc Hà đông đúc",
+   "Chợ phiên Bắc Mê (Hà Giang)",
+   "Thổ cẩm Cát Cát",
+   "Chợ phiên Cao Sơn (Hoà Bình)",
+   "Dệt zèng A Lưới (di sản)"
+  ],
+  "anchor": [
+   "Chợ phiên Bắc Hà",
+   "Toàn cảnh chợ phiên Bắc Hà đông đúc",
+   "Làng nghề dệt thổ cẩm Lào bản Na Sang (xã Núa Ngam, huyện Điện Biên, Điện Biên)",
+   "Chợ phiên Bắc Hà",
+   "Chợ phiên Bắc Hà",
+   "Toàn cảnh chợ phiên Bắc Hà đông đúc",
+   "Chợ phiên Bắc Mê (Hà Giang)",
+   "Thổ cẩm Cát Cát",
+   "Chợ phiên Cao Sơn (Hoà Bình)",
+   "Dệt zèng A Lưới (di sản)"
+  ]
+ },
+ {
+  "id": "TC327",
+  "query": "Tìm hình mô tả mùa xuân ở làng quê Việt Nam với hoa đào, câu đối đỏ và mọi người quây quần chuẩn bị Tết.",
+  "qt": "single",
+  "subs": [
+   [
+    "Tìm hình mô tả mùa xuân ở làng quê Việt Nam với hoa đào, câu đối đỏ và mọi người quây quần chuẩn bị Tết.",
+    [
+     "Vó"
+    ]
+   ]
+  ],
+  "both": [
+   "Tục chơi hoa đào ngày Tết (miền Bắc)",
+   "Tục chưng hoa đào - mai - quất Tết",
+   "Tết năm cùng người Mông (Nào Pê Chầu)",
+   "Làng đào Vân Tảo",
+   "Tết Nguyên Đán",
+   "Đào Nhật Tân",
+   "Đào Nhật Tân",
+   "Đào Nhật Tân",
+   "Tục treo câu đối đỏ ngày Tết",
+   "Tục chơi hoa đào ngày Tết (miền Bắc)"
+  ],
+  "anchor": [
+   "Tục chơi hoa đào ngày Tết (miền Bắc)",
+   "Tục chưng hoa đào - mai - quất Tết",
+   "Tết năm cùng người Mông (Nào Pê Chầu)",
+   "Làng đào Vân Tảo",
+   "Tết Nguyên Đán",
+   "Đào Nhật Tân",
+   "Đào Nhật Tân",
+   "Đào Nhật Tân",
+   "Tục treo câu đối đỏ ngày Tết",
+   "Tục chơi hoa đào ngày Tết (miền Bắc)"
+  ]
+ },
+ {
+  "id": "TC328",
+  "query": "Hình ảnh có thể dùng để giới thiệu nghề truyền thống tại Việt Nam, thể hiện công đoạn tạo ra nón lá từ khung, lá và chỉ khâu.",
+  "qt": "multi_intent",
+  "subs": [
+   [
+    "Hình ảnh giới thiệu nghề truyền thống tại Việt Nam",
+    [
+     "Nón lá Việt Nam",
+     "Võ Việt Nam Vovinam",
+     "Mẹ Việt Nam Anh hùng"
+    ]
+   ],
+   [
+    "Công đoạn tạo ra nón lá từ khung, lá và chỉ khâu",
+    [
+     "Nón lá",
+     "Nón lá Dạ Lê",
+     "Nón lá Ba Đồn"
+    ]
+   ]
+  ],
+  "both": [
+   "Festival Bảo tồn và Phát triển làng nghề Việt Nam",
+   "Nón lá khung tre (vành tre lộ)",
+   "Festival Bảo tồn và Phát triển làng nghề Việt Nam",
+   "Nón lá khung tre (vành tre lộ)",
+   "Làng nón Mỹ Lam (Phú Vang, Huế)",
+   "Làng nghề nón lá Tây Hồ",
+   "Festival Bảo tồn và Phát triển làng nghề Việt Nam",
+   "Nón lá",
+   "Làng nón ngựa Phú Gia (Bình Định - di sản VHPVT)",
+   "Làng nón Quy Hậu (Lệ Thủy, Quảng Bình)"
+  ],
+  "anchor": [
+   "Festival Bảo tồn và Phát triển làng nghề Việt Nam",
+   "Nón lá khung tre (vành tre lộ)",
+   "Festival Bảo tồn và Phát triển làng nghề Việt Nam",
+   "Nón lá khung tre (vành tre lộ)",
+   "Làng nón Mỹ Lam (Phú Vang, Huế)",
+   "Làng nghề nón lá Tây Hồ",
+   "Festival Bảo tồn và Phát triển làng nghề Việt Nam",
+   "Nón lá",
+   "Làng nón ngựa Phú Gia (Bình Định - di sản VHPVT)",
+   "Làng nón Quy Hậu (Lệ Thủy, Quảng Bình)"
+  ]
+ },
+ {
+  "id": "TC332",
+  "query": "Tôi muốn tìm một khung cảnh bình yên của phố cổ, có nhà tường vàng, mái ngói rêu phong và những chiếc đèn lồng được treo trên phố.",
+  "qt": "multi_intent",
+  "subs": [
+   [
+    "phố cổ tường vàng",
+    [
+     "Khu phố cổ Hội An",
+     "Tết Trung thu phố cổ Hội An",
+     "Lễ hội đêm rằm phố cổ Hội An"
+    ]
+   ],
+   [
+    "mái ngói rêu phong",
+    []
+   ],
+   [
+    "đèn lồng treo trên phố",
+    [
+     "Lụa Hội An",
+     "Áo dài Hội An",
+     "Bánh mì Hội An"
+    ]
+   ]
+  ],
+  "both": [
+   "36 phố phường Hà Nội",
+   "Khu di tích ATK Định Hóa (Thái Nguyên)",
+   "Làng đèn lồng Hội An (Quảng Nam)",
+   "Khu phố cổ Hội An",
+   "Vạn Hội An (Phú Quý)",
+   "Làng nghề đèn lồng Hội An",
+   "Hoàng thành Thăng Long",
+   "Đền thờ Phùng Hưng (Bố Cái Đại Vương)",
+   "Tục treo đèn lồng đỏ mừng Tết (người Hoa)",
+   "Khu phố cổ Hội An"
+  ],
+  "anchor": [
+   "36 phố phường Hà Nội",
+   "Làng đèn lồng Hội An (Quảng Nam)",
+   "36 phố phường Hà Nội",
+   "Làng nghề đèn lồng Hội An",
+   "Trại Phú Hải",
+   "Tục treo đèn lồng đỏ mừng Tết (người Hoa)",
+   "36 phố phường Hà Nội",
+   "Tục treo đèn lồng đỏ mừng Tết (người Hoa)",
+   "Phố cổ Bao Vinh",
+   "Tết Trung Thu phố lồng đèn Lương Nhữ Học (Chợ Lớn, TP.HCM)"
+  ]
+ },
+ {
+  "id": "TC334",
+  "query": "Hãy tìm hình ảnh sinh hoạt cộng đồng của dân tộc Tây Nguyên, mọi người quây tròn trong lễ hội cùng những nhạc cụ bằng đồng.",
+  "qt": "multi_intent",
+  "subs": [
+   [
+    "Hình ảnh sinh hoạt cộng đồng của dân tộc Tây Nguyên",
+    [
+     "Căn cứ Bắc Tây Nguyên",
+     "Gùi đeo lưng Tây Nguyên",
+     "Lễ hội Bỏ Mả Tây Nguyên"
+    ]
+   ],
+   [
+    "Mọi người quây tròn trong lễ hội cùng những nhạc cụ bằng đồng",
+    [
+     "Lễ hội cồng chiêng Tây Nguyên",
+     "Cồng chiêng Tây Nguyên (UNESCO)",
+     "Diễn tấu cồng chiêng Tây Nguyên"
+    ]
+   ]
+  ],
+  "both": [
+   "Câu lạc bộ Cồng chiêng Tây Nguyên",
+   "Hầu đồng - nghi lễ thờ Mẫu (di sản UNESCO)",
+   "Vòng đồng đeo tay Tây Nguyên",
+   "Hội Gióng đền Phù Đổng và đền Sóc",
+   "Trang phục người Xá Phó (Phù Lá)",
+   "Người Xơ Đăng",
+   "Bài chiêng cúng bến nước",
+   "Đồng cốt / ông đồng bà đồng (hầu đồng)",
+   "Trang phục cồng chiêng Tây Nguyên",
+   "Múa Tung tung da dá (người Cơ Tu)"
+  ],
+  "anchor": [
+   "Vòng đồng đeo tay Tây Nguyên",
+   "Hầu đồng - nghi lễ thờ Mẫu (di sản UNESCO)",
+   "Trang phục người Xá Phó (Phù Lá)",
+   "Người Xơ Đăng",
+   "Câu lạc bộ Cồng chiêng Tây Nguyên",
+   "Hội Gióng đền Phù Đổng và đền Sóc",
+   "Vòng đồng đeo tay Tây Nguyên",
+   "Đồng cốt / ông đồng bà đồng (hầu đồng)",
+   "Bài chiêng cúng bến nước",
+   "Chiêng đồng người Thái"
+  ]
+ },
+ {
+  "id": "TC339",
+  "query": "Cho tôi ảnh về lễ hội mùa thu của thiếu nhi Việt Nam có mặt nạ, múa lân, đèn ông sao và mâm cỗ trông trăng.",
+  "qt": "multi_intent",
+  "subs": [
+   [
+    "ảnh về lễ hội mùa thu của thiếu nhi Việt Nam có mặt nạ",
+    [
+     "Tết Trung Thu",
+     "Tết Trung thu rằm 8",
+     "Tết Trung Thu (15/8)"
+    ]
+   ],
+   [
+    "ảnh về lễ hội mùa thu của thiếu nhi Việt Nam có múa lân",
+    [
+     "Múa lân",
+     "Múa lân Tết",
+     "Múa Lân hí cầu"
+    ]
+   ],
+   [
+    "ảnh về lễ hội mùa thu của thiếu nhi Việt Nam có đèn ông sao",
+    [
+     "Thợ làm đèn ông sao Báo Đáp",
+     "Tục chơi đèn ông sao Trung Thu",
+     "Làng làm đèn ông sao Báo Đáp (Nam Định)"
+    ]
+   ],
+   [
+    "ảnh về lễ hội mùa thu của thiếu nhi Việt Nam có mâm cỗ trông trăng",
+    [
+     "Mâm cỗ trông trăng"
+    ]
+   ]
+  ],
+  "both": [
+   "Tục đeo mặt nạ giấy bồi Trung Thu",
+   "Rằm tháng Tám (Tết Trung thu)",
+   "Tục chơi đèn ông sao Trung Thu",
+   "Rằm tháng Tám (Tết Trung thu)",
+   "Rằm tháng Tám (Tết Trung thu)",
+   "Trung Thu (Tết Trung Thu)",
+   "Tục chơi đèn ông sao Trung Thu",
+   "Tục bày cỗ trông trăng (mâm cỗ Trung Thu)",
+   "Tết Trung Thu (15/8)",
+   "Lễ hội làng gốm Thanh Hà (Hội An)"
+  ],
+  "anchor": [
+   "Tục đeo mặt nạ giấy bồi Trung Thu",
+   "Rằm tháng Tám (Tết Trung thu)",
+   "Tục chơi đèn ông sao Trung Thu",
+   "Rằm tháng Tám (Tết Trung thu)",
+   "Rằm tháng Tám (Tết Trung thu)",
+   "Trung Thu (Tết Trung Thu)",
+   "Tục chơi đèn ông sao Trung Thu",
+   "Tục bày cỗ trông trăng (mâm cỗ Trung Thu)",
+   "Tết Trung Thu (15/8)",
+   "Lễ hội làng gốm Thanh Hà (Hội An)"
+  ]
+ },
+ {
+  "id": "TC340",
+  "query": "Tìm những tấm ảnh miêu tả ngôi nhà cổ truyền của người Việt, có sân gạch, hàng cau, bàn thờ và các hoa văn trên cột nhà.",
+  "qt": "single",
+  "subs": [
+   [
+    "Tìm ảnh ngôi nhà cổ truyền của người Việt có sân gạch, hàng cau, bàn thờ và các hoa văn trên cột nhà",
+    [
+     "Võ Cổ truyền Việt Nam"
+    ]
+   ]
+  ],
+  "both": [
+   "Di tích Khởi nghĩa Nam Kỳ Long Hưng (Tiền Giang)",
+   "Đình Tây Đằng (Hà Nội-Ba Vì)",
+   "Chùa Hải Đức (Trại Thủy, Nha Trang)",
+   "Đền thờ Bác Hồ",
+   "Đền thờ Mạc Cửu núi Bình San",
+   "Hát văn thờ",
+   "Hội chùa Hương Lãng (Hưng Yên)",
+   "Di tích Đình Tân Trào",
+   "Vạn Hội An (Phú Quý)",
+   "Đền thờ Bác Hồ"
+  ],
+  "anchor": [
+   "Di tích Khởi nghĩa Nam Kỳ Long Hưng (Tiền Giang)",
+   "Chùa Hải Đức (Trại Thủy, Nha Trang)",
+   "Đình Tây Đằng (Hà Nội-Ba Vì)",
+   "Đền thờ Bác Hồ",
+   "Hát văn thờ",
+   "Đền thờ Mạc Cửu núi Bình San",
+   "Hội chùa Hương Lãng (Hưng Yên)",
+   "Di tích Đình Tân Trào",
+   "Vạn Hội An (Phú Quý)",
+   "Đình Tây Đằng (Hà Nội-Ba Vì)"
+  ]
+ }
+]

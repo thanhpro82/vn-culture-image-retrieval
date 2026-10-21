@@ -53,3 +53,28 @@ def test_unknown_policy_is_rejected():
 def test_module_default_is_used_when_no_policy_given(monkeypatch):
     monkeypatch.setattr(S, "UNIT_POLICY", "ignore_ents")
     assert S._units(P("multi_hop")) == [("Hai Duong heritage", "di tích Hải Dương")]
+
+
+def _mi(*subs):
+    from retrieval.qparse import ParsedQuery, SubQuery
+    return ParsedQuery("multi_intent", [SubQuery(vi=v, en=e, ents=list(ents)) for v, e, ents in subs])
+
+
+def test_anchor_gop_ydieu_kien_khong_co_thuc_the_vao_y_chinh():
+    p = _mi(("Một ngôi đình cổ có mái ngói", "old communal house", ["Đình"]), ("sân rộng", "wide yard", []))
+    assert S._units(p, "anchor") == [("old communal house wide yard", "Một ngôi đình cổ có mái ngói sân rộng")]
+    # chính sách mặc định giữ nguyên hành vi cũ
+    assert len(S._units(p, "both")) == 2
+
+
+def test_anchor_giu_nguyen_khi_moi_y_deu_co_thuc_the_hoac_khong_co_y_nao_co_thuc_the():
+    full = _mi(("áo dài", "ao dai", ["Áo dài"]), ("nón lá", "conical hat", ["Nón lá"]))
+    assert S._units(full, "anchor") == S._units(full, "both") and len(S._units(full, "anchor")) == 2
+    none = _mi(("chiều muộn", "late", []), ("mưa nhẹ", "rain", []))
+    assert S._units(none, "anchor") == S._units(none, "both")
+
+
+def test_anchor_chi_ap_dung_cho_multi_intent():
+    from retrieval.qparse import ParsedQuery, SubQuery
+    mh = ParsedQuery("multi_hop", [SubQuery(vi="a", en="a", ents=["X"]), SubQuery(vi="b", en="b", ents=[])])
+    assert S._units(mh, "anchor") == S._units(mh, "both")

@@ -1,10 +1,10 @@
 """Tìm kiếm lai (ảnh + text + sparse, RRF) cho từng ý, rồi gộp theo hạn ngạch."""
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from qdrant_client import QdrantClient, models
 
-from retrieval.qparse import ParsedQuery
+from retrieval.qparse import ParsedQuery, SubQuery
 
 BRANCHES = ("img", "txt", "sparse")
 MAX_UNITS = 6  # chặn chi phí: một truy vấn không được kéo theo quá 6 lần embed và tìm
@@ -25,7 +25,20 @@ class Hit:
 
 
 UNIT_POLICY = "both"  # cách ghép "ý cần tìm", chọn theo số đo (docs/results/units-ablation.json); các lựa chọn khác để so sánh
-POLICIES = ("current", "vi_only", "mh_keep_query", "both", "ignore_ents")
+POLICIES = ("current", "vi_only", "mh_keep_query", "both", "ignore_ents", "anchor")
+
+
+def _anchor_subs(parsed: ParsedQuery) -> list[SubQuery]:
+    """Gộp các ý không có thực thể vào ý có thực thể đầu tiên (chỉ với multi_intent và khi có cả hai loại)."""
+    if parsed.qt != "multi_intent":
+        return parsed.subs
+    bare = [s for s in parsed.subs if not s.ents]
+    if not bare or len(bare) == len(parsed.subs):
+        return parsed.subs
+    first = next(s for s in parsed.subs if s.ents)
+    merged = replace(first, vi=" ".join([first.vi, *(b.vi for b in bare)]),
+                     en=" ".join([first.en or first.vi, *(b.en or b.vi for b in bare)]))
+    return [merged if s is first else s for s in parsed.subs if s.ents]
 
 
 def _units(parsed: ParsedQuery, policy: str | None = None) -> list[tuple[str, str]]:
@@ -35,16 +48,19 @@ def _units(parsed: ParsedQuery, policy: str | None = None) -> list[tuple[str, st
     vi_only: văn bản bge của truy vấn thường không nối thực thể.
     mh_keep_query: suy luận vẫn tìm thêm truy vấn gốc, đặt trước các thực thể.
     both: vi_only và mh_keep_query.
-    ignore_ents: bỏ hẳn thực thể, mọi truy vấn tìm bằng chính văn bản của nó."""
+    ignore_ents: bỏ hẳn thực thể, mọi truy vấn tìm bằng chính văn bản của nó.
+    anchor: như both; riêng nhiều ý (multi_intent), ý không có thực thể nào (vd. "sân rộng") được gộp vào ý có thực thể
+    đầu tiên thay vì tìm riêng, vì đó là điều kiện bổ nghĩa chứ không phải một đối tượng độc lập."""
     policy = policy or UNIT_POLICY
     if policy not in POLICIES:
         raise ValueError(f"policy phải thuộc {POLICIES}")
-    drop_ents = policy in ("vi_only", "both", "ignore_ents")
+    drop_ents = policy in ("vi_only", "both", "ignore_ents", "anchor")
+    subs = _anchor_subs(parsed) if policy == "anchor" else parsed.subs
     out: list[tuple[str, str]] = []
-    for s in parsed.subs:
+    for s in subs:
         plain = (s.en or s.vi, s.vi if drop_ents else " ".join([s.vi, *s.ents]))
         if parsed.qt == "multi_hop" and s.ents and policy != "ignore_ents":  # mỗi thực thể suy ra được tìm riêng
-            if policy in ("mh_keep_query", "both"):
+            if policy in ("mh_keep_query", "both", "anchor"):
                 out.append((s.en or s.vi, s.vi))
             out += [(e, e) for e in s.ents]
         else:
