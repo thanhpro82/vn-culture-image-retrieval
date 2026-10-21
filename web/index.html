@@ -6,18 +6,19 @@
 <title>Tìm ảnh văn hoá Việt Nam</title>
 <meta name="description" content="Tìm ảnh di sản văn hoá Việt Nam bằng mô tả tiếng Việt: một ý, nhiều ý hoặc câu cần suy luận.">
 <style>
-  /* Một nền, một màu chữ, một màu nhấn. Các mặt được tách bằng bậc tông màu, không dùng viền mảnh hay bóng đổ.
+  /* Một nền, một màu chữ, một màu nhấn (xanh ngọc, chỉ cho nút chính, thanh nhấn và viền focus). Ảnh mang màu sắc, giao diện giữ trung tính. Các mặt được tách bằng bậc tông màu, không dùng viền mảnh hay bóng đổ.
      Chuyển động chỉ dùng transform và opacity (chạy trên GPU) và tắt hết khi người dùng chọn giảm chuyển động. */
   :root {
-    --ground: #efede6; --surface: #e3e0d6; --ink: #14181a; --muted: #4d5558; --accent: #b8321f; --on-accent: #ffffff;
-    --warn-bg: #f3dd9a; --warn-ink: #3d2c00; --err-bg: #f1c9c2; --err-ink: #6e150c;
+    color-scheme: light dark;
+    --ground: #f6f5f1; --surface: #eceae3; --ink: #15191a; --muted: #586063; --accent: #1d5c47; --on-accent: #ffffff;
+    --warn-bg: #f6e7b4; --warn-ink: #4a3500; --err-bg: #f4d6d1; --err-ink: #7a1a10; --stage: #0b0d0c;
     --display: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
     --ease: cubic-bezier(.2, .7, .2, 1);
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --ground: #0d1311; --surface: #18211e; --ink: #ece9e1; --muted: #a7b0ab; --accent: #ff8a66; --on-accent: #1c0b05;
-      --warn-bg: #4a3d12; --warn-ink: #f5e2a1; --err-bg: #4a211c; --err-ink: #f6bdb5;
+      --ground: #0f1412; --surface: #171d1a; --ink: #e9e8e2; --muted: #a3aba6; --accent: #5fcf9f; --on-accent: #04150d;
+      --warn-bg: #3d3314; --warn-ink: #f2dd9b; --err-bg: #40201c; --err-ink: #f4bab2; --stage: #070908;
     }
   }
   * { box-sizing: border-box; }
@@ -50,8 +51,8 @@
   .row > span { font-weight: 700; font-size: .95rem; }
   .ex { display: flex; flex-wrap: wrap; gap: 8px; }
   .chip { position: relative; overflow: hidden; min-height: 40px; padding: 7px 14px; color: var(--ink); background: var(--surface); border: 0; font-size: .98rem; isolation: isolate; transition: color .25s; }
-  .chip::before { content: ""; position: absolute; inset: 0; background: var(--accent); transform: translateX(-101%); transition: transform .35s var(--ease); z-index: -1; }
-  .chip:hover, .chip:focus-visible { color: var(--on-accent); }
+  .chip::before { content: ""; position: absolute; inset: 0; background: var(--ink); transform: translateX(-101%); transition: transform .35s var(--ease); z-index: -1; }
+  .chip:hover, .chip:focus-visible { color: var(--ground); }
   .chip:hover::before, .chip:focus-visible::before { transform: translateX(0); }
   .chip:active { transform: scale(.98); }
 
@@ -106,7 +107,7 @@
   @keyframes back-in { from { opacity: 0; } }
   dialog::backdrop { background: rgba(0,0,0,.82); }
   .dlg-body { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
-  .dlg-img { background: #070908; display: grid; place-items: center; min-height: 260px; }
+  .dlg-img { background: var(--stage); display: grid; place-items: center; min-height: 260px; }
   .dlg-img img { max-width: 100%; max-height: 86vh; object-fit: contain; animation: back-in .4s ease both; }
   .dlg-info { padding: 26px; display: flex; flex-direction: column; gap: 12px; }
   .dlg-info h3 { margin: 0; font: 700 1.5rem/1.2 var(--display); letter-spacing: -.01em; }
@@ -114,7 +115,7 @@
   .dlg-info .src { font-size: .9rem; }
   .dlg-bar { margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap; }
   .dlg-bar button { padding: 10px 18px; border: 0; background: var(--surface); color: var(--ink); transition: background .2s, color .2s, transform .15s; }
-  .dlg-bar button:hover:not(:disabled) { background: var(--accent); color: var(--on-accent); }
+  .dlg-bar button:hover:not(:disabled) { background: var(--ink); color: var(--ground); }
   .dlg-bar button:active:not(:disabled) { transform: scale(.97); }
   .dlg-bar button:disabled { opacity: .5; cursor: default; }
   @media (max-width: 700px) {

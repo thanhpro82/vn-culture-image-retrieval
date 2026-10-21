@@ -56,3 +56,54 @@ def test_transitions_avoid_layout_properties():
 def test_reduced_motion_switches_everything_off():
     block = HTML[HTML.index("@media (prefers-reduced-motion: reduce)"):]
     assert "animation: none !important" in block and "transition: none !important" in block
+
+
+def _tokens(block: str) -> dict[str, str]:
+    return dict(re.findall(r"--([a-z-]+):\s*(#[0-9a-fA-F]{6})", block))
+
+
+def _lum(h: str) -> float:
+    r, g, b = (int(h.lstrip("#")[i:i + 2], 16) / 255 for i in (0, 2, 4))
+    f = lambda c: c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+    return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b)
+
+
+def _contrast(a: str, b: str) -> float:
+    hi, lo = sorted((_lum(a), _lum(b)), reverse=True)
+    return (hi + 0.05) / (lo + 0.05)
+
+
+def _themes() -> dict[str, dict[str, str]]:
+    light = _tokens(HTML[HTML.index(":root {"):HTML.index("@media (prefers-color-scheme: dark)")])
+    dark_start = HTML.index("@media (prefers-color-scheme: dark)")
+    dark = {**light, **_tokens(HTML[dark_start:HTML.index("}", HTML.index(":root {", dark_start))])}
+    return {"sáng": light, "tối": dark}
+
+
+@pytest.mark.parametrize("theme", ["sáng", "tối"])
+def test_text_colours_meet_wcag_aa_in_both_themes(theme):
+    t = _themes()[theme]
+    for fg, bg in [("ink", "ground"), ("ink", "surface"), ("muted", "ground"), ("muted", "surface"), ("on-accent", "accent"),
+                   ("warn-ink", "warn-bg"), ("err-ink", "err-bg"), ("ground", "ink")]:
+        assert _contrast(t[fg], t[bg]) >= 4.5, (theme, fg, bg, round(_contrast(t[fg], t[bg]), 2))
+    assert _contrast(t["accent"], t["ground"]) >= 3.0, theme  # thanh nhấn và viền focus
+
+
+def test_no_raw_hex_colours_outside_the_palette_tokens():
+    """Mọi màu đi qua token: mã màu rời trong một thành phần là bảng màu thứ hai bắt đầu."""
+    css = HTML[HTML.index("<style>"):HTML.index("</style>")]
+    css_wo_tokens = re.sub(r":root\s*\{[^}]*\}", "", css)
+    assert not re.findall(r"#[0-9a-fA-F]{3,6}\b", css_wo_tokens)
+
+
+def test_accent_is_not_used_for_large_fills_or_headings():
+    """Màu nhấn chiếm ít chỗ: chỉ nút chính, thanh nhấn của ô tìm và viền focus."""
+    css = HTML[HTML.index("<style>"):HTML.index("</style>")]
+    uses = [u for u in re.findall(r"([^{}]+)\{[^}]*var\(--accent\)", css) if "focus" not in u]  # viền focus dùng màu nhấn là đúng
+    selectors = " ".join(u.strip() for u in uses)
+    for forbidden in (".chip", ".card", "h1", ".understood", ".summary", "dialog"):
+        assert forbidden not in selectors.replace(".go:disabled", ""), forbidden
+
+
+def test_page_declares_color_scheme_for_native_controls():
+    assert "color-scheme: light dark" in HTML
