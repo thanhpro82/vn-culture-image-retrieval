@@ -15,7 +15,7 @@ Sinh bởi `eval/build_testset.py` (Task 13). Mỗi lần sinh ghi seed và ngà
 
 Gợi ý theo loại: `single`: truy vấn là tên thực thể, đáp án có đúng là ảnh của thực thể đó không. `multi_intent`: mỗi ý (`Ý 1`, `Ý 2`) có hợp lý và đáp án từng ý có đúng không.
 `multi_hop`: truy vấn là một nhóm khái niệm (văn hoá + vùng); các thực thể đáp án có phải thứ người dùng mong đợi không. Cột `note` để ghi lý do khi chọn `sai` hoặc `mo_ho`.
-Ghi tên người duyệt và ngày ở cuối file hoặc trong báo cáo. Khi có kết quả, báo cáo ghi tỉ lệ `dung`/`sai`/`mo_ho` theo từng loại và đo lại Recall@10 trên phần `dung`.
+Ghi tên người duyệt vào ô "Tên người duyệt" ở đầu trang trước khi xuất, và ngày vào báo cáo. Khi có kết quả, báo cáo ghi tỉ lệ `dung`/`sai`/`mo_ho` theo từng loại và đo lại Recall@10 trên phần `dung`.
 
 ### Duyệt nhanh bằng trang HTML
 

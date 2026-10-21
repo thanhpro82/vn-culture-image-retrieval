@@ -85,3 +85,30 @@ Khác với bảng trên, phép đo này không có ngân sách thời gian: rer
 - **Hai bộ rerank cho Recall@10 như nhau** trên bộ test này (mỗi nhóm 100 query, chênh lệch dưới ngưỡng phân biệt được).
 - Độ trễ gọi endpoint ngoài p50 152 ms cho 16 văn bản (434 yêu cầu, 0 lỗi); local khoảng 0,7-1,0 s trên CPU (xem bảng trên).
 - Hạn chế: endpoint ngoài có hạn mức chung 50 yêu cầu/phút và là tunnel tạm, nên chỉ dùng như tuỳ chọn có quay về local; chưa tích hợp vào API.
+
+## Duyệt tay một mẫu bộ test (2026-10-21)
+
+Bảng duyệt `eval/datasets/review-sheet-seed0.csv`: 45 truy vấn (15 mỗi loại, lấy mẫu cố định theo seed 0) từ bộ test 300 query. Người duyệt xem truy vấn, các thực thể đáp án và ảnh mẫu của đáp án
+(`python -m eval.make_review_html`), rồi chọn `dung` / `sai` / `mo_ho`. Kết quả thô: `eval/datasets/review-done-seed0.csv`. Người duyệt: Nguyễn Tuấn Thành (duyệt ngày 2026-10-21; cùng người làm dự án, không phải người duyệt độc lập).
+
+| Loại | Đúng | Mơ hồ | Sai | Tổng |
+|---|---|---|---|---|
+| single | 15 | 0 | 0 | 15 |
+| multi_intent | 14 | 1 (`mu-0142`: "Chùa Non và Chùa Kim Phong") | 0 | 15 |
+| multi_hop | 15 | 0 | 0 | 15 |
+| **Cộng** | **44** | **1** | **0** | **45** |
+
+Người duyệt không ghi chú lý do cho truy vấn mơ hồ. Điều đã duyệt là **đáp án có hợp lý với truy vấn không**, không phải kết quả của hệ thống.
+
+Recall@10 của hệ thống trên 44 truy vấn được duyệt "đúng" (`docs/results/eval-reviewed-44.json`, đo 2026-10-21, hybrid + rerank, rerank qua endpoint ngoài có quay về local):
+
+| Loại | n | Recall@10 | MRR@10 | Phủ ý@10 |
+|---|---|---|---|---|
+| single | 15 | 0,933 (14/15) | 0,876 | — |
+| multi_intent | 14 | 1,000 | 0,964 | 0,893 |
+| multi_hop | 15 | 0,333 (5/15) | 0,240 | — |
+
+Hạn chế khi đọc kết quả này:
+- Mẫu nhỏ (14-15 truy vấn mỗi loại): chênh lệch vài điểm so với 300 query (0,96 / 1,00 / 0,37) nằm trong dao động của mẫu nhỏ, không kết luận được hệ thống tốt hơn hay kém hơn trên phần đã duyệt.
+- Kết quả duyệt (44/45 đúng) cho thấy đáp án sinh tự động hợp lý với truy vấn trên mẫu này; không chứng minh 255 truy vấn còn lại cũng vậy.
+- Truy vấn một ý vẫn dùng tên thực thể nên dễ hơn truy vấn của người dùng thật (đã nêu ở phần hạn chế phía trên).
