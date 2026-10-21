@@ -24,14 +24,31 @@ class Hit:
     entity_names: list[str] | None = None
 
 
-def _units(parsed: ParsedQuery) -> list[tuple[str, str]]:
-    """(văn bản cho SigLIP, văn bản cho bge-m3) của mỗi 'ý' cần tìm riêng."""
+UNIT_POLICY = "both"  # cách ghép "ý cần tìm", chọn theo số đo (docs/results/units-ablation.json); các lựa chọn khác để so sánh
+POLICIES = ("current", "vi_only", "mh_keep_query", "both", "ignore_ents")
+
+
+def _units(parsed: ParsedQuery, policy: str | None = None) -> list[tuple[str, str]]:
+    """(văn bản cho SigLIP, văn bản cho bge-m3) của mỗi 'ý' cần tìm riêng.
+
+    current: nối thực thể Gemini đề xuất vào văn bản; suy luận chỉ tìm riêng từng thực thể (bỏ truy vấn gốc).
+    vi_only: văn bản bge của truy vấn thường không nối thực thể.
+    mh_keep_query: suy luận vẫn tìm thêm truy vấn gốc, đặt trước các thực thể.
+    both: vi_only và mh_keep_query.
+    ignore_ents: bỏ hẳn thực thể, mọi truy vấn tìm bằng chính văn bản của nó."""
+    policy = policy or UNIT_POLICY
+    if policy not in POLICIES:
+        raise ValueError(f"policy phải thuộc {POLICIES}")
+    drop_ents = policy in ("vi_only", "both", "ignore_ents")
     out: list[tuple[str, str]] = []
     for s in parsed.subs:
-        if parsed.qt == "multi_hop" and s.ents:  # mỗi thực thể suy ra được tìm riêng
+        plain = (s.en or s.vi, s.vi if drop_ents else " ".join([s.vi, *s.ents]))
+        if parsed.qt == "multi_hop" and s.ents and policy != "ignore_ents":  # mỗi thực thể suy ra được tìm riêng
+            if policy in ("mh_keep_query", "both"):
+                out.append((s.en or s.vi, s.vi))
             out += [(e, e) for e in s.ents]
         else:
-            out.append((s.en or s.vi, " ".join([s.vi, *s.ents])))
+            out.append(plain)
     return out[:MAX_UNITS]
 
 
