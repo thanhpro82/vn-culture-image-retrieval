@@ -38,3 +38,10 @@ Cần đặt trên repo: biến `DEPLOY_ENABLED=true`, biến `VPS_FINGERPRINT` 
 secrets `VPS_HOST`, `VPS_USER`, `VPS_SSH_KEY` (khoá SSH riêng cho CD, thêm khoá công khai vào `~/.ssh/authorized_keys` của VPS).
 Cổng 22 của VPS phải cho GitHub truy cập (IP của GitHub không cố định); chỉ mở khi cần và chỉ cho đăng nhập bằng khoá.
 Khi VPS tắt thì đặt `DEPLOY_ENABLED=false` để mỗi lần push vào `main` không báo lỗi.
+
+### Bằng chứng chạy thử (2026-10-21) và trạng thái hiện tại
+
+- Chạy tay từ nhánh `ci/deploy-hardening`: [run 39557409198](https://github.com/thanhpro82/vn-culture-image-retrieval/actions/runs/39557409198), thành công (lần đầu thất bại vì vân tay ED25519 không khớp, xem ghi chú ECDSA ở trên).
+- Chạy **hoàn toàn tự động** sau khi merge PR #8 vào `main` (push → CI xanh → Deploy tự chạy): [run 39558277555](https://github.com/thanhpro82/vn-culture-image-retrieval/actions/runs/39558277555), thành công; VPS cập nhật đúng commit `07719b8` và `/healthz` trả 200.
+- **Hiện CD đã tắt** (`DEPLOY_ENABLED=false`, các secrets `VPS_*` đã xoá, khoá CD đã gỡ khỏi VPS, cổng 22 trả về trạng thái hạn chế): máy chủ chỉ bật khi cần nên mỗi lần push vào `main` lúc VPS tắt sẽ báo lỗi nếu để bật.
+  Muốn bật lại: làm theo các bước ở mục trên (tạo khoá SSH CD mới, đặt lại secrets và biến, mở cổng 22 cho GitHub).
