@@ -38,6 +38,10 @@ main { display: grid; grid-template-columns: 1fr 260px; gap: 16px; padding: 16px
 .gold { display: grid; gap: 8px; margin-bottom: 14px; }
 .gold div { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; font-size: .98rem; }
 .gold small { display: block; color: var(--muted); font-size: .8rem; margin-bottom: 2px; }
+.strip { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.strip img { height: 104px; width: auto; border-radius: 6px; border: 1px solid var(--line); cursor: zoom-in; background: var(--line); }
+.lb { position: fixed; inset: 0; background: rgba(0,0,0,.82); display: none; align-items: center; justify-content: center; z-index: 10; cursor: zoom-out; }
+.lb img { max-width: 92vw; max-height: 92vh; border-radius: 8px; }
 .verdicts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
 .verdicts button { padding: 14px 8px; font-weight: 700; font-size: 1rem; }
 .verdicts kbd { display: block; font-weight: 400; font-size: .75rem; color: var(--muted); }
@@ -71,6 +75,7 @@ aside span.t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   <section class="card" id="card" aria-live="polite"></section>
   <aside id="list" aria-label="Danh sách truy vấn"></aside>
 </main>
+<div class="lb" id="lb" role="dialog" aria-label="Ảnh phóng to"><img id="lbimg" alt=""></div>
 <div class="toast" id="toast" role="status"></div>
 <script>
 (function () {
@@ -108,10 +113,21 @@ aside span.t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     card.appendChild(el("span", "tag", r.type + "  ·  " + r.id));
     card.appendChild(el("div", "q", r.query));
     var gold = el("div", "gold");
-    r.gold.split(" | ").forEach(function (part) {
+    r.gold.split(" | ").forEach(function (part, idx) {
       var m = part.match(/^([^\[]+)\[([^\]]*)\]:\s*(.*)$/), d = el("div");
       if (m) { d.appendChild(el("small", "", m[1].trim() + " · " + m[2])); d.appendChild(document.createTextNode(m[3])); }
       else { d.textContent = part; }
+      var imgs = (r.imgs && r.imgs[idx]) || [];
+      if (imgs.length) {
+        var strip = el("div", "strip");
+        imgs.forEach(function (u) {
+          var im = document.createElement("img"); im.src = u; im.alt = "Ảnh đáp án";
+          im.addEventListener("click", function () { $("lbimg").src = u; $("lb").style.display = "flex"; });
+          strip.appendChild(im);
+        });
+        d.appendChild(strip);
+        d.appendChild(el("small", "", "Ảnh mẫu trải đều qua các thực thể đáp án (bấm để phóng to)"));
+      } else { d.appendChild(el("small", "", "(không có ảnh mẫu)")); }
       gold.appendChild(d);
     });
     card.appendChild(gold);
@@ -178,10 +194,12 @@ aside span.t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     toast(left ? "Đã xuất. Còn " + left + " truy vấn chưa duyệt." : "Đã xuất đủ " + ROWS.length + " truy vấn.");
   }
 
+  $("lb").addEventListener("click", function () { $("lb").style.display = "none"; });
   $("export").addEventListener("click", exportCsv);
   $("reviewer").addEventListener("input", function (e) { state.reviewer = e.target.value; save(); });
   document.addEventListener("keydown", function (e) {
     var tag = (e.target && e.target.tagName) || "";
+    if (e.key === "Escape") { $("lb").style.display = "none"; }
     if (tag === "TEXTAREA" || tag === "INPUT") { if (e.key === "Escape") { e.target.blur(); } return; }
     var vis = visible(); if (!vis.length) { return; }
     var r = vis[cur];

@@ -26,3 +26,7 @@ node_modules/
 *.ppk
 *.key
 ir-key*
+
+# Trang duyệt có nhúng ảnh crawl từ nguồn khác: sinh cục bộ, không đưa lên repo công khai
+eval/datasets/review-form-*.html
+Data/review-form-*.html

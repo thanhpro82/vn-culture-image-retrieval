@@ -19,7 +19,7 @@ Ghi tên người duyệt và ngày ở cuối file hoặc trong báo cáo. Khi 
 
 ### Duyệt nhanh bằng trang HTML
 
-`python -m eval.make_review_html` sinh `review-form-seed0.html` từ bảng CSV ở trên (đã commit sẵn, mở thẳng bằng trình duyệt, không cần mạng).
-Mỗi lần hiện một truy vấn: phím **1** = đúng, **2** = sai, **3** = mơ hồ (tự chuyển sang truy vấn tiếp theo), **←/→** đi lại, **N** gõ ghi chú, **Esc** thoát ô ghi chú.
+`python -m eval.make_review_html` sinh `review-form-seed0.html` từ bảng CSV ở trên, kèm ảnh thu nhỏ của đáp án (cần `Data/images` và `Data/manifest.parquet`). Mở thẳng bằng trình duyệt, không cần mạng. **Không commit** file này (repo công khai, trang nhúng ảnh crawl từ nguồn khác): `.gitignore` đã chặn; gửi riêng cho người duyệt.
+Mỗi lần hiện một truy vấn kèm ảnh mẫu của từng ý (trải đều qua các thực thể đáp án, bấm ảnh để phóng to): phím **1** = đúng, **2** = sai, **3** = mơ hồ (tự chuyển sang truy vấn tiếp theo), **←/→** đi lại, **N** gõ ghi chú, **Esc** thoát ô ghi chú.
 Tiến độ tự lưu trong trình duyệt (đóng tab rồi mở lại vẫn còn, cùng máy và cùng trình duyệt). Bấm **Xuất CSV** để tải file `review-done-<ngày>.csv`
 (thêm cột `reviewer`); gửi file đó để đưa kết quả vào báo cáo.
