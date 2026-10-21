@@ -1,0 +1,10 @@
+{
+  "oos": {
+    "n": 20,
+    "flagged_rate": 0.35
+  },
+  "in_scope": {
+    "n": 45,
+    "flagged_rate": 0.0444
+  }
+}
