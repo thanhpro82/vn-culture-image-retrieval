@@ -12,6 +12,7 @@ Dữ liệu là ảnh di sản văn hoá, nên các truy vấn về du lịch bi
 | Repo nộp | repo tổ chức `VSF-AR-ES-V-Lookup/Retrieval_Image_NguyenTuanThanh` (riêng tư), nhánh `main` |
 | Web demo | <https://13-251-152-106.sslip.io> (VPS bật trong thời gian demo và chấm; nếu không vào được thì chạy bằng `docker compose` theo hướng dẫn bên dưới) |
 | Tài liệu phương pháp | [`docs/slides.pdf`](docs/slides.pdf) (xem ngay trên GitHub), [`docs/slides.html`](docs/slides.html) (bản có chuyển động: tải về, mở bằng trình duyệt, dùng phím ← → Home End), [`docs/architecture.md`](docs/architecture.md) (sơ đồ Mermaid), [`docs/adr/`](docs/adr/) |
+| Slide trên web demo | <https://13-251-152-106.sslip.io/slides.html> (có chuyển động, phím ← →), PDF: <https://13-251-152-106.sslip.io/slides.pdf> |
 | Báo cáo chất lượng, bộ test và cách tạo | [`docs/eval-report.md`](docs/eval-report.md), [`eval/datasets/`](eval/datasets/) |
 | Báo cáo hiệu năng, k6 | [`docs/perf-report.md`](docs/perf-report.md), [`docs/results/`](docs/results/), [`loadtest/`](loadtest/) |
 | Kịch bản demo | [`docs/demo-script.md`](docs/demo-script.md) |

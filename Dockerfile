@@ -17,6 +17,7 @@ COPY --from=builder /opt/venv /opt/venv
 WORKDIR /app
 COPY src ./src
 COPY web ./web
+COPY docs/slides.html docs/slides.pdf ./web/
 USER app
 EXPOSE 8000
 HEALTHCHECK --interval=15s --timeout=5s --start-period=120s --retries=5 \

@@ -437,3 +437,34 @@ def test_low_confidence_cleared_when_entity_words_are_spread_over_several_top_re
     names = [n for x in r["results"][:10] for n in x["entities"]]
     assert "Chợ nổi" in names and "Múa hổ" in names   # 'nổi' và 'hổ' nằm ở hai tên khác nhau
     assert r["subs"][0]["ents"] == [] and r["low_confidence"] is False
+
+
+def test_slides_duoc_phuc_vu_khong_can_khoa(client, tmp_path, monkeypatch):
+    c, _ = client
+    web = tmp_path / "web"
+    web.mkdir()
+    (web / "slides.html").write_text("<h1>slide</h1>", encoding="utf-8")
+    (web / "slides.pdf").write_bytes(b"%PDF-1.4")
+    monkeypatch.setattr("retrieval.api.WEB_DIR", web)
+    for path in ("/slides", "/slides.html"):
+        r = c.get(path)
+        assert r.status_code == 200 and r.headers["content-type"].startswith("text/html")
+    r = c.get("/slides.pdf")
+    assert r.status_code == 200 and r.headers["content-type"] == "application/pdf"
+
+
+def test_slides_thieu_file_tra_404(client, tmp_path, monkeypatch):
+    c, _ = client
+    monkeypatch.setattr("retrieval.api.WEB_DIR", tmp_path / "khong-co")
+    assert c.get("/slides.html").status_code == 404
+    assert c.get("/slides.pdf").status_code == 404
+
+
+def test_image_docker_chua_slide():
+    from pathlib import Path
+    root = Path(__file__).resolve().parent.parent
+    dockerfile = (root / "Dockerfile").read_text(encoding="utf-8")
+    ignore = (root / ".dockerignore").read_text(encoding="utf-8").split()
+    for name in ("slides.html", "slides.pdf"):
+        assert f"docs/{name}" in dockerfile
+        assert f"!docs/{name}" in ignore

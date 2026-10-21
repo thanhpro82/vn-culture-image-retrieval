@@ -4,6 +4,8 @@
 Data
 data
 docs
+!docs/slides.html
+!docs/slides.pdf
 tests
 eval
 reports

@@ -201,6 +201,21 @@ def create_app(svc: Services) -> FastAPI:
             raise HTTPException(status_code=404, detail="thiếu web/index.html")
         return FileResponse(page, media_type="text/html")
 
+    def _static(name: str, media_type: str):
+        page = WEB_DIR / name
+        if not page.exists():
+            raise HTTPException(status_code=404, detail=f"thiếu {name}")
+        return FileResponse(page, media_type=media_type)
+
+    @app.get("/slides", include_in_schema=False)
+    @app.get("/slides.html", include_in_schema=False)
+    def slides_html():
+        return _static("slides.html", "text/html")
+
+    @app.get("/slides.pdf", include_in_schema=False)
+    def slides_pdf():
+        return _static("slides.pdf", "application/pdf")
+
     @app.post("/embed", dependencies=[Depends(auth)])
     async def embed_endpoint(body: EmbedIn):
         async with cpu_slot:  # dùng chung khoá CPU với /search: hai việc nặng không tranh nhau luồng
