@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Annotated, Any, Literal
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 
@@ -78,11 +78,16 @@ def create_app(svc: Services) -> FastAPI:
 
     def auth(x_api_key: Annotated[str | None, Header()] = None) -> None:
         key = svc.settings.api_key
-        if not key or not x_api_key or not hmac.compare_digest(x_api_key, key):
+        # so sánh trên bytes: compare_digest với chuỗi không ASCII ném TypeError (thành lỗi 500 thay vì 401)
+        if not key or not x_api_key or not hmac.compare_digest(x_api_key.encode("utf-8"), key.encode("utf-8")):
             raise HTTPException(status_code=401, detail="API key không hợp lệ")
 
     @app.get("/healthz")
-    def healthz():
+    async def healthz():
+        try:  # Qdrant tắt thì API không phục vụ được: báo 503 để healthcheck của Docker/Caddy thấy
+            await asyncio.to_thread(svc.qdrant.get_collection, svc.collection)
+        except Exception:  # noqa: BLE001 - mọi lỗi kết nối hoặc thiếu collection đều là "không khoẻ"
+            return JSONResponse({"status": "degraded", "qdrant": "unavailable"}, status_code=503)
         return {"status": "ok"}
 
     async def understand(q: str) -> ParsedQuery:
@@ -193,15 +198,17 @@ def create_app(svc: Services) -> FastAPI:
 
     @app.post("/embed", dependencies=[Depends(auth)])
     async def embed_endpoint(body: EmbedIn):
-        if body.space == "image":
-            vecs = await asyncio.to_thread(svc.embedder.text_siglip, body.texts)
-        else:
-            vecs, _ = await asyncio.to_thread(svc.embedder.text_bge, body.texts)
+        async with cpu_slot:  # dùng chung khoá CPU với /search: hai việc nặng không tranh nhau luồng
+            if body.space == "image":
+                vecs = await asyncio.to_thread(svc.embedder.text_siglip, body.texts)
+            else:
+                vecs, _ = await asyncio.to_thread(svc.embedder.text_bge, body.texts)
         return {"space": body.space, "dim": len(vecs[0]), "vectors": [v.tolist() for v in vecs]}
 
     @app.post("/rerank", dependencies=[Depends(auth)])
     async def rerank_endpoint(body: RerankIn):
-        scores = await asyncio.to_thread(svc.reranker.score, body.query, body.documents)
+        async with cpu_slot:
+            scores = await asyncio.to_thread(svc.reranker.score, body.query, body.documents)
         order = sorted(range(len(scores)), key=lambda i: -scores[i])[: body.top_n]
         return {"results": [{"index": i, "score": float(scores[i]), "document": body.documents[i]}
                             for i in order]}

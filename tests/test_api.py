@@ -343,3 +343,64 @@ def test_demo_endpoint_is_rate_limited_per_client_but_keyed_endpoint_is_not(clie
 def test_ui_handles_low_confidence_and_throttling(client):
     html = client[0].get("/").text
     assert "low_confidence" in html and "429" in html and "503" in html
+
+
+# ---------- gia cố sau khi triển khai thử ----------
+def test_non_ascii_api_key_is_401_not_500(client):
+    c, _ = client
+    r = c.post("/search", json={"query": "áo bà ba"}, headers={"X-API-Key": b"k" + bytes([0xF3])})  # byte 0xF3: không phải ASCII
+    assert r.status_code == 401
+
+
+def test_healthz_reports_unhealthy_when_qdrant_is_down(client):
+    c, svc = client
+
+    class Down:
+        def get_collection(self, *a, **k):
+            raise ConnectionError("qdrant tắt")
+
+    svc.qdrant = Down()
+    r = c.get("/healthz")
+    assert r.status_code == 503
+    assert r.json()["status"] == "degraded"
+
+
+def test_healthz_ok_when_collection_exists(client):
+    c, _ = client
+    r = c.get("/healthz")
+    assert r.status_code == 200 and r.json() == {"status": "ok"}
+
+
+async def test_embed_and_rerank_endpoints_share_the_cpu_slot(client):
+    import asyncio
+    import threading
+    import time
+
+    import httpx
+
+    c, svc = client
+    state = {"active": 0, "max": 0}
+    lock = threading.Lock()
+
+    def tracked(fn):
+        def inner(*a, **k):
+            with lock:
+                state["active"] += 1
+                state["max"] = max(state["max"], state["active"])
+            time.sleep(0.15)
+            try:
+                return fn(*a, **k)
+            finally:
+                with lock:
+                    state["active"] -= 1
+        return inner
+
+    svc.embedder.text_siglip = tracked(svc.embedder.text_siglip)
+    svc.reranker.score = tracked(svc.reranker.score)
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=c.app), base_url="http://t") as ac:
+        rs = await asyncio.gather(
+            ac.post("/embed", json={"texts": ["a"], "space": "image"}, headers=H),
+            ac.post("/rerank", json={"query": "q", "documents": ["x", "yy"]}, headers=H),
+            ac.post("/embed", json={"texts": ["b"], "space": "image"}, headers=H))
+    assert all(r.status_code == 200 for r in rs)
+    assert state["max"] == 1
