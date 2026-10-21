@@ -6,7 +6,7 @@ Chưa có tên miền thì dùng `<IP-dấu-gạch>.sslip.io` (ví dụ `13-251-
 ```bash
 sudo apt-get update && sudo apt-get install -y docker.io docker-compose-v2 git
 sudo usermod -aG docker "$USER"            # đăng nhập lại để có hiệu lực
-git clone https://github.com/thanhpro82/vn-culture-image-retrieval.git && cd vn-culture-image-retrieval
+git clone https://github.com/thanhpro82/vn-culture-image-retrieval.git && cd vn-culture-image-retrieval   # bản công khai (VPS dùng bản này); bản nộp bài là repo riêng tư trong tổ chức, xem README
 ```
 
 1. Tạo `.env` (quyền 600): `GEMINI_API_KEY`, `AWS_*`, `S3_BUCKET`, `S3_PREFIX`, `API_KEY` (chuỗi ngẫu nhiên mới), `DOMAIN=<tên miền>`;
