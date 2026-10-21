@@ -20,7 +20,19 @@ jobs:
     if: ${{ vars.DEPLOY_ENABLED == 'true' && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success') }}
     runs-on: ubuntu-latest
     steps:
+      - name: Kiểm tra VPS có bật không
+        id: up
+        env:
+          HOST: ${{ secrets.VPS_HOST }}
+        run: |
+          if timeout 10 bash -c "</dev/tcp/$HOST/22" 2>/dev/null; then
+            echo "up=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "up=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::VPS không phản hồi cổng 22 (máy đang tắt?): bỏ qua deploy"
+          fi
       - name: Cập nhật và khởi động lại trên VPS
+        if: steps.up.outputs.up == 'true'
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VPS_HOST }}
