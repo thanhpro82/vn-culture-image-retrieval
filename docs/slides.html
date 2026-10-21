@@ -227,13 +227,14 @@ dup_group     nhóm ảnh gần trùng (pHash)</pre>
     <tr><td>Hybrid, không rerank</td><td class="n">0,93</td><td class="n">0,99</td><td class="n">0,34</td></tr>
     <tr><td><b>Hybrid + rerank có ngân sách (19/10)</b></td><td class="n">0,96</td><td class="n">1,00</td><td class="n">0,37</td></tr>
     <tr><td><b>Sau cải tiến ghép truy vấn (21/10)</b></td><td class="n good">0,99</td><td class="n good">1,00</td><td class="n bad">0,50</td></tr>
+    <tr><td><b>Bộ test v2: mô tả tự nhiên, không lộ tên (21/10, 40 query mỗi loại)</b></td><td class="n bad">0,70</td><td class="n">0,83</td><td class="n bad">0,38</td></tr>
   </table>
   <div class="grid g2">
     <div class="card"><h3>Cách tạo test case</h3>
       <p>Sinh từ tên thực thể và quan hệ giữa thực thể và danh mục, <b>không</b> sinh từ caption đã index (tránh rò rỉ). Đáp án: các ảnh thuộc thực thể được nhắm tới. Chia nhóm theo <code>entity_id</code>.</p></div>
     <div class="card"><h3>Hạn chế của phép đo</h3>
       <ul><li>Bộ test chưa có người duyệt.</li>
-      <li>Query một ý dùng tên thực thể nên dễ hơn thực tế.</li>
+      <li>Bộ v1 lạc quan: query một ý dùng tên thực thể. Trên bộ v2 (mô tả tự nhiên, không lộ tên) Recall@10 thấp hơn rõ: 0,70 / 0,83 / 0,38.</li>
       <li>Query suy luận yếu vì nhiều thực thể suy ra không có ảnh trong dữ liệu di sản.</li></ul></div>
   </div>
 </section>
@@ -264,7 +265,7 @@ dup_group     nhóm ảnh gần trùng (pHash)</pre>
         <li>Truy vấn suy luận vẫn là điểm yếu nhất: 0,50 sau cải tiến (trước đó 0,37).</li>
         <li>Từ 3 người dùng đồng thời, độ trễ vượt 3 giây (CPU bão hoà).</li>
         <li>Phụ thuộc Gemini (mạng, khoá) và endpoint rerank tạm của mentor (hạn mức chung 50 yêu cầu/phút).</li>
-        <li>Truy vấn ngoài dữ liệu: không từ chối, chỉ gắn cờ <code>low_confidence</code>.</li>
+        <li>Truy vấn ngoài dữ liệu: không từ chối, chỉ gắn cờ <code>low_confidence</code> (bật cho 7/20 truy vấn ngoài dữ liệu, 2/45 truy vấn trong dữ liệu).</li>
       </ul></div>
     <div class="card"><h3>Chưa làm</h3>
       <ul>

@@ -1,0 +1,90 @@
+{
+  "candidates": 16,
+  "policies": {
+    "current": {
+      "multi_hop": {
+        "n": 40,
+        "recall@10": 0.35,
+        "intent_cov@10": 0.35
+      },
+      "multi_intent": {
+        "n": 40,
+        "recall@10": 0.775,
+        "intent_cov@10": 0.5125
+      },
+      "single": {
+        "n": 40,
+        "recall@10": 0.55,
+        "intent_cov@10": 0.55
+      }
+    },
+    "vi_only": {
+      "multi_hop": {
+        "n": 40,
+        "recall@10": 0.375,
+        "intent_cov@10": 0.375
+      },
+      "multi_intent": {
+        "n": 40,
+        "recall@10": 0.875,
+        "intent_cov@10": 0.575
+      },
+      "single": {
+        "n": 40,
+        "recall@10": 0.675,
+        "intent_cov@10": 0.675
+      }
+    },
+    "mh_keep_query": {
+      "multi_hop": {
+        "n": 40,
+        "recall@10": 0.375,
+        "intent_cov@10": 0.375
+      },
+      "multi_intent": {
+        "n": 40,
+        "recall@10": 0.775,
+        "intent_cov@10": 0.5125
+      },
+      "single": {
+        "n": 40,
+        "recall@10": 0.55,
+        "intent_cov@10": 0.55
+      }
+    },
+    "both": {
+      "multi_hop": {
+        "n": 40,
+        "recall@10": 0.4,
+        "intent_cov@10": 0.4
+      },
+      "multi_intent": {
+        "n": 40,
+        "recall@10": 0.875,
+        "intent_cov@10": 0.575
+      },
+      "single": {
+        "n": 40,
+        "recall@10": 0.675,
+        "intent_cov@10": 0.675
+      }
+    },
+    "ignore_ents": {
+      "multi_hop": {
+        "n": 40,
+        "recall@10": 0.4,
+        "intent_cov@10": 0.4
+      },
+      "multi_intent": {
+        "n": 40,
+        "recall@10": 0.875,
+        "intent_cov@10": 0.575
+      },
+      "single": {
+        "n": 40,
+        "recall@10": 0.7,
+        "intent_cov@10": 0.7
+      }
+    }
+  }
+}

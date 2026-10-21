@@ -146,3 +146,28 @@ Hạn chế khi đọc bảng này:
 - Một truy vấn suy luận chạm 3.198 ms (p95 2.676 ms; max trước đó 2.712 ms): cách ghép mới thêm một lần nhúng cho truy vấn suy luận.
 - Bộ test sinh từ chính các trường "thể loại" và "địa bàn" của dữ liệu nên có lợi cho cách ghép dựa vào văn bản; truy vấn của người dùng thật có thể kém hơn.
 - Suy luận vẫn là điểm yếu: 0,50.
+
+## Bộ test v2: truy vấn mô tả tự nhiên, không lộ tên thực thể (đo 2026-10-21)
+
+**Lý do:** ở bộ v1, truy vấn một ý chính là tên thực thể (mà tên thực thể nằm trong văn bản đã index) và truy vấn suy luận chỉ là "thể loại + địa bàn", nên số đo lạc quan.
+`eval/build_testset_v2.py` (seed 1) để Gemini viết truy vấn từ **mô tả** thực thể, kiểm tra không chứa tên (nguyên văn hoặc 3 từ liên tiếp của tên, có nhắc lại khi lộ):
+40 truy vấn mỗi loại. `single`: mô tả một đối tượng; `multi_intent`: hai đối tượng khác thể loại trong một câu; `multi_hop`: yêu cầu mức khái niệm cho một nhóm (thể loại + địa bàn).
+Thêm 20 truy vấn **ngoài dữ liệu** (`testset-v2-oos.jsonl`, ví dụ "xe điện VinFast", "cầu thủ Quang Hải") để đo khả năng cảnh báo.
+Truy vấn do LLM sinh và **chưa được người duyệt**; bảng duyệt đã tạo (`review-sheet-seed1.csv`) nhưng chưa điền. Một truy vấn mô tả có thể hợp lệ với nhiều thực thể ngoài đáp án nên Recall có thể thấp hơn giá trị thật.
+
+**Recall@10 trên bộ v2** (hybrid, cách ghép `both`, 40 truy vấn mỗi loại; phủ ý của nhiều ý trong ngoặc):
+
+| Cấu hình | Một ý | Nhiều ý | Suy luận | Nguồn |
+|---|---|---|---|---|
+| Không rerank | 0,725 | 0,875 (0,588) | 0,350 | `docs/results/eval-v2-norerank.json` |
+| Có rerank (endpoint ngoài, có quay về local) | 0,700 | 0,825 (0,538) | 0,375 | `docs/results/eval-v2-rerank.json` |
+| So sánh cách ghép, chỉ truy xuất: `current` cũ | 0,550 | 0,775 (0,513) | 0,350 | `docs/results/units-ablation-v2.json` |
+| So sánh cách ghép, chỉ truy xuất: `both` | 0,675 | 0,875 (0,575) | 0,400 | như trên |
+
+Kết luận và hạn chế:
+- **Bộ v1 lạc quan:** cùng hệ thống cho 0,99 / 1,00 / 0,50 trên bộ v1 nhưng chỉ khoảng 0,70 / 0,83-0,88 / 0,35-0,38 trên bộ v2. Số đo thực tế cho truy vấn mô tả tự nhiên là bộ v2.
+- **Cải tiến cách ghép vẫn đúng chiều trên bộ khó hơn** (một ý 0,55 → 0,675; nhiều ý 0,775 → 0,875; suy luận 0,35 → 0,40), nhưng mỗi nhóm chỉ 40 truy vấn nên từng chênh lệch riêng lẻ chưa vượt dao động của mẫu nhỏ.
+- **Rerank không tăng Recall trên bộ v2** (nằm trong dao động) và thêm độ trễ: p95 với rerank là 2.782 / 3.394 / 2.723 ms (một ý / nhiều ý / suy luận), vượt 3 giây ở nhiều ý, max 4.948 ms ở một ý.
+  Hai lần chạy có thể khác nhau do phân tích Gemini không hoàn toàn lặp lại (so sánh `both` chỉ truy xuất 0,675 với 0,725 ở lần chạy API không rerank, cùng cấu hình).
+- **Cảnh báo ngoài dữ liệu yếu:** cờ `low_confidence` bật cho 7/20 (35%) truy vấn ngoài dữ liệu và 2/45 (4,4%) truy vấn trong dữ liệu (`docs/results/abstain-v2.json`).
+  Cờ chỉ bật khi Gemini đề xuất thực thể mà không thực thể nào có trong dữ liệu, nên truy vấn mà Gemini không đề xuất thực thể thì không bị cảnh báo.
