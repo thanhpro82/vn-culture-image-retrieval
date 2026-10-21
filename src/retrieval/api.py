@@ -24,7 +24,7 @@ from retrieval.storage import ImageStore, LocalStore
 WEB_DIR = Path(os.environ.get("WEB_DIR", "web"))
 CANDIDATES = 16  # ngân sách rerank, xem ADR-002
 CACHE_SIZE = 512
-LOW_CONF_CHECK = 5  # số ảnh đầu dùng để kiểm tra bằng chứng cho cờ độ tin cậy thấp
+LOW_CONF_CHECK = 10  # số ảnh đầu dùng để kiểm tra bằng chứng cho cờ độ tin cậy thấp (chọn theo số đo, xem docs/eval-report.md)
 
 
 @dataclass
@@ -131,7 +131,7 @@ def create_app(svc: Services) -> FastAPI:
                                            svc.collection, 3, branches, parts)
         t2 = time.perf_counter()
         if low_confidence and entities_supported(
-                proposed_ents, [n for h in hits[:LOW_CONF_CHECK] for n in (h.entity_names or [])]):
+                proposed_ents, [n for h in hits[:LOW_CONF_CHECK] for n in (h.entity_names or [])], pooled=True):
             low_confidence = False  # tên đề xuất không khớp danh mục nhưng ảnh trả về đúng là thực thể đó: không cảnh báo
         elapsed_ms = (t2 - t0) * 1000
         reranked = False

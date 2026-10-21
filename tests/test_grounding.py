@@ -64,3 +64,22 @@ def test_entities_not_supported_when_words_are_split_across_results_or_absent():
     assert not entities_supported(["VinFast"], texts)
     assert not entities_supported([], texts)
     assert not entities_supported(["Nhà thờ"], [])
+
+
+def test_entity_coverage_single_name_vs_pooled():
+    from retrieval.grounding import entity_coverage
+    names = ["Hội chữ Xuân Văn Miếu", "Chuông Văn Miếu (Hà Nội)", "Bia Tiến sĩ Quốc Tử Giám"]
+    ent = ["Văn Miếu Quốc Tử Giám"]                      # 5 từ: văn, miếu, quốc, tử, giám
+    assert entity_coverage(ent, names, pooled=False) == 3 / 5   # tốt nhất một tên đơn: "Quốc Tử Giám" (3 từ)
+    assert entity_coverage(ent, names, pooled=True) == 1.0      # gộp các tên: đủ cả 5 từ
+    assert entity_coverage([], names, pooled=True) == 0.0
+    assert entity_coverage(ent, [], pooled=True) == 0.0
+
+
+def test_entities_supported_threshold_and_pooling():
+    from retrieval.grounding import entities_supported
+    names = ["Hội chữ Xuân Văn Miếu", "Bia Tiến sĩ Quốc Tử Giám"]
+    assert not entities_supported(["Văn Miếu Quốc Tử Giám"], names)                      # mặc định: trọn trong một tên
+    assert entities_supported(["Văn Miếu Quốc Tử Giám"], names, pooled=True)             # gộp các tên
+    assert entities_supported(["Văn Miếu Quốc Tử Giám"], names, threshold=0.6)           # đủ 60% từ trong một tên
+    assert not entities_supported(["Hổ Đông Dương"], ["Tranh Ngũ hổ", "Làng tranh Đông Hồ"], pooled=False)

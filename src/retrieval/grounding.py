@@ -74,10 +74,19 @@ def _tokens(s: str) -> set[str]:
     return set(re.findall(r"\w+", _fold(s)))
 
 
-def entities_supported(ents: list[str], names: list[str]) -> bool:
-    """Thực thể LLM đề xuất có hiện diện ở ảnh trả về không, kể cả khi tên không khớp danh mục theo cụm liền nhau
-    (ví dụ "Nhà thờ Phát Diệm" so với "Nhà thờ chính tòa Phát Diệm (Nhà thờ đá)"): mọi từ của thực thể phải nằm trong
-    cùng MỘT tên thực thể của ảnh. Không dùng tiêu đề trang hay chú thích vì các từ rải rác trong văn bản dài làm
-    cảnh báo bị xoá oan (ví dụ "Hổ Đông Dương" với một tiêu đề tranh Đông Hồ có chữ hổ)."""
+def entity_coverage(ents: list[str], names: list[str], pooled: bool = False) -> float:
+    """Độ phủ tốt nhất (0..1) của một thực thể đề xuất: tỉ lệ từ của thực thể xuất hiện trong tên thực thể của ảnh trả về.
+    pooled=False: tính trong từng tên riêng (lấy tên tốt nhất); pooled=True: gộp từ của mọi tên."""
     wanted = [t for t in (_tokens(e) for e in ents) if t]
-    return any(w <= _tokens(name) for name in names for w in wanted)
+    if not wanted or not names:
+        return 0.0
+    sets = [set().union(*(_tokens(n) for n in names))] if pooled else [_tokens(n) for n in names]
+    return max(len(w & have) / len(w) for w in wanted for have in sets)
+
+
+def entities_supported(ents: list[str], names: list[str], threshold: float = 1.0, pooled: bool = False) -> bool:
+    """Thực thể LLM đề xuất có hiện diện ở ảnh trả về không, kể cả khi tên không khớp danh mục theo cụm liền nhau
+    (ví dụ "Nhà thờ Phát Diệm" so với "Nhà thờ chính tòa Phát Diệm (Nhà thờ đá)").
+    Mặc định mọi từ của thực thể phải nằm trong cùng MỘT tên thực thể của ảnh. Không dùng tiêu đề trang hay chú thích
+    vì các từ rải rác trong văn bản dài làm cảnh báo bị xoá oan. `threshold` và `pooled` để đo các mức nới lỏng."""
+    return entity_coverage(ents, names, pooled) >= threshold

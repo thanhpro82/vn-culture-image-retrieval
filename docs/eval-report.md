@@ -190,3 +190,36 @@ Kết luận và hạn chế:
 Được xoá oan: 3 truy vấn (gồm "nhà thờ Phát Diệm"). Không mất cảnh báo đúng nào.
 Hạn chế: cải thiện khiêm tốn. Vẫn còn khoảng 4,7% cờ oan, và chỉ bắt được một nửa truy vấn ngoài dữ liệu; cờ phụ thuộc vào việc Gemini có đề xuất thực thể hay không
 (Gemini không trả lời giống nhau mỗi lần). Muốn tốt hơn cần một thước đo dựa trên độ giống giữa truy vấn và ảnh thay vì tên thực thể; chưa làm.
+
+## Bộ 60 câu kiểm tra tay của người dùng (đo 2026-10-21, trên VPS, bản `main` lúc đó)
+
+`eval/datasets/manual-checklist-v1.json`: 20 câu dễ (tên riêng), 20 câu vừa (mô tả hình ảnh), 20 câu khó (suy luận, không nêu tên), kèm từ khoá mong đợi rút từ chính mô tả của từng câu.
+Chạy bằng `python -m eval.run_checklist` (kết quả thô `docs/results/checklist-run1.json`). Chấm tự động theo từ khoá **dễ dãi** (từ xuất hiện ở tên thực thể, chú thích hoặc tiêu đề trang
+của bất kỳ ảnh nào trong top 10): cả 60 câu đạt, nên con số này **không** phản ánh chất lượng thật. Đánh giá bằng tay các câu (xem tên thực thể của 5 ảnh đầu):
+
+| Mức | Đánh giá tay | Ghi chú |
+|---|---|---|
+| Dễ (20) | khoảng 19/20 tốt | Yếu nhất: "Chợ nổi miền Tây": ảnh đầu đúng, 4 ảnh sau là Chợ Bình Tây (không phải chợ nổi) |
+| Vừa (20) | khoảng 14-15/20 tốt | Yếu rõ: "Người biểu diễn nhạc cụ truyền thống trước khán giả" ra các dân tộc (Lô Lô, Xtiêng...), "công trình cổ có hình rồng", "chùa bên hồ có cây cổ thụ" |
+| Khó (20) | khoảng 16/20 đúng hẳn, 4 đúng một phần | Đúng: sĩ tử → Bia tiến sĩ Văn Miếu, xin chữ → ông đồ, Lang Liêu → bánh chưng, thờ Mẫu, cồng chiêng. Một phần: "biểu tượng nghìn năm văn hiến" → Cột cờ Hà Nội, "nơi cộng đồng làng" → Gươl, giao thoa Việt-Hoa, "hiện vật thời vua Hùng" → Đền Hùng (không phải bảo tàng) |
+
+Độ trễ trên VPS (qua HTTPS từ máy dev, một người dùng): p50 1.86 giây, p95 3.01 giây, max 5.4 giây; 4/60 câu quá 3 giây (đều ở mức khó), 0 câu quá 3 giây ở mức dễ và vừa. Đánh giá tay là của một người (chủ dự án), không độc lập.
+Điểm yếu rõ: **câu mô tả cảnh bằng hình ảnh, không có tên riêng**, tìm theo tên thực thể và chú thích nên dễ ra sai nhóm.
+
+**Cờ `low_confidence` trên bộ này:** 7/60 câu bị cảnh báo oan (11,7%), ví dụ "Văn Miếu Quốc Tử Giám", "chợ nổi" (kết quả đều đúng). Đây là loại lỗi như "nhà thờ Phát Diệm".
+
+### Cải tiến quy tắc cờ lần hai (đo 2026-10-21)
+
+Quy tắc trước (xem mục "Cờ low_confidence: sửa cảnh báo oan") chỉ tính khi mọi từ của thực thể nằm trong **một** tên của 5 ảnh đầu. Với "Văn Miếu Quốc Tử Giám" thì các từ nằm ở các tên khác nhau ("Chuông Văn Miếu", "Bia Tiến sĩ Quốc Tử Giám").
+So sánh có kiểm soát (`eval/flag_ablation.py`, `docs/results/flag-ablation-rules.json`; cùng phân tích Gemini; 294 truy vấn trong dữ liệu gồm bộ v1 một ý, bộ v2, câu mẫu demo, bộ 60 câu; và 20 truy vấn ngoài dữ liệu):
+
+| Quy tắc | Cờ oan (294 trong dữ liệu) | Bắt đúng (20 ngoài dữ liệu) |
+|---|---|---|
+| Cũ: không kiểm tra bằng chứng | 20 (6,8%) | 8 |
+| Trước đó: trọn trong một tên, top 5 | 17 (5,8%) | 8 |
+| **Mới: gộp từ của các tên trong top 10, đủ mọi từ** | **11 (3,7%)** | **8** |
+| Gộp top 10, đủ 75% từ | 10 | 8 |
+| Gộp top 10, đủ 60% từ | 10 | 7 |
+
+Chọn "gộp top 10, đủ mọi từ": cờ oan 20 → 11 mà không mất cảnh báo đúng nào; các mức nới lỏng hơn chỉ hơn thêm 1 nhưng bắt đầu mất cảnh báo đúng.
+Nhóm câu mẫu demo từ 3 cờ oan xuống 0. Hạn chế: chỉ 20 truy vấn ngoài dữ liệu; còn khoảng 3,7% cờ oan; Gemini không trả lời giống nhau mỗi lần nên con số dao động giữa các lần chạy.

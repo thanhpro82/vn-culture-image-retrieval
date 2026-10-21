@@ -1,0 +1,121 @@
+{
+  "__oos__": {
+    "n": 20,
+    "old": 8,
+    "single5_full": 8,
+    "single10_full": 8,
+    "pooled10_full": 8,
+    "single10_075": 8,
+    "single10_060": 8,
+    "pooled10_075": 8,
+    "pooled10_060": 7,
+    "wrongly_flagged_by_old": [
+      "ảnh con trai chủ tịch Phạm Nhật Vượng",
+      "xe điện VinFast",
+      "đội tuyển bóng đá Việt Nam ăn mừng bàn thắng",
+      "chó và mèo thú cưng trong nhà",
+      "cầu thủ Quang Hải",
+      "con voi châu Phi ở thảo nguyên",
+      "xe đua công thức một",
+      "khu trượt tuyết ở châu Âu"
+    ]
+  },
+  "v1_single": {
+    "n": 100,
+    "old": 2,
+    "single5_full": 1,
+    "single10_full": 1,
+    "pooled10_full": 1,
+    "single10_075": 1,
+    "single10_060": 1,
+    "pooled10_075": 1,
+    "pooled10_060": 1,
+    "wrongly_flagged_by_old": [
+      "Khuyên tai hai đầu thú Sa Huỳnh",
+      "Lư hương/chân đèn gỗ tiện chạm"
+    ]
+  },
+  "v2": {
+    "n": 120,
+    "old": 8,
+    "single5_full": 7,
+    "single10_full": 7,
+    "pooled10_full": 6,
+    "single10_075": 7,
+    "single10_060": 7,
+    "pooled10_075": 6,
+    "pooled10_060": 6,
+    "wrongly_flagged_by_old": [
+      "anh chup khu mo nu liet si thanh nien xung phong",
+      "Tranh dân gian đôi nam nữ gặp nhau trên cầu Ô Thước",
+      "ảnh kiến trúc ngôi đình cổ ở vùng núi Bình Liêu",
+      "Hình ảnh đoàn người đang trang nghiêm khiêng kiệu mừng thọ cụ cao niên ở làng quê Việt Nam và bộ trang phục truyền thống sặc sỡ với các hoa văn hình học độc đáo của đồng bào dân tộc thiểu số miền núi phía Bắc",
+      "Tìm kiếm hình ảnh các cổ vật và hiện vật lịch sử truyền thống tại Việt Nam",
+      "hình ảnh các cơ sở làm kẹo đặc sản truyền thống tại thành phố Huế",
+      "Hình ảnh các hiện vật gốm cổ của nền văn hóa Óc Eo tại Việt Nam",
+      "hình ảnh các loại trang sức cổ xưa tại Việt Nam"
+    ]
+  },
+  "demo": {
+    "n": 14,
+    "old": 3,
+    "single5_full": 2,
+    "single10_full": 2,
+    "pooled10_full": 0,
+    "single10_075": 0,
+    "single10_060": 0,
+    "pooled10_075": 0,
+    "pooled10_060": 0,
+    "wrongly_flagged_by_old": [
+      "nhà thờ Phát Diệm",
+      "chợ nổi và múa lân",
+      "chợ nổi"
+    ]
+  },
+  "checklist_easy": {
+    "n": 20,
+    "old": 1,
+    "single5_full": 1,
+    "single10_full": 1,
+    "pooled10_full": 1,
+    "single10_075": 1,
+    "single10_060": 1,
+    "pooled10_075": 1,
+    "pooled10_060": 1,
+    "wrongly_flagged_by_old": [
+      "Văn Miếu Quốc Tử Giám"
+    ]
+  },
+  "checklist_medium": {
+    "n": 20,
+    "old": 2,
+    "single5_full": 2,
+    "single10_full": 2,
+    "pooled10_full": 1,
+    "single10_075": 1,
+    "single10_060": 1,
+    "pooled10_075": 1,
+    "pooled10_060": 1,
+    "wrongly_flagged_by_old": [
+      "Đoàn người rước kiệu trong lễ hội truyền thống",
+      "Chợ nổi có thuyền bán trái cây và người mua hàng"
+    ]
+  },
+  "checklist_hard": {
+    "n": 20,
+    "old": 4,
+    "single5_full": 4,
+    "single10_full": 4,
+    "pooled10_full": 2,
+    "single10_075": 3,
+    "single10_060": 3,
+    "pooled10_075": 1,
+    "pooled10_060": 1,
+    "wrongly_flagged_by_old": [
+      "Nơi các sĩ tử ngày xưa đến học tập và thi cử",
+      "Phương tiện di chuyển phổ biến trên sông nước miền Tây ngày xưa",
+      "Nơi người dân buôn bán trực tiếp trên mặt nước",
+      "Nơi gìn giữ những hiện vật từ thời các vua Hùng"
+    ]
+  }
+}
