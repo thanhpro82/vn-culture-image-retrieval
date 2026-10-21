@@ -1,0 +1,38 @@
+"""Kiểm tra bất biến của trang web demo (web/index.html), không chạy trình duyệt."""
+import re
+from pathlib import Path
+
+import pytest
+from eval.build_testset_v2 import OUT_OF_SCOPE
+
+HTML = Path("web/index.html").read_text(encoding="utf-8")
+GOOD_EXAMPLES = ["cầu Long Biên", "nhà thờ Phát Diệm", "áo dài Huế và nhà thờ Phát Diệm", "chợ nổi và múa lân"]
+
+
+def test_examples_are_verified_queries_not_out_of_data_ones():
+    for q in GOOD_EXAMPLES:
+        assert q in HTML, q
+    for q in OUT_OF_SCOPE + ["động vật sống trong rừng", "con hổ và con mèo", "hồ bơi và công viên nước ở Phú Quốc"]:
+        assert q not in HTML, f"gợi ý mẫu không được chứa truy vấn ngoài dữ liệu: {q}"
+
+
+def test_page_never_builds_markup_from_data():
+    assert "innerHTML" not in HTML and "insertAdjacentHTML" not in HTML and "document.write" not in HTML
+
+
+@pytest.mark.parametrize("needle", ["prefers-reduced-motion", "<dialog", "skeleton", "aria-live", "focus-visible", "low_confidence", "429", "503"])
+def test_page_has_accessibility_and_state_features(needle):
+    assert needle in HTML
+
+
+def test_page_shows_how_the_query_was_understood():
+    assert "d.subs" in HTML or ".subs" in HTML
+
+
+def test_broken_images_keep_their_card():
+    assert "card.remove()" not in HTML
+
+
+def test_no_external_resources():
+    assert not re.search(r'(src|href)="https?://', HTML)
+    assert "@import" not in HTML

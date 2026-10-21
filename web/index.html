@@ -4,76 +4,248 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tìm ảnh văn hoá Việt Nam</title>
+<meta name="description" content="Tìm ảnh di sản văn hoá Việt Nam bằng mô tả tiếng Việt: một ý, nhiều ý hoặc câu cần suy luận.">
 <style>
-  :root { --bg:#fbfaf7; --fg:#1f2328; --muted:#6b7280; --card:#fff; --line:#e5e1d8; --accent:#a4322b; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#16181b; --fg:#e8e6e1; --muted:#9aa0a6; --card:#1f2226; --line:#32363b; --accent:#e5776f; } }
+  :root {
+    --bg: #f7f4ee; --panel: #ffffff; --fg: #1d2127; --muted: #565c66; --line: #ddd7cb; --soft: #efe9dd;
+    --accent: #9b2c24; --on-accent: #ffffff; --accent-soft: #f6e3e0;
+    --warn-bg: #fbf0d0; --warn-fg: #6b4a00; --warn-line: #e3c36a;
+    --err-bg: #fbe3e0; --err-fg: #8a1f17;
+    --t1: #2a5d9f; --t2: #2f7d4f; --t3: #8a5a00;
+    --shadow: 0 1px 2px rgba(0,0,0,.06), 0 4px 14px rgba(0,0,0,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a; --panel: #1d2025; --fg: #ebe8e2; --muted: #a8aeb8; --line: #333840; --soft: #262a30;
+      --accent: #f0928a; --on-accent: #1d0f0d; --accent-soft: #3a2421;
+      --warn-bg: #3a3118; --warn-fg: #f0d58a; --warn-line: #6b5a22;
+      --err-bg: #3d2320; --err-fg: #f5b3ac;
+      --t1: #8db8f0; --t2: #7fcf9f; --t3: #e8bd5c;
+      --shadow: none;
+    }
+  }
   * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
-  main { max-width:1100px; margin:0 auto; padding:24px 16px 48px; }
-  h1 { font-size:1.5rem; margin:0 0 4px; }
-  .sub { color:var(--muted); margin:0 0 16px; }
-  form { display:flex; gap:8px; }
-  input[type=search] { flex:1; padding:12px 14px; font-size:1rem; border:1px solid var(--line); border-radius:8px; background:var(--card); color:var(--fg); min-width:0; }
-  button { padding:12px 18px; font-size:1rem; border:0; border-radius:8px; background:var(--accent); color:#fff; cursor:pointer; }
-  button:disabled { opacity:.6; cursor:wait; }
-  .chips { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 4px; }
-  .chip { padding:6px 10px; border:1px solid var(--line); border-radius:999px; background:var(--card); color:var(--fg); font-size:.875rem; cursor:pointer; }
-  #meta { color:var(--muted); font-size:.875rem; margin:16px 0 8px; min-height:1.4em; }
-  #grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
-  .card img { display:block; width:100%; aspect-ratio:4/3; object-fit:cover; background:var(--line); }
-  .card .t { padding:8px 10px; font-size:.875rem; }
-  .card .e { font-weight:600; }
-  .card .c { color:var(--muted); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-  .err { color:var(--accent); }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 1120px; margin: 0 auto; padding: 32px 16px 56px; }
+  .eyebrow { font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+  h1 { font-size: clamp(1.7rem, 4vw, 2.6rem); line-height: 1.15; margin: 0 0 8px; letter-spacing: -.01em; }
+  .sub { color: var(--muted); margin: 0 0 22px; font-size: 1.05rem; max-width: 62ch; }
+  form { display: flex; gap: 10px; }
+  input[type=search] { flex: 1; min-width: 0; padding: 15px 16px; font: inherit; font-size: 1.1rem; color: var(--fg); background: var(--panel);
+    border: 2px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
+  input[type=search]:focus { outline: none; border-color: var(--accent); }
+  button { font: inherit; cursor: pointer; }
+  button:focus-visible, input:focus-visible, .card:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .go { padding: 0 26px; font-weight: 700; font-size: 1.05rem; border: 0; border-radius: 12px; background: var(--accent); color: var(--on-accent); }
+  .go:disabled { opacity: .65; cursor: progress; }
+  .try { margin: 16px 0 0; }
+  .try h2 { font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 6px 14px; color: var(--fg); background: var(--panel);
+    border: 1px solid var(--line); border-radius: 999px; font-size: .95rem; }
+  .chip:hover { border-color: var(--accent); }
+  .chip b { font-size: .72rem; font-weight: 700; padding: 1px 7px; border-radius: 999px; background: var(--soft); }
+  .chip b.k1 { color: var(--t1); } .chip b.k2 { color: var(--t2); } .chip b.k3 { color: var(--t3); }
+  #status { margin: 26px 0 10px; }
+  .summary { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; color: var(--muted); font-size: .95rem; }
+  .summary strong { color: var(--fg); font-size: 1.1rem; }
+  .understood { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; font-size: .92rem; color: var(--muted); }
+  .pill { padding: 3px 12px; border-radius: 999px; background: var(--soft); color: var(--fg); border: 1px solid var(--line); }
+  .pill small { color: var(--muted); }
+  .banner { margin-top: 12px; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--warn-line); background: var(--warn-bg); color: var(--warn-fg); font-weight: 500; }
+  .banner.err { border-color: transparent; background: var(--err-bg); color: var(--err-fg); display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .banner button { padding: 6px 14px; border: 1px solid currentColor; border-radius: 8px; background: transparent; color: inherit; }
+  .hint { color: var(--muted); font-size: .95rem; }
+  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
+  .card { position: relative; display: block; width: 100%; padding: 0; text-align: left; color: inherit; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); transition: transform .12s ease, border-color .12s ease; }
+  button.card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .card .ph { aspect-ratio: 4/3; width: 100%; background: var(--soft); display: grid; place-items: center; color: var(--muted); font-size: .85rem; }
+  .card img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; background: var(--soft); }
+  .card .t { padding: 10px 12px 12px; font-size: .9rem; }
+  .card .e { font-weight: 700; line-height: 1.3; }
+  .card .c { margin-top: 3px; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .rank { position: absolute; top: 8px; left: 8px; min-width: 26px; height: 26px; padding: 0 7px; display: grid; place-items: center; border-radius: 13px;
+    background: rgba(20,22,26,.78); color: #fff; font-size: .8rem; font-weight: 700; }
+  .skeleton .ph, .skeleton .l { background: linear-gradient(90deg, var(--soft) 25%, var(--line) 50%, var(--soft) 75%); background-size: 200% 100%; animation: shimmer 1.3s infinite linear; }
+  .skeleton .l { height: 12px; border-radius: 6px; margin: 8px 12px 0; }
+  .skeleton .l.s { width: 55%; margin-bottom: 14px; }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+  @media (prefers-reduced-motion: reduce) { .skeleton .ph, .skeleton .l { animation: none; } button.card:hover { transform: none; } html { scroll-behavior: auto; } .card { transition: none; } }
+  dialog { width: min(920px, 94vw); max-height: 94vh; padding: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); color: var(--fg); overflow: auto; }
+  dialog::backdrop { background: rgba(0,0,0,.72); }
+  .dlg-body { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 0; }
+  .dlg-img { background: #0c0d0f; display: grid; place-items: center; min-height: 260px; }
+  .dlg-img img { max-width: 100%; max-height: 82vh; object-fit: contain; }
+  .dlg-info { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .dlg-info h3 { margin: 0; font-size: 1.15rem; line-height: 1.3; }
+  .dlg-info p { margin: 0; color: var(--muted); }
+  .dlg-info .src { font-size: .85rem; }
+  .dlg-bar { margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+  .dlg-bar button { padding: 9px 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--fg); }
+  .dlg-bar button:hover { border-color: var(--accent); }
+  @media (max-width: 700px) { .dlg-body { grid-template-columns: 1fr; } form { flex-direction: column; } .go { padding: 14px; } main { padding-top: 20px; } }
+  .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
 </head>
 <body>
 <main>
+  <p class="eyebrow">Capstone · Truy xuất ảnh</p>
   <h1>Tìm ảnh văn hoá Việt Nam</h1>
-  <p class="sub">Nhập mô tả bằng tiếng Việt: một ý, nhiều ý, hoặc câu cần suy luận.</p>
-  <form id="f">
-    <input id="q" type="search" placeholder="Ví dụ: áo bà ba, hay lễ hội và trang phục ở Nam Bộ" maxlength="500" autocomplete="off" required>
-    <button id="go" type="submit">Tìm</button>
+  <p class="sub">Mô tả bằng tiếng Việt: một ý, nhiều ý, hoặc một câu cần suy luận. Hệ thống tìm trong hơn 89.000 ảnh di sản.</p>
+
+  <form id="f" role="search">
+    <label for="q" class="vh">Mô tả ảnh cần tìm</label>
+    <input id="q" type="search" placeholder="Mô tả ảnh cần tìm, ví dụ: cầu Long Biên" maxlength="500" autocomplete="off" required>
+    <button id="go" class="go" type="submit">Tìm ảnh</button>
   </form>
-  <div class="chips" id="chips"></div>
-  <div id="meta" aria-live="polite"></div>
+
+  <section class="try" aria-labelledby="try-h">
+    <h2 id="try-h">Thử ngay</h2>
+    <div class="chips" id="chips"></div>
+  </section>
+
+  <div id="status" aria-live="polite"></div>
   <div id="grid"></div>
 </main>
+
+<dialog id="dlg" aria-label="Xem ảnh lớn">
+  <div class="dlg-body">
+    <div class="dlg-img"><img id="dimg" alt=""></div>
+    <div class="dlg-info">
+      <h3 id="dent"></h3>
+      <p id="dcap"></p>
+      <p class="src" id="dsrc"></p>
+      <div class="dlg-bar">
+        <button type="button" id="dprev">← Ảnh trước</button>
+        <button type="button" id="dnext">Ảnh sau →</button>
+        <button type="button" id="dclose">Đóng</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
 <script>
-const examples = ["áo bà ba", "bãi biển Nha Trang", "hồ bơi và công viên nước ở Phú Quốc", "con hổ và con mèo", "động vật sống trong rừng", "ảnh con trai chủ tịch Phạm Nhật Vượng"];
+const examples = [
+  ["cầu Long Biên", "Một ý", "k1"],
+  ["nhà thờ Phát Diệm", "Một ý", "k1"],
+  ["đồ chơi dân gian làm bằng bột gạo", "Khái niệm", "k3"],
+  ["áo dài Huế và nhà thờ Phát Diệm", "Nhiều ý", "k2"],
+  ["chợ nổi và múa lân", "Nhiều ý", "k2"],
+  ["nghệ thuật sân khấu dân gian miền Bắc", "Suy luận", "k3"],
+];
+const typeLabel = { single: "Một ý", multi_intent: "Nhiều ý", multi_hop: "Suy luận" };
 const $ = (id) => document.getElementById(id);
-const typeLabel = { single: "một ý", multi_intent: "nhiều ý", multi_hop: "suy luận" };
-examples.forEach((t) => {
-  const b = document.createElement("button");
-  b.type = "button"; b.className = "chip"; b.textContent = t;
-  b.onclick = () => { $("q").value = t; $("f").requestSubmit(); };
+let results = [], cur = 0, slowTimer = null;
+
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; }
+
+examples.forEach(([text, label, k]) => {
+  const b = el("button", "chip"); b.type = "button";
+  b.append(text, el("b", k, label));
+  b.addEventListener("click", () => { $("q").value = text; $("f").requestSubmit(); });
   $("chips").appendChild(b);
 });
-$("f").addEventListener("submit", async (ev) => {
-  ev.preventDefault();
-  const query = $("q").value.trim();
-  if (!query) return;
-  $("go").disabled = true; $("meta").className = ""; $("meta").textContent = "Đang tìm...";
+
+function showSkeleton() {
+  const g = $("grid"); g.replaceChildren();
+  for (let i = 0; i < 10; i++) {
+    const c = el("div", "card skeleton"); c.setAttribute("aria-hidden", "true");
+    c.append(el("div", "ph"), el("div", "l"), el("div", "l s"));
+    g.appendChild(c);
+  }
+}
+
+function setStatus(nodes) { $("status").replaceChildren(...nodes); }
+
+function showError(message, retry) {
+  const b = el("div", "banner err"); b.setAttribute("role", "alert");
+  b.append(el("span", "", message));
+  if (retry) { const r = el("button", "", "Thử lại"); r.type = "button"; r.addEventListener("click", retry); b.appendChild(r); }
+  setStatus([b]); $("grid").replaceChildren();
+}
+
+function renderResults(d) {
+  results = d.results; $("grid").replaceChildren();
+  const sum = el("div", "summary");
+  const secs = (d.timings_ms.total_ms / 1000).toLocaleString("vi-VN", { maximumFractionDigits: 1 });
+  sum.append(el("strong", "", d.results.length + " ảnh"), el("span", "", "Loại truy vấn: " + (typeLabel[d.query_type] || d.query_type)), el("span", "", secs + " giây"));
+  const nodes = [sum];
+  const subs = (d.subs || []).filter((s) => s.vi);
+  if (subs.length) {
+    const u = el("div", "understood"); u.append(el("span", "", "Hệ thống hiểu:"));
+    subs.forEach((s) => {
+      const p = el("span", "pill", s.vi);
+      if (s.ents && s.ents.length) p.append(" ", el("small", "", "→ " + s.ents.slice(0, 3).join(", ")));
+      u.appendChild(p);
+    });
+    nodes.push(u);
+  }
+  if (d.low_confidence) {
+    const w = el("div", "banner", "Không có nội dung khớp chính xác trong dữ liệu; các ảnh dưới đây chỉ gần đúng."); w.setAttribute("role", "status");
+    nodes.push(w);
+  }
+  if (!d.results.length) nodes.push(el("p", "hint", "Không tìm thấy ảnh nào. Thử mô tả khác hoặc ngắn gọn hơn."));
+  setStatus(nodes);
+  d.results.forEach((x, i) => {
+    const card = el("button", "card"); card.type = "button";
+    card.setAttribute("aria-label", "Xem ảnh " + (i + 1) + ": " + (x.entities.join(", ") || "không có tên"));
+    const img = new Image(); img.src = x.url; img.alt = x.entities.join(", "); img.loading = "lazy"; img.decoding = "async";
+    img.onerror = () => { const ph = el("div", "ph", "Ảnh không tải được"); img.replaceWith(ph); };
+    const t = el("div", "t");
+    t.append(el("div", "e", x.entities.join(" / ") || "(không có tên)"), el("div", "c", x.caption));
+    card.append(img, el("span", "rank", String(i + 1)), t);
+    card.addEventListener("click", () => openDialog(i));
+    $("grid").appendChild(card);
+  });
+}
+
+async function search(query) {
+  $("go").disabled = true; showSkeleton();
+  setStatus([el("p", "hint", "Đang tìm...")]);
+  clearTimeout(slowTimer);
+  slowTimer = setTimeout(() => setStatus([el("p", "hint", "Máy đang xử lý, vui lòng chờ thêm vài giây...")]), 5000);
   try {
     const r = await fetch("/demo/search", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query, top_k: 10 }) });
-    if (!r.ok) throw new Error(r.status === 422 ? "Câu hỏi không hợp lệ (1 đến 500 ký tự)." : r.status === 429 ? "Bạn gửi hơi nhanh, thử lại sau ít giây." : r.status === 503 ? "Máy chủ đang bận, thử lại sau ít giây." : "Lỗi máy chủ (" + r.status + ").");
-    const d = await r.json();
-    $("grid").replaceChildren();
-    d.results.forEach((x) => {
-      const card = document.createElement("div"); card.className = "card";
-      const img = new Image(); img.src = x.url; img.alt = x.entities.join(", "); img.loading = "lazy";
-      img.onerror = () => card.remove();
-      const t = document.createElement("div"); t.className = "t";
-      const e = document.createElement("div"); e.className = "e"; e.textContent = x.entities.join(" / ");
-      const c = document.createElement("div"); c.className = "c"; c.textContent = x.caption;
-      t.append(e, c); card.append(img, t); $("grid").appendChild(card);
-    });
-    $("meta").textContent = d.results.length ? d.results.length + " ảnh · loại truy vấn: " + (typeLabel[d.query_type] || d.query_type) + " · " + Math.round(d.timings_ms.total_ms) + " ms" : "Không tìm thấy ảnh phù hợp.";
-    if (d.low_confidence) $("meta").textContent += " · Không có nội dung khớp chính xác trong dữ liệu; các ảnh dưới đây chỉ gần đúng.";
+    if (!r.ok) {
+      throw new Error(r.status === 422 ? "Câu hỏi không hợp lệ (1 đến 500 ký tự)."
+        : r.status === 429 ? "Bạn gửi hơi nhanh, thử lại sau vài giây."
+        : r.status === 503 ? "Máy chủ đang bận, thử lại sau ít giây."
+        : "Có lỗi xảy ra (mã " + r.status + "), thử lại sau.");
+    }
+    renderResults(await r.json());
   } catch (err) {
-    $("meta").className = "err"; $("meta").textContent = err.message;
-  } finally { $("go").disabled = false; }
+    showError(err instanceof TypeError ? "Không kết nối được máy chủ." : err.message, () => search(query));
+  } finally { clearTimeout(slowTimer); $("go").disabled = false; }
+}
+
+$("f").addEventListener("submit", (ev) => {
+  ev.preventDefault();
+  const query = $("q").value.trim();
+  if (query) search(query);
+});
+
+function openDialog(i) {
+  cur = i; const x = results[i], dlg = $("dlg");
+  $("dimg").src = x.url; $("dimg").alt = x.entities.join(", ");
+  $("dent").textContent = x.entities.join(" / ") || "(không có tên)";
+  $("dcap").textContent = x.caption || "";
+  $("dsrc").textContent = x.page_title ? "Nguồn: " + x.page_title : "";
+  $("dprev").disabled = i === 0; $("dnext").disabled = i === results.length - 1;
+  if (!dlg.open) dlg.showModal();
+}
+$("dprev").addEventListener("click", () => cur > 0 && openDialog(cur - 1));
+$("dnext").addEventListener("click", () => cur < results.length - 1 && openDialog(cur + 1));
+$("dclose").addEventListener("click", () => $("dlg").close());
+$("dlg").addEventListener("click", (e) => { if (e.target === $("dlg")) $("dlg").close(); });
+document.addEventListener("keydown", (e) => {
+  if ($("dlg").open) {
+    if (e.key === "ArrowLeft" && cur > 0) openDialog(cur - 1);
+    if (e.key === "ArrowRight" && cur < results.length - 1) openDialog(cur + 1);
+    return;
+  }
+  if (e.key === "/" && document.activeElement !== $("q")) { e.preventDefault(); $("q").focus(); }
 });
 </script>
 </body>
