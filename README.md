@@ -11,7 +11,7 @@ Dữ liệu là ảnh di sản văn hoá, nên các truy vấn về du lịch bi
 |---|---|
 | Repo nộp | repo tổ chức `VSF-AR-ES-V-Lookup/Retrieval_Image_NguyenTuanThanh` (riêng tư), nhánh `main` |
 | Web demo | <https://13-251-152-106.sslip.io> (VPS bật trong thời gian demo và chấm; nếu không vào được thì chạy bằng `docker compose` theo hướng dẫn bên dưới) |
-| Tài liệu phương pháp | [`docs/slides.html`](docs/slides.html) (tải về và mở bằng trình duyệt, dùng phím ← →), [`docs/architecture.md`](docs/architecture.md) (sơ đồ Mermaid), [`docs/adr/`](docs/adr/) |
+| Tài liệu phương pháp | [`docs/slides.pdf`](docs/slides.pdf) (xem ngay trên GitHub), [`docs/slides.html`](docs/slides.html) (bản có chuyển động: tải về, mở bằng trình duyệt, dùng phím ← → Home End), [`docs/architecture.md`](docs/architecture.md) (sơ đồ Mermaid), [`docs/adr/`](docs/adr/) |
 | Báo cáo chất lượng, bộ test và cách tạo | [`docs/eval-report.md`](docs/eval-report.md), [`eval/datasets/`](eval/datasets/) |
 | Báo cáo hiệu năng, k6 | [`docs/perf-report.md`](docs/perf-report.md), [`docs/results/`](docs/results/), [`loadtest/`](loadtest/) |
 | Kịch bản demo | [`docs/demo-script.md`](docs/demo-script.md) |
@@ -19,7 +19,7 @@ Dữ liệu là ảnh di sản văn hoá, nên các truy vấn về du lịch bi
 Bản công khai `thanhpro82/vn-culture-image-retrieval` có cùng nhánh `main`; đó là nơi chạy CI/CD tự động lên VPS (CD đang bật), còn bản nộp là repo tổ chức ở trên.
 
 - Kịch bản demo 10-15 phút: [`docs/demo-script.md`](docs/demo-script.md)
-- Slide mô tả phương pháp (mở bằng trình duyệt, dùng phím ← →): [`docs/slides.html`](docs/slides.html)
+- Slide mô tả phương pháp: [`docs/slides.pdf`](docs/slides.pdf) (xem trên GitHub) và [`docs/slides.html`](docs/slides.html) (có chuyển động, mở bằng trình duyệt, phím ← →)
 - Thiết kế: [`docs/architecture.md`](docs/architecture.md), [`docs/superpowers/specs/`](docs/superpowers/specs/)
 - Kết quả đánh giá: [`docs/eval-report.md`](docs/eval-report.md). Hiệu năng: [`docs/perf-report.md`](docs/perf-report.md)
 - Quyết định kỹ thuật kèm số đo: [`docs/adr/`](docs/adr/)
