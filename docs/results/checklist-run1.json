@@ -1,0 +1,2125 @@
+[
+ {
+  "id": "E01",
+  "level": "easy",
+  "query": "Áo dài Việt Nam",
+  "must": [
+   [
+    "áo dài"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 2144,
+  "subs": [
+   "Áo dài Việt Nam"
+  ],
+  "top": [
+   "Áo dài",
+   "Áo dài",
+   "Áo dài",
+   "Áo dài vẽ (vẽ tay nghệ thuật)",
+   "Áo dài Tết",
+   "Áo dài Tết",
+   "Áo dài cổ trụ (cổ cao kín)",
+   "Áo dài đính kết (đính cườm, ngọc trai)",
+   "Áo dài đũi (vải đũi)",
+   "Áo dài (trang phục dân tộc Kinh)"
+  ]
+ },
+ {
+  "id": "E02",
+  "level": "easy",
+  "query": "Người phụ nữ mặc áo dài",
+  "must": [
+   [
+    "áo dài"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1478,
+  "subs": [
+   "Người phụ nữ mặc áo dài"
+  ],
+  "top": [
+   "Áo dài",
+   "Áo dài lụa",
+   "Áo dài (trang phục dân tộc Kinh)",
+   "Áo dài lụa",
+   "Áo dài",
+   "Áo dài (trang phục dân tộc Kinh)",
+   "Áo dài (trang phục dân tộc Kinh)",
+   "Áo ngũ thân cổ đứng (lập lĩnh)",
+   "Áo dài",
+   "Áo dài chụp ảnh Tết (áo dài đường hoa)"
+  ]
+ },
+ {
+  "id": "E03",
+  "level": "easy",
+  "query": "Nón lá truyền thống",
+  "must": [
+   [
+    "nón lá",
+    "nón"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1577,
+  "subs": [
+   "Ảnh nón lá truyền thống Việt Nam"
+  ],
+  "top": [
+   "Nón lá",
+   "Nón lá khung tre (vành tre lộ)",
+   "Nón lá (nón lá Việt Nam)",
+   "Nón lá",
+   "Nón lá Việt Nam",
+   "Làng nón ngựa Phú Gia (Cát Tường, Phù Cát, Bình Định)",
+   "Nón lá Việt Nam",
+   "Làng nón Đồng Di (Phú Vang, Thừa Thiên Huế)",
+   "Làng nón Phú Châu (Ba Vì, Hà Nội)",
+   "Làng nón Kim Long (Huế)"
+  ]
+ },
+ {
+  "id": "E04",
+  "level": "easy",
+  "query": "Trống đồng Đông Sơn",
+  "must": [
+   [
+    "trống đồng"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1914,
+  "subs": [
+   "Trống đồng Đông Sơn"
+  ],
+  "top": [
+   "Trống đồng Đông Sơn (Sưu tập Kính Hoa)",
+   "Trống đồng Đông Sơn (Sưu tập Kính Hoa)",
+   "Trống đồng Đông Sơn (Sưu tập Hoàng Long)",
+   "Trống đồng Đông Sơn (Heger I)",
+   "Trống đồng Đông Sơn (Sưu tập Hoàng Long)",
+   "Trống đồng Đông Sơn (Sưu tập Kính Hoa)",
+   "Trống đồng (biểu tượng Mường – Đông Sơn)",
+   "Trống đồng Đông Sơn (Heger I)",
+   "Trống đồng Đông Sơn (Hà Nội) bảo vật",
+   "Trống đồng Đông Sơn (Sưu tập Hoàng Long)"
+  ]
+ },
+ {
+  "id": "E05",
+  "level": "easy",
+  "query": "Chùa Một Cột",
+  "must": [
+   [
+    "một cột"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1567,
+  "subs": [
+   "Chùa Một Cột"
+  ],
+  "top": [
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Chùa Lý Quốc Sư",
+   "Tượng Quan Âm chùa Một Cột (Hà Nội)",
+   "Tượng Quan Âm chùa Một Cột (Hà Nội)",
+   "Lễ hội chùa Một Cột (Diên Hựu)",
+   "Tượng Quan Âm chùa Một Cột (Hà Nội)",
+   "Chùa Lý Quốc Sư",
+   "Chùa Lý Quốc Sư"
+  ]
+ },
+ {
+  "id": "E06",
+  "level": "easy",
+  "query": "Văn Miếu Quốc Tử Giám",
+  "must": [
+   [
+    "văn miếu",
+    "quốc tử giám"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": true,
+  "query_type": "single",
+  "ms": 1857,
+  "subs": [
+   "Văn Miếu Quốc Tử Giám"
+  ],
+  "top": [
+   "Hội chữ Xuân Văn Miếu (Triển lãm thư pháp Tết)",
+   "Chuông Văn Miếu (Hà Nội)",
+   "Chuông Văn Miếu (Hà Nội)",
+   "Văn Miếu Huế - Cố đô",
+   "Văn Miếu Huế - Cố đô",
+   "Văn Miếu Huế - Cố đô",
+   "Hội chữ Xuân Văn Miếu (Triển lãm thư pháp Tết)",
+   "Hội chữ Xuân Văn Miếu (Triển lãm thư pháp Tết)",
+   "Đền Phù Đổng",
+   "Đền Quán Thánh (Trấn Vũ)"
+  ]
+ },
+ {
+  "id": "E07",
+  "level": "easy",
+  "query": "Hoàng thành Thăng Long",
+  "must": [
+   [
+    "hoàng thành",
+    "thăng long"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1477,
+  "subs": [
+   "Hoàng thành Thăng Long"
+  ],
+  "top": [
+   "Hoàng thành Thăng Long",
+   "Hoàng thành Thăng Long",
+   "Hoàng thành Thăng Long",
+   "Đoan Môn (Hoàng thành Thăng Long)",
+   "Đoan Môn (Hoàng thành Thăng Long)",
+   "Cột cờ Hà Nội (di tích cách mạng)",
+   "Cổng Cửa Bắc thành Hà Nội",
+   "Di tích Khởi nghĩa Bà Triệu (Triệu Thị Trinh, Thanh Hóa)"
+  ]
+ },
+ {
+  "id": "E08",
+  "level": "easy",
+  "query": "Phố cổ Hội An",
+  "must": [
+   [
+    "hội an"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1802,
+  "subs": [
+   "Phố cổ Hội An"
+  ],
+  "top": [
+   "Khu phố cổ Hội An",
+   "Phố cổ Hội An (ngập lụt thường niên)",
+   "Khu phố cổ Hội An",
+   "Phố cổ Hội An (ngập lụt thường niên)",
+   "Khu phố cổ Hội An",
+   "Chợ đêm Hội An (phố cổ Hội An)",
+   "Phố cổ Hội An (ngập lụt thường niên)",
+   "Chợ Hội An Trung tâm (Quảng Nam)",
+   "Lễ hội đèn lồng Nguyên Tiêu Hội An",
+   "Làng đèn lồng Hội An (Quảng Nam)"
+  ]
+ },
+ {
+  "id": "E09",
+  "level": "easy",
+  "query": "Vịnh Hạ Long",
+  "must": [
+   [
+    "hạ long"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1717,
+  "subs": [
+   "Vịnh Hạ Long"
+  ],
+  "top": [
+   "Vịnh Hạ Long (sơn mài)",
+   "Sự tích vịnh Hạ Long (Rồng hạ)",
+   "Sự tích vịnh Hạ Long (Rồng hạ)",
+   "Vịnh Hạ Long (sơn mài)",
+   "Vịnh Hạ Long (sơn mài)",
+   "Nhà chài làng chài Hạ Long",
+   "Sự tích vịnh Hạ Long (Rồng hạ)",
+   "Di chỉ Hạ Long (văn hóa Hạ Long)",
+   "Nhà nổi làng chài Hạ Long (Cửa Vạn, Vung Viêng)",
+   "Nhà nổi làng chài Hạ Long (Cửa Vạn, Vung Viêng)"
+  ]
+ },
+ {
+  "id": "E10",
+  "level": "easy",
+  "query": "Ruộng bậc thang Tây Bắc",
+  "must": [
+   [
+    "ruộng bậc thang"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1919,
+  "subs": [
+   "Ruộng bậc thang Tây Bắc"
+  ],
+  "top": [
+   "Danh thắng quốc gia Ruộng bậc thang Mù Cang Chải",
+   "Danh thắng quốc gia Ruộng bậc thang Mù Cang Chải",
+   "Danh thắng quốc gia Ruộng bậc thang Mù Cang Chải",
+   "Điểm du lịch cộng đồng Tả Van",
+   "Ruộng bậc thang",
+   "Ruộng bậc thang",
+   "Bản cổ Tả Van",
+   "Mường Hoa (Sa Pa) mùa vàng - Di tích quốc gia",
+   "Ruộng bậc thang"
+  ]
+ },
+ {
+  "id": "E11",
+  "level": "easy",
+  "query": "Múa rối nước",
+  "must": [
+   [
+    "rối nước"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1345,
+  "subs": [
+   "Múa rối nước"
+  ],
+  "top": [
+   "Múa rối nước",
+   "Múa rối nước",
+   "Múa rối nước",
+   "Trò vinh quy bái tổ (rối nước)",
+   "Con rối nước bằng gỗ sung tạc tô màu",
+   "Trò vinh quy bái tổ (rối nước)",
+   "Quân rối nước gỗ sung",
+   "Suất diễn rối nước Vinpearl",
+   "Con rối nước (tạo hình con rối)",
+   "Con rối nước (tạo hình con rối)"
+  ]
+ },
+ {
+  "id": "E12",
+  "level": "easy",
+  "query": "Hát quan họ Bắc Ninh",
+  "must": [
+   [
+    "quan họ"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1527,
+  "subs": [
+   "Hát quan họ Bắc Ninh"
+  ],
+  "top": [
+   "Hát hội (quan họ)",
+   "Quan họ Bắc Ninh hội làng",
+   "Hội Lim",
+   "Quan họ Bắc Ninh hội làng",
+   "Làng quan họ Lim",
+   "Hát quan họ",
+   "Hát hội (quan họ)",
+   "Hát xoan Phú Thọ",
+   "Hát hội (quan họ)",
+   "Hát quan họ thuyền (canh hát ngày xuân)"
+  ]
+ },
+ {
+  "id": "E13",
+  "level": "easy",
+  "query": "Đờn ca tài tử Nam Bộ",
+  "must": [
+   [
+    "đờn ca tài tử",
+    "tài tử"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1559,
+  "subs": [
+   "Đờn ca tài tử Nam Bộ"
+  ],
+  "top": [
+   "Đờn ca tài tử Nam Bộ",
+   "Đờn ca tài tử Nam Bộ",
+   "Đờn ca tài tử Nam Bộ",
+   "Liên hoan Đờn ca tài tử Nam Bộ (Festival Đờn ca tài tử Quốc gia)",
+   "Liên hoan Đờn ca tài tử Nam Bộ (Festival Đờn ca tài tử Quốc gia)",
+   "Liên hoan Đờn ca tài tử Nam Bộ (Festival Đờn ca tài tử Quốc gia)",
+   "Trang phục đờn ca tài tử Nam Bộ",
+   "Liên hoan Tài tử - Cải lương Nam Bộ",
+   "Liên hoan Tài tử - Cải lương Nam Bộ",
+   "Tổ nghề ca trù (Mãn Đường Hoa - Bạch Đinh Sa)"
+  ]
+ },
+ {
+  "id": "E14",
+  "level": "easy",
+  "query": "Cồng chiêng Tây Nguyên",
+  "must": [
+   [
+    "cồng chiêng"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1843,
+  "subs": [
+   "Cồng chiêng Tây Nguyên"
+  ],
+  "top": [
+   "Bộ cồng chiêng Tây Nguyên (Di sản UNESCO) chế tác",
+   "Cồng chiêng Tây Nguyên (UNESCO)",
+   "Cồng chiêng Tây Nguyên (UNESCO)",
+   "Câu lạc bộ Cồng chiêng Tây Nguyên",
+   "Đánh chiêng nghi lễ (cồng chiêng Tây Nguyên)",
+   "Chiêng núm Tây Nguyên (chiêng có núm)",
+   "Bộ cồng chiêng Tây Nguyên (Di sản UNESCO) chế tác",
+   "Lễ hội cồng chiêng Tây Nguyên",
+   "Diễn tấu cồng chiêng Tây Nguyên",
+   "Câu lạc bộ Cồng chiêng Tây Nguyên"
+  ]
+ },
+ {
+  "id": "E15",
+  "level": "easy",
+  "query": "Chợ nổi miền Tây",
+  "must": [
+   [
+    "chợ nổi"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1612,
+  "subs": [
+   "Chợ nổi miền Tây"
+  ],
+  "top": [
+   "Chợ nổi Cà Mau (chợ nổi sông Gành Hào)",
+   "Chợ Bình Tây (chợ Lớn) TP.HCM",
+   "Chợ Bình Tây (chợ Lớn) TP.HCM",
+   "Chợ Bình Tây (chợ Lớn) TP.HCM",
+   "Chợ Bình Tây (chợ Lớn - đầu mối)",
+   "Chợ nổi Cà Mau (chợ nổi sông Gành Hào)",
+   "Chợ Cái Răng (Cần Thơ)",
+   "Chợ nổi Cà Mau (chợ nổi sông Gành Hào)",
+   "Chợ Cái Răng (Cần Thơ)",
+   "Chợ Cái Răng (Cần Thơ)"
+  ]
+ },
+ {
+  "id": "E16",
+  "level": "easy",
+  "query": "Bánh chưng ngày Tết",
+  "must": [
+   [
+    "bánh chưng"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1603,
+  "subs": [
+   "Bánh chưng ngày Tết"
+  ],
+  "top": [
+   "Bánh chưng",
+   "Bánh chưng (Bắc - vuông, lá dong)",
+   "Bánh chưng cúng gia tiên (Tết)",
+   "Bánh chưng cúng gia tiên (Tết)",
+   "Bánh chưng cúng gia tiên (Tết)",
+   "Bánh chưng",
+   "Bánh chưng gấc (bánh chưng đỏ)",
+   "Làng nghề bánh chưng Bạc (Tranh Khúc - Duyên Hà)",
+   "Bánh chưng",
+   "Bánh chưng (biểu tượng Đất - phồn thực)"
+  ]
+ },
+ {
+  "id": "E17",
+  "level": "easy",
+  "query": "Mâm ngũ quả",
+  "must": [
+   [
+    "ngũ quả"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 2981,
+  "subs": [
+   "Mâm ngũ quả"
+  ],
+  "top": [
+   "Tranh Ngũ quả (mâm ngũ quả)",
+   "Tranh Ngũ quả (mâm ngũ quả)",
+   "Tráp hoa quả (ngũ quả kết)",
+   "Tục bày bàn thờ - mâm ngũ quả Tết",
+   "Tục bày mâm ngũ quả ngày Tết",
+   "Tục bày bàn thờ - mâm ngũ quả Tết",
+   "Tục bày mâm ngũ quả ngày Tết",
+   "Tục bày bàn thờ - mâm ngũ quả Tết",
+   "Tranh Ngũ quả (mâm ngũ quả)",
+   "Tục bày mâm ngũ quả ngày Tết"
+  ]
+ },
+ {
+  "id": "E18",
+  "level": "easy",
+  "query": "Đèn lồng Hội An",
+  "must": [
+   [
+    "đèn lồng"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1705,
+  "subs": [
+   "Đèn lồng Hội An"
+  ],
+  "top": [
+   "Làng đèn lồng Hội An",
+   "Làng nghề đèn lồng Hội An",
+   "Lễ hội đèn lồng Nguyên Tiêu Hội An",
+   "Làng nghề đèn lồng Hội An",
+   "Làng nghề đèn lồng Hội An (Quảng Nam)",
+   "Làng đèn lồng Hội An",
+   "Làng đèn lồng Hội An",
+   "Làng đèn lồng Hội An (Quảng Nam)",
+   "Làng nghề lồng đèn Hội An",
+   "Làng nghề đèn lồng Hội An (Quảng Nam)"
+  ]
+ },
+ {
+  "id": "E19",
+  "level": "easy",
+  "query": "Lễ hội đua thuyền",
+  "must": [
+   [
+    "đua thuyền",
+    "đua ghe",
+    "bơi chải",
+    "bơi thuyền",
+    "đua"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1932,
+  "subs": [
+   "Ảnh lễ hội đua thuyền"
+  ],
+  "top": [
+   "Lễ hội đua thuyền (đua ghe)",
+   "Lễ hội Đua thuyền Sông Son (Phong Nha)",
+   "Hội đua thuyền (đua ghe Ngo Khmer)",
+   "Lễ hội đua thuyền (đua ghe)",
+   "Lễ hội đua ghe Ngo Kiên Giang",
+   "Lễ hội đua thuyền (đua ghe)",
+   "Lễ hội Ok Om Bok người Khmer (Sóc Trăng - Trà Vinh)",
+   "Lễ hội đua ghe Ngo Trà Vinh",
+   "Lễ hội Ok Om Bok Cần Thơ",
+   "Hội đua thuyền (đua ghe Ngo Khmer)"
+  ]
+ },
+ {
+  "id": "E20",
+  "level": "easy",
+  "query": "Trang phục dân tộc H'Mông",
+  "must": [
+   [
+    "mông",
+    "hmông"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1827,
+  "subs": [
+   "Trang phục dân tộc H'Mông"
+  ],
+  "top": [
+   "Trang phục dân tộc H'Mông",
+   "Trang phục dân tộc H'Mông",
+   "Trang phục dân tộc H'Mông",
+   "Trang phục người Mông Đỏ",
+   "Người H'Mông Đen (Mông Đen)",
+   "Trang phục cưới dân tộc Mông",
+   "Cô gái H'Mông (váy xòe thổ cẩm)",
+   "Người H'Mông Đen (Mông Đen)",
+   "Trang phục cô dâu Mông (đám cưới)",
+   "Váy xòe hoa văn Mông"
+  ]
+ },
+ {
+  "id": "M01",
+  "level": "medium",
+  "query": "Người phụ nữ mặc áo dài trắng đứng trước ngôi chùa",
+  "must": [
+   [
+    "áo dài"
+   ],
+   [
+    "chùa"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true,
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1885,
+  "subs": [
+   "Người phụ nữ mặc áo dài trắng đứng trước ngôi chùa"
+  ],
+  "top": [
+   "Áo dài tế lễ (đi lễ chùa - đền)",
+   "Chùa Núi Một (Vân Sơn Tự, Côn Đảo)",
+   "Áo dài lễ chùa (áo dài đi lễ đầu năm)",
+   "Áo dài lễ chùa (áo dài đi lễ đầu năm)",
+   "Áo dài lễ chùa (áo dài đi lễ đầu năm)",
+   "Thiền viện Trúc Lâm Chánh Giác",
+   "Lễ hội chùa Cổ Thạch (Bình Thuận)",
+   "Áo dài",
+   "Lễ hội chùa Cổ Thạch (Bình Thuận)",
+   "Áo dài chụp ảnh nghệ thuật"
+  ]
+ },
+ {
+  "id": "M02",
+  "level": "medium",
+  "query": "Một ngôi đình cổ có mái ngói và sân rộng",
+  "must": [
+   [
+    "đình"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_intent",
+  "ms": 2317,
+  "subs": [
+   "Một ngôi đình cổ có mái ngói",
+   "Một ngôi đình cổ có sân rộng"
+  ],
+  "top": [
+   "Đình Tây Đằng (Hà Nội-Ba Vì)",
+   "Đình So (Cộng Hòa, Quốc Oai)",
+   "Đình So (Cộng Hòa, Quốc Oai)",
+   "Đình So (Cộng Hòa, Quốc Oai)",
+   "Đình Tây Đằng (Hà Nội-Ba Vì)",
+   "Đình Phùng (Phùng Khoang)",
+   "Khu lưu niệm Nguyễn Khuyến",
+   "Di tích Đình Tân Trào",
+   "Di tích Đình Võ Liệt (Thanh Chương, Nghệ An)",
+   "Bia đình Cổ Loa (Ngự triều di quy)"
+  ]
+ },
+ {
+  "id": "M03",
+  "level": "medium",
+  "query": "Người dân mặc trang phục truyền thống trong lễ hội",
+  "must": [
+   [
+    "lễ hội"
+   ],
+   [
+    "trang phục"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true,
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1449,
+  "subs": [
+   "Người dân mặc trang phục truyền thống trong lễ hội"
+  ],
+  "top": [
+   "Trang phục lễ hội dân tộc thiểu số",
+   "Trang phục lễ hội dân tộc thiểu số",
+   "Trang phục dâng hương lễ hội Đền Hùng",
+   "Trang phục dâng hương lễ hội Đền Hùng",
+   "Trang phục dâng hương lễ hội Đền Hùng",
+   "Hội Gióng đền Phù Đổng và đền Sóc",
+   "Lễ hội làng rèn Đa Sỹ",
+   "Lễ hội đền Bà Triệu (21/2 ÂL)",
+   "Người Thái Mộc Châu nhánh Thái Trắng",
+   "Lễ hội cầu mưa người Dao đỏ"
+  ]
+ },
+ {
+  "id": "M04",
+  "level": "medium",
+  "query": "Ruộng bậc thang có người đang thu hoạch lúa",
+  "must": [
+   [
+    "ruộng bậc thang"
+   ],
+   [
+    "lúa",
+    "gặt",
+    "thu hoạch",
+    "mùa vàng"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true,
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 2008,
+  "subs": [
+   "Ruộng bậc thang có người đang thu hoạch lúa"
+  ],
+  "top": [
+   "Danh thắng quốc gia Ruộng bậc thang Mù Cang Chải",
+   "Ruộng bậc thang",
+   "Lễ hội ruộng bậc thang Mù Cang Chải",
+   "Mường Hoa (Sa Pa) mùa vàng - Di tích quốc gia",
+   "Ruộng bậc thang",
+   "Danh thắng quốc gia Ruộng bậc thang Mù Cang Chải",
+   "Lễ hội mùa vàng Mù Cang Chải (ruộng bậc thang)",
+   "Danh thắng quốc gia Ruộng bậc thang Hoàng Su Phì",
+   "Danh thắng quốc gia Ruộng bậc thang Hoàng Su Phì",
+   "Lễ hội mùa vàng Mù Cang Chải (ruộng bậc thang)"
+  ]
+ },
+ {
+  "id": "M05",
+  "level": "medium",
+  "query": "Ngôi chùa nằm bên hồ nước và có cây cổ thụ",
+  "must": [
+   [
+    "chùa"
+   ],
+   [
+    "hồ",
+    "cây",
+    "đa"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true,
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_intent",
+  "ms": 1839,
+  "subs": [
+   "ngôi chùa nằm bên hồ nước",
+   "cây cổ thụ"
+  ],
+  "top": [
+   "Chùa Lý Quốc Sư",
+   "Cây chè Shan tuyết cổ thụ (cây di sản - liên hệ)",
+   "Khu du lịch chùa Tam Chúc",
+   "Thành Bản Phủ (Hoàng Công Chất) Điện Biên",
+   "Khu du lịch chùa Tam Chúc",
+   "Đình Tiên Lục (Lạng Giang)",
+   "Chùa Lý Quốc Sư",
+   "Phố cổ Hà Nội 36 phố phường nhiều cây cổ thụ trăm năm",
+   "Đền thờ Lý Thái Tổ (Đền Đô, Đình Bảng)",
+   "Khu di tích Giàn Gừa (Cần Thơ)"
+  ]
+ },
+ {
+  "id": "M06",
+  "level": "medium",
+  "query": "Một phiên chợ vùng cao với nhiều người dân tộc",
+  "must": [
+   [
+    "chợ"
+   ],
+   [
+    "dân tộc",
+    "mông",
+    "dao",
+    "phiên",
+    "tày",
+    "thái"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true,
+   true
+  ],
+  "low_confidence": true,
+  "query_type": "single",
+  "ms": 1959,
+  "subs": [
+   "Một phiên chợ vùng cao với nhiều người dân tộc"
+  ],
+  "top": [
+   "Chợ Đồng Văn Hà Giang phiên Chủ Nhật",
+   "Chợ phiên Bắc Mê (Hà Giang)",
+   "Chợ phiên Bảo Lạc trung tâm (Cao Bằng)",
+   "Toàn cảnh chợ Đồng Văn nhộn nhịp",
+   "Chợ phiên Bắc Hà Lào Cai (chủ nhật)",
+   "Chợ Lũng Phìn (Hà Giang)",
+   "Chợ phiên Dào San",
+   "Chợ phiên Bắc Hà người Mông",
+   "Điểm du lịch Chợ phiên Bắc Hà",
+   "Điểm du lịch Chợ phiên Bắc Hà"
+  ]
+ },
+ {
+  "id": "M07",
+  "level": "medium",
+  "query": "Nghệ nhân đang làm gốm bằng tay",
+  "must": [
+   [
+    "gốm"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 2105,
+  "subs": [
+   "Nghệ nhân đang làm gốm bằng tay"
+  ],
+  "top": [
+   "Gốm Bàu Trúc (Ninh Thuận)",
+   "Làm gốm Bát Tràng",
+   "Lễ hội làng nghề gốm Biên Hòa",
+   "Làm gốm Bát Tràng",
+   "Nghề làm gốm Bát Tràng",
+   "Gốm Bàu Trúc (Chăm)",
+   "Lễ hội làng gốm Bình Dương (Lái Thiêu)",
+   "Gốm Bàu Trúc",
+   "Gốm Chăm Bàu Trúc (Ninh Thuận)",
+   "Làng gốm Thanh Hà (Hội An)"
+  ]
+ },
+ {
+  "id": "M08",
+  "level": "medium",
+  "query": "Người đàn ông chèo thuyền trên dòng sông",
+  "must": [
+   [
+    "thuyền",
+    "ghe",
+    "xuồng",
+    "đò",
+    "chèo"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1874,
+  "subs": [
+   "Người đàn ông chèo thuyền trên dòng sông"
+  ],
+  "top": [
+   "Đò ngang (đò chèo qua sông)",
+   "Lễ hội Chùa Hương Tích (Mỹ Đức, Hà Nội, khai hội mùng 6 Tết)",
+   "Di tích Tô Lịch (Lý Nam Đế - thành Tô Lịch)",
+   "Đò ngang (đò chèo qua sông)",
+   "Thuyền độc mộc đẽo từ thân cây",
+   "Đò ngang (đò chèo qua sông)",
+   "Hò sông Mã",
+   "Thuyền độc mộc đẽo từ thân cây",
+   "Hò sông Mã",
+   "Hò chèo ghe Nam Bộ"
+  ]
+ },
+ {
+  "id": "M09",
+  "level": "medium",
+  "query": "Trẻ em chơi trò chơi dân gian trong sân đình",
+  "must": [
+   [
+    "trò chơi",
+    "chơi"
+   ],
+   [
+    "đình"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true,
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1475,
+  "subs": [
+   "Trẻ em chơi trò chơi dân gian trong sân đình"
+  ],
+  "top": [
+   "Chiếu chèo sân đình",
+   "Nhảy lò cò (cò cò)",
+   "Nhảy lò cò (cò cò)",
+   "Nhảy dây (nhảy dây đơn - đôi - tập thể)",
+   "Diễn chèo sân đình",
+   "Rồng rắn",
+   "Chiếu chèo sân đình",
+   "Nhảy lò cò",
+   "Cờ người",
+   "Chiếu chèo sân đình"
+  ]
+ },
+ {
+  "id": "M10",
+  "level": "medium",
+  "query": "Đoàn người rước kiệu trong lễ hội truyền thống",
+  "must": [
+   [
+    "rước",
+    "kiệu"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": true,
+  "query_type": "single",
+  "ms": 1591,
+  "subs": [
+   "Đoàn người rước kiệu trong lễ hội truyền thống"
+  ],
+  "top": [
+   "Lễ hội Vía Bà Chúa Xứ",
+   "Lễ hội Xa Mã - Rước kiệu (Hải Phòng)",
+   "Lễ hội Xa Mã - Rước kiệu (Hải Phòng)",
+   "Hội đền Gióng Phù Đổng (Hà Nội)",
+   "Lễ hội Năm làng Mọc (Giáp Nhất)",
+   "Rước kiệu Vua Hùng",
+   "Múa rước (múa lễ rước)",
+   "Rước kiệu Vua Hùng",
+   "Múa rước (múa lễ rước)",
+   "Rước kiệu Vua Hùng"
+  ]
+ },
+ {
+  "id": "M11",
+  "level": "medium",
+  "query": "Ngôi nhà cổ bằng gỗ có bàn thờ tổ tiên",
+  "must": [
+   [
+    "nhà cổ",
+    "nhà gỗ",
+    "nhà"
+   ],
+   [
+    "bàn thờ",
+    "thờ",
+    "tổ tiên"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true,
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1470,
+  "subs": [
+   "Ngôi nhà cổ bằng gỗ có bàn thờ tổ tiên"
+  ],
+  "top": [
+   "Bàn thờ tổ tiên",
+   "Bàn thờ tổ tiên",
+   "Lễ cúng giỗ Tổ Tiên trong nhà thờ họ vào dịp Tết",
+   "Bàn thờ tổ tiên",
+   "Cúng giỗ",
+   "Nhà rường Quảng Nam (nhà cổ Hội An)",
+   "Cúng giỗ",
+   "Khu lưu niệm Nguyễn Khuyến",
+   "Khu lưu niệm Nguyễn Khuyến",
+   "Từ đường họ Trịnh (Vĩnh Lộc)"
+  ]
+ },
+ {
+  "id": "M12",
+  "level": "medium",
+  "query": "Đèn lồng nhiều màu treo trên phố vào ban đêm",
+  "must": [
+   [
+    "đèn lồng"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1923,
+  "subs": [
+   "Đèn lồng nhiều màu treo trên phố vào ban đêm"
+  ],
+  "top": [
+   "Tết Trung Thu",
+   "Tục treo đèn lồng đỏ mừng Tết (người Hoa)",
+   "Làng đèn lồng Hội An",
+   "Làng nghề đèn lồng Hội An",
+   "Làng nghề đèn lồng Hội An",
+   "Tục treo đèn lồng đỏ mừng Tết (người Hoa)",
+   "Lễ hội đêm rằm phố cổ Hội An",
+   "Tục rước đèn Trung Thu",
+   "Tục rước đèn Trung Thu",
+   "Làng nghề đèn lồng Hội An"
+  ]
+ },
+ {
+  "id": "M13",
+  "level": "medium",
+  "query": "Người nông dân đội nón lá làm việc trên đồng",
+  "must": [
+   [
+    "nón lá",
+    "nông dân",
+    "đồng ruộng",
+    "cấy",
+    "gặt"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1930,
+  "subs": [
+   "Người nông dân đội nón lá làm việc trên đồng"
+  ],
+  "top": [
+   "Làng nghề nón lá Gò Găng",
+   "Đồng muối Bạch Long",
+   "Vùng rau Đức Trọng",
+   "Làng rau Trà Quế (Hội An) — luống rau cổ truyền",
+   "Canh tác lúa mùa nổi",
+   "Canh tác lúa mùa nổi",
+   "Ra đồng (Nguyễn Phan Chánh)",
+   "Làng nón Đại Đồng (Bắc Ninh)",
+   "Gàu sòng - gàu giai (tát nước)",
+   "Làng nghề nón lá Gò Găng"
+  ]
+ },
+ {
+  "id": "M14",
+  "level": "medium",
+  "query": "Một công trình kiến trúc cổ có hình rồng",
+  "must": [
+   [
+    "rồng"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_hop",
+  "ms": 2852,
+  "subs": [
+   "Công trình kiến trúc cổ ở Việt Nam",
+   "Kiến trúc cổ có hình rồng"
+  ],
+  "top": [
+   "Đình So (Cộng Hòa, Quốc Oai)",
+   "Lễ hội chùa Một Cột (Diên Hựu)",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Tượng Quan Âm chùa Một Cột (Hà Nội)",
+   "Rồng đá",
+   "Nền móng điện Kính Thiên",
+   "Di tích Cổ Loa",
+   "Trang phục đội tế lễ hội Gióng",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Tượng Quan Âm chùa Một Cột (Hà Nội)"
+  ]
+ },
+ {
+  "id": "M15",
+  "level": "medium",
+  "query": "Người biểu diễn nhạc cụ truyền thống trước khán giả",
+  "must": [
+   [
+    "nhạc cụ",
+    "đàn",
+    "biểu diễn",
+    "trống",
+    "sáo",
+    "nhị",
+    "chiêng"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1478,
+  "subs": [
+   "Người biểu diễn nhạc cụ truyền thống trước khán giả"
+  ],
+  "top": [
+   "Đồng bào Lô Lô",
+   "Người Xtiêng (Stiêng)",
+   "Người Ra Glai (Raglai)",
+   "Hò Huế",
+   "Diễn xướng Then (kể Then)",
+   "Ngâm thơ",
+   "Cồng chiêng Tây Nguyên (UNESCO)",
+   "Liên hoan Nghệ thuật Bài chòi",
+   "Kéo nhị Huế (đàn cò ca Huế)",
+   "Bài chòi sân khấu (Kịch bài chòi)"
+  ]
+ },
+ {
+  "id": "M16",
+  "level": "medium",
+  "query": "Một ngôi chùa có tượng Phật và nhiều người hành lễ",
+  "must": [
+   [
+    "chùa",
+    "phật"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_intent",
+  "ms": 1867,
+  "subs": [
+   "Một ngôi chùa có tượng Phật",
+   "nhiều người hành lễ"
+  ],
+  "top": [
+   "Chùa Nành",
+   "Đại lễ Phật đản (Vesak)",
+   "Chùa Hội Khánh (Thủ Dầu Một)",
+   "Đại lễ Phật đản (Vesak)",
+   "Chùa Hội Sơn",
+   "Gò Đống Đa",
+   "Chùa Từ Lâm",
+   "Miếu Bà Chúa Xứ Mỹ Long (Trà Vinh)",
+   "Việt Nam Quốc Tự (TP.HCM)",
+   "Lễ cầu an đầu năm mới chùa Phúc Khánh mùng 8 tháng Giêng"
+  ]
+ },
+ {
+  "id": "M17",
+  "level": "medium",
+  "query": "Phụ nữ mặc áo dài đỏ bên cạnh hoa sen",
+  "must": [
+   [
+    "áo dài"
+   ],
+   [
+    "sen"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true,
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1797,
+  "subs": [
+   "Phụ nữ mặc áo dài đỏ bên cạnh hoa sen"
+  ],
+  "top": [
+   "Áo dài hoa sen (họa tiết sen)",
+   "Áo dài hoa sen (họa tiết sen)",
+   "Áo dài hoa sen (họa tiết sen)",
+   "Áo dài cổ điển hoa sen",
+   "Áo dài cổ điển hoa sen",
+   "Áo dài",
+   "Áo dài mẹ cô dâu (áo dài phụ huynh)",
+   "Yếm đào (áo yếm)",
+   "Áo dài cưới truyền thống miền Bắc",
+   "Áo dài cờ đỏ sao vàng (áo dài cổ động)"
+  ]
+ },
+ {
+  "id": "M18",
+  "level": "medium",
+  "query": "Cảnh sinh hoạt của người dân bên những ngôi nhà sàn",
+  "must": [
+   [
+    "nhà sàn"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1807,
+  "subs": [
+   "Cảnh sinh hoạt của người dân bên những ngôi nhà sàn"
+  ],
+  "top": [
+   "Người Brâu (dân tộc dưới 500 người)",
+   "Cầu khỉ làng quê Đồng Tháp Mười",
+   "Nhà sàn Mường",
+   "Nhà sàn người Kháng",
+   "Làng nghề dệt thổ cẩm Lác (bản Lác)",
+   "Nhà sàn người Kháng",
+   "Người Hrê",
+   "Nhà sàn Bác Hồ",
+   "Nhà dài Ê Đê Buôn Đôn",
+   "Nhà sàn Mường"
+  ]
+ },
+ {
+  "id": "M19",
+  "level": "medium",
+  "query": "Chợ nổi có thuyền bán trái cây và người mua hàng",
+  "must": [
+   [
+    "chợ nổi"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": true,
+  "query_type": "single",
+  "ms": 2001,
+  "subs": [
+   "Chợ nổi có thuyền bán trái cây và người mua hàng"
+  ],
+  "top": [
+   "Chợ nổi Cà Mau (chợ nổi sông Gành Hào)",
+   "Chợ Cái Răng (Cần Thơ)",
+   "Chợ Cái Răng (Cần Thơ)",
+   "Chợ Cái Răng (Cần Thơ)",
+   "Chợ nổi Cà Mau (chợ nổi sông Gành Hào)",
+   "Chợ nổi Cà Mau (chợ nổi sông Gành Hào)",
+   "Cây ăn quả miệt vườn Chợ Lách"
+  ]
+ },
+ {
+  "id": "M20",
+  "level": "medium",
+  "query": "Lễ hội có trống, cờ và nhiều người tham gia",
+  "must": [
+   [
+    "lễ hội"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1839,
+  "subs": [
+   "Lễ hội có trống, cờ và nhiều người tham gia"
+  ],
+  "top": [
+   "Lễ hội Lồng Tồng Trùng Khánh (Cao Bằng)",
+   "Lễ hội Nghinh Ông Duyên Hải (Trà Vinh)",
+   "Lễ hội Kim Liên (quê Bác)",
+   "Lễ hội Phết Hiền Quan",
+   "Lễ hội Chùa Láng (Đống Đa, Hà Nội)",
+   "Lễ hội Chùa Láng (Đống Đa, Hà Nội)",
+   "Lễ hội Tết Nguyên Đán người Hoa Chợ Lớn",
+   "Múa trống cơm",
+   "Lễ hội chùa Hương",
+   "Múa trống (múa trống hội)"
+  ]
+ },
+ {
+  "id": "H01",
+  "level": "hard",
+  "query": "Nơi các sĩ tử ngày xưa đến học tập và thi cử",
+  "must": [
+   [
+    "văn miếu",
+    "quốc tử giám",
+    "khoa cử",
+    "thi hương",
+    "sĩ tử",
+    "trường thi",
+    "tiến sĩ",
+    "nho"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_hop",
+  "ms": 2509,
+  "subs": [
+   "Nơi các sĩ tử ngày xưa đến học tập và thi cử là Văn Miếu Quốc Tử Giám"
+  ],
+  "top": [
+   "Văn Miếu Huế - Cố đô",
+   "Bia Tiến sĩ Văn Miếu - Quốc Tử Giám (82 bia)",
+   "Văn Miếu Huế - Cố đô",
+   "Bia Tiến sĩ Văn Miếu - Quốc Tử Giám (82 bia)",
+   "Văn Miếu Huế - Cố đô",
+   "Bia Tiến sĩ Văn Miếu - Quốc Tử Giám (82 bia)",
+   "Đền vua Đinh Tiên Hoàng",
+   "Bia mộ Trần Tế Xương (Tú Xương)",
+   "Đền Cổ Loa (An Dương Vương)",
+   "Từ đường họ Trịnh (Vĩnh Lộc)"
+  ]
+ },
+ {
+  "id": "H02",
+  "level": "hard",
+  "query": "Một công trình mang biểu tượng nghìn năm văn hiến của Hà Nội",
+  "must": [
+   [
+    "văn miếu",
+    "khuê văn",
+    "hà nội",
+    "thăng long",
+    "hồ gươm",
+    "một cột"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1984,
+  "subs": [
+   "Một công trình mang biểu tượng nghìn năm văn hiến của Hà Nội"
+  ],
+  "top": [
+   "Cột cờ Hà Nội (di tích cách mạng)",
+   "Cột cờ Hà Nội (di tích cách mạng)",
+   "Cột cờ Hà Nội (di tích cách mạng)",
+   "Cột cờ Hà Nội",
+   "Cột cờ Hà Nội",
+   "Hồ Hoàn Kiếm - Tháp Rùa",
+   "Nhà thờ Lớn Hà Nội (Chính tòa Thánh Giuse)",
+   "Chùa Ấn Tôn (Từ Đàm xưa)",
+   "Khuê Văn Các",
+   "Khuê Văn Các"
+  ]
+ },
+ {
+  "id": "H03",
+  "level": "hard",
+  "query": "Nơi thờ cúng tổ tiên của người Việt",
+  "must": [
+   [
+    "bàn thờ",
+    "gia tiên",
+    "nhà thờ họ",
+    "tổ tiên",
+    "từ đường",
+    "thờ"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_hop",
+  "ms": 5409,
+  "subs": [
+   "Nơi thờ cúng tổ tiên của người Việt"
+  ],
+  "top": [
+   "Lễ cúng giỗ Tổ Tiên trong nhà thờ họ vào dịp Tết",
+   "Nhà thờ họ Nguyễn Cảnh",
+   "Nhà thờ họ Phan Huy (Sài Sơn)",
+   "Nhà thờ họ Vũ - Võ (Mộ Trạch)",
+   "Bàn thờ tổ tiên",
+   "Nhà thờ họ Nguyễn Cảnh",
+   "Nhà thờ họ Phan Huy (Sài Sơn)",
+   "Nhà thờ họ Vũ - Võ (Mộ Trạch)",
+   "Cúng tổ tiên ngày Tết",
+   "Nhà thờ họ Nguyễn Cảnh"
+  ]
+ },
+ {
+  "id": "H04",
+  "level": "hard",
+  "query": "Hình ảnh thể hiện sự sum họp gia đình đầu năm",
+  "must": [
+   [
+    "tết",
+    "sum",
+    "đoàn viên",
+    "gia đình",
+    "mâm cơm"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1929,
+  "subs": [
+   "Hình ảnh thể hiện sự sum họp gia đình đầu năm"
+  ],
+  "top": [
+   "Tết Trung Thu",
+   "Tết Nguyên Đán",
+   "Tết Nguyên Đán",
+   "Tết Nguyên Đán",
+   "Lễ Giao thừa",
+   "Lễ Giao thừa",
+   "Lễ Giao thừa",
+   "Tục chúc Tết (mùng 1 Tết cha, mùng 2 Tết mẹ, mùng 3 Tết thầy)",
+   "Tục chúc Tết (mùng 1 Tết cha, mùng 2 Tết mẹ, mùng 3 Tết thầy)",
+   "Tục gói - luộc bánh chưng đêm 30"
+  ]
+ },
+ {
+  "id": "H05",
+  "level": "hard",
+  "query": "Phương tiện di chuyển phổ biến trên sông nước miền Tây ngày xưa",
+  "must": [
+   [
+    "ghe",
+    "xuồng",
+    "thuyền",
+    "tam bản"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": true,
+  "query_type": "single",
+  "ms": 1534,
+  "subs": [
+   "Phương tiện di chuyển phổ biến trên sông nước miền Tây ngày xưa"
+  ],
+  "top": [
+   "Rước dâu bằng ghe ở miền Tây",
+   "Lễ đón dâu bằng thuyền sông nước miền Tây",
+   "Đám cưới miền Tây rước dâu ghe trên sông",
+   "Rước dâu bằng ghe ở miền Tây",
+   "Cầu ngói Phát Diệm (Kim Sơn, Ninh Bình)",
+   "Lễ đón dâu bằng thuyền sông nước miền Tây",
+   "Vườn dừa Bến Tre",
+   "Đò ngang (đò chèo qua sông)",
+   "Đò ngang (đò chèo qua sông)",
+   "Hò chèo ghe Nam Bộ"
+  ]
+ },
+ {
+  "id": "H06",
+  "level": "hard",
+  "query": "Một loại trang phục thể hiện vẻ đẹp truyền thống của phụ nữ Việt",
+  "must": [
+   [
+    "áo dài",
+    "áo tứ thân",
+    "áo bà ba",
+    "yếm"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1495,
+  "subs": [
+   "Áo dài truyền thống của phụ nữ Việt Nam"
+  ],
+  "top": [
+   "Áo dài truyền thống Việt Nam",
+   "Áo dài truyền thống Việt Nam",
+   "Áo dài",
+   "Áo dài",
+   "Áo dài Tết",
+   "Áo dài ngũ thân Huế (phục dựng)",
+   "Áo dài ngũ thân gấm",
+   "Trang phục cô dâu lễ cưới truyền thống (áo dài cưới khăn đóng)",
+   "Áo dài",
+   "Áo dài ngũ thân gấm"
+  ]
+ },
+ {
+  "id": "H07",
+  "level": "hard",
+  "query": "Nghề truyền thống tạo ra các sản phẩm từ đất nung",
+  "must": [
+   [
+    "gốm",
+    "đất nung",
+    "đất sét",
+    "nung"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_hop",
+  "ms": 2557,
+  "subs": [
+   "làng nghề gốm sứ truyền thống",
+   "nghệ nhân làm đồ đất nung"
+  ],
+  "top": [
+   "Làng gốm Phù Lãng (Quế Võ, Bắc Ninh)",
+   "Làng cổ Bát Tràng",
+   "Lễ hội làng gốm Bát Tràng",
+   "Làng cổ Bát Tràng",
+   "Làng gốm Phù Lãng",
+   "Tò he - con thổi gốm Thanh Hà (sản phẩm)",
+   "Làng gốm Thanh Hà",
+   "Làng cổ Bát Tràng",
+   "Lễ hội làng gốm Bát Tràng",
+   "Làng Gốm Bát Tràng Gia Lâm"
+  ]
+ },
+ {
+  "id": "H08",
+  "level": "hard",
+  "query": "Nghệ thuật biểu diễn sử dụng những con rối trên mặt nước",
+  "must": [
+   [
+    "rối nước"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1555,
+  "subs": [
+   "Múa rối nước Việt Nam"
+  ],
+  "top": [
+   "Quân rối nước cô tiên múa",
+   "Rối nước Đào Thục",
+   "Múa rối nước",
+   "Múa rối nước",
+   "Rối nước Thăng Long",
+   "Con rối nước bằng gỗ sung tạc tô màu",
+   "Trò múa rồng, múa lân (rối nước)",
+   "Trò múa rồng, múa lân (rối nước)",
+   "Chú Tễu (màn rối nước)",
+   "Múa rối nước"
+  ]
+ },
+ {
+  "id": "H09",
+  "level": "hard",
+  "query": "Công trình gắn với tín ngưỡng thờ Phật",
+  "must": [
+   [
+    "chùa",
+    "phật",
+    "tháp"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_hop",
+  "ms": 2723,
+  "subs": [
+   "Công trình tín ngưỡng thờ Phật ở Việt Nam"
+  ],
+  "top": [
+   "Am Tháp Tổ (Huyền Quang)",
+   "Lễ hội chùa Một Cột (Diên Hựu)",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Tượng Quan Âm chùa Một Cột (Hà Nội)",
+   "Hội chùa Hương (Hương Sơn, Mỹ Đức)",
+   "Việt Nam Quốc Tự (TP.HCM)",
+   "Lễ hội Chùa Dâu (Bắc Ninh)",
+   "Chùa Một Cột (Nam Thiên Nhất Trụ)",
+   "Tượng Quan Âm chùa Một Cột (Hà Nội)",
+   "Hội chùa Hương (Hương Sơn, Mỹ Đức)"
+  ]
+ },
+ {
+  "id": "H10",
+  "level": "hard",
+  "query": "Nơi người dân tụ họp sinh hoạt cộng đồng ở làng quê xưa",
+  "must": [
+   [
+    "đình",
+    "làng",
+    "sân đình"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1767,
+  "subs": [
+   "Nơi người dân tụ họp sinh hoạt cộng đồng ở làng quê xưa"
+  ],
+  "top": [
+   "Cỗ làng",
+   "Làng nghề dệt thổ cẩm Thái bản Che Căn (xã Mường Phăng, Điện Biên)",
+   "Gươl (biểu tượng nhà cộng đồng Cơ Tu)",
+   "Gươl (biểu tượng nhà cộng đồng Cơ Tu)",
+   "Gươl (biểu tượng nhà cộng đồng Cơ Tu)",
+   "Cỗ làng",
+   "Điểm du lịch làng cổ Đường Lâm",
+   "Cỗ làng",
+   "Làng cổ Đông Hòa Hiệp",
+   "Hội làng Cổ Loa (bát xã Loa thành)"
+  ]
+ },
+ {
+  "id": "H11",
+  "level": "hard",
+  "query": "Hình ảnh tượng trưng cho nền văn minh lúa nước",
+  "must": [
+   [
+    "lúa",
+    "ruộng",
+    "trống đồng",
+    "cấy",
+    "gặt"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_hop",
+  "ms": 3596,
+  "subs": [
+   "Hình ảnh tượng trưng cho nền văn minh lúa nước Việt Nam"
+  ],
+  "top": [
+   "Hạt lúa/bông lúa (biểu tượng mùa màng)",
+   "Trống đồng Đông Sơn (Heger I)",
+   "Trống đồng Đông Sơn (loại Heger I)",
+   "Trống đồng Đông Sơn (Hà Nội) bảo vật",
+   "Làng nón Đức Bố (Quảng Trị)",
+   "Hạt lúa/bông lúa (biểu tượng mùa màng)",
+   "Trống đồng Đông Sơn (loại Heger I)",
+   "Trống đồng Heger loại IV",
+   "Trống đồng Đông Sơn (Hà Nội) bảo vật",
+   "Nón lá"
+  ]
+ },
+ {
+  "id": "H12",
+  "level": "hard",
+  "query": "Nhạc cụ thường xuất hiện trong các lễ hội của người Tây Nguyên",
+  "must": [
+   [
+    "cồng chiêng",
+    "chiêng",
+    "t'rưng",
+    "trưng",
+    "k'ni"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_hop",
+  "ms": 2492,
+  "subs": [
+   "Nhạc cụ thường xuất hiện trong các lễ hội của người Tây Nguyên"
+  ],
+  "top": [
+   "Khố lễ hội nam Tây Nguyên",
+   "Lễ hội Cồng chiêng",
+   "Cồng chiêng Tây Nguyên (UNESCO)",
+   "Diễn tấu cồng chiêng Tây Nguyên",
+   "Diễn tấu đàn T'rưng",
+   "Chiêng núm Tây Nguyên (chiêng có núm)",
+   "Festival Cồng chiêng Tây Nguyên Gia Lai",
+   "Chiêng núm Tây Nguyên (chiêng có núm)",
+   "Diễn tấu cồng chiêng Tây Nguyên",
+   "Diễn tấu đàn T'rưng"
+  ]
+ },
+ {
+  "id": "H13",
+  "level": "hard",
+  "query": "Một loại bánh truyền thống gắn với sự tích Lang Liêu",
+  "must": [
+   [
+    "bánh chưng",
+    "bánh giầy",
+    "bánh dày",
+    "lang liêu"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_hop",
+  "ms": 3006,
+  "subs": [
+   "Tìm ảnh bánh chưng truyền thống",
+   "Tìm ảnh sự tích Lang Liêu"
+  ],
+  "top": [
+   "Bánh chưng (Bắc - vuông, lá dong)",
+   "Bánh chưng (biểu tượng Đất - phồn thực)",
+   "Bánh chưng cẩm",
+   "Bánh chưng gói lá dong",
+   "Hội Vật Liễu Đôi (Hà Nam)",
+   "Sự tích bánh chưng bánh dày (Lang Liêu)",
+   "Bánh chưng cúng gia tiên (Tết)",
+   "Bánh chưng (biểu tượng Đất - phồn thực)",
+   "Bánh chưng cẩm",
+   "Bánh chưng gói lá dong"
+  ]
+ },
+ {
+  "id": "H14",
+  "level": "hard",
+  "query": "Nơi người dân buôn bán trực tiếp trên mặt nước",
+  "must": [
+   [
+    "chợ nổi"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": true,
+  "query_type": "single",
+  "ms": 1599,
+  "subs": [
+   "Nơi người dân buôn bán trực tiếp trên mặt nước"
+  ],
+  "top": [
+   "Chợ nổi Cà Mau (chợ nổi sông Gành Hào)",
+   "Hò chèo ghe Nam Bộ",
+   "Chợ Cái Răng (Cần Thơ)",
+   "Chợ nổi Cà Mau (chợ nổi sông Gành Hào)",
+   "Lễ Cúng bến nước người Ê Đê",
+   "Lễ Cúng bến nước người Ê Đê",
+   "Chợ Châu Đốc (chợ mắm Châu Đốc)",
+   "Chợ Lớn (Chợ Lớn - khu vực bán buôn TP.HCM)",
+   "Chợ Lớn (Chợ Lớn - khu vực bán buôn TP.HCM)",
+   "Chợ Cái Răng (Cần Thơ)"
+  ]
+ },
+ {
+  "id": "H15",
+  "level": "hard",
+  "query": "Kiến trúc thể hiện sự giao thoa văn hóa Việt Nam và Trung Hoa",
+  "must": [
+   [
+    "hội quán",
+    "hội an",
+    "nhà cổ",
+    "người hoa",
+    "phúc kiến",
+    "quảng đông",
+    "chùa cầu",
+    "hoa"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_hop",
+  "ms": 2212,
+  "subs": [
+   "Kiến trúc thể hiện sự giao thoa văn hóa Việt Nam và Trung Hoa"
+  ],
+  "top": [
+   "Người Hoa Phúc Kiến",
+   "Khu phố cổ Hội An",
+   "Tết Trung thu phố cổ Hội An",
+   "Lễ hội đêm rằm phố cổ Hội An",
+   "Chùa Cầu Hội An (Lai Viễn Kiều - bảo vật)",
+   "Tháp Cửu Phẩm Liên Hoa chùa Bút Tháp",
+   "Khu phố cổ Hội An",
+   "Tết Trung thu phố cổ Hội An",
+   "Lễ hội đêm rằm phố cổ Hội An",
+   "Chùa Cầu Hội An (Lai Viễn Kiều - bảo vật)"
+  ]
+ },
+ {
+  "id": "H16",
+  "level": "hard",
+  "query": "Hình ảnh cho thấy người Việt tưởng nhớ những người đã khuất",
+  "must": [
+   [
+    "thắp hương",
+    "viếng",
+    "tưởng niệm",
+    "cúng",
+    "giỗ",
+    "mộ",
+    "tang"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 2561,
+  "subs": [
+   "Hình ảnh cho thấy người Việt tưởng nhớ những người đã khuất"
+  ],
+  "top": [
+   "Cúng giỗ (giỗ chạp)",
+   "Đám tang - đám giỗ",
+   "Lễ Thanh Minh tháng 3 Âm lịch người dân ra mộ",
+   "Áo dài ngũ thân Võ Vương phục dựng",
+   "Đài tưởng niệm liệt sĩ Gạc Ma",
+   "Nghĩa trang Hàng Dương Côn Đảo có mộ chị Võ Thị Sáu",
+   "Lễ tế Thanh minh (tảo mộ tiết Thanh minh)",
+   "Tảo mộ Thanh Minh tháng 3 ÂL",
+   "Cúng giỗ (giỗ chạp)",
+   "Phong trào để tang Phan Châu Trinh 1926"
+  ]
+ },
+ {
+  "id": "H17",
+  "level": "hard",
+  "query": "Một hoạt động văn hóa thường diễn ra sau mùa thu hoạch",
+  "must": [
+   [
+    "lễ hội",
+    "mừng",
+    "cơm mới",
+    "cầu mùa",
+    "mùa"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_hop",
+  "ms": 2483,
+  "subs": [
+   "Lễ hội mùa màng sau thu hoạch ở Việt Nam"
+  ],
+  "top": [
+   "Lễ hội Lồng Tồng Cao Bằng",
+   "Lễ hội cơm mới",
+   "Lễ hội Đâm trâu mừng mùa",
+   "Lễ hội đâm trâu Tây Nguyên",
+   "Lễ hội Đâm Trâu Ba Na Gia Lai",
+   "Lễ hội cơm mới",
+   "Hội thi gói bánh chưng Đền Hùng",
+   "Lễ hội Đâm trâu mừng mùa",
+   "Lễ đâm trâu (Tây Nguyên)",
+   "Lễ hội Đâm Trâu Ba Na Gia Lai"
+  ]
+ },
+ {
+  "id": "H18",
+  "level": "hard",
+  "query": "Phong tục xin chữ để cầu may đầu năm",
+  "must": [
+   [
+    "ông đồ",
+    "thư pháp",
+    "xin chữ",
+    "câu đối"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "single",
+  "ms": 1819,
+  "subs": [
+   "Phong tục xin chữ để cầu may đầu năm"
+  ],
+  "top": [
+   "Tục xin chữ đầu xuân (ông đồ)",
+   "Tục hái lộc - xin chữ đầu năm",
+   "Tục xin chữ ông đồ đầu xuân",
+   "Tục hái lộc - xin chữ đầu năm",
+   "Tục hái lộc - xin chữ đầu năm",
+   "Xin chữ đầu xuân",
+   "Tục xin chữ ông đồ (thư pháp đầu xuân)",
+   "Tục xin chữ ông đồ (thư pháp đầu xuân)",
+   "Tục xin chữ ông đồ đầu xuân",
+   "Tục xin chữ ông đồ đầu xuân"
+  ]
+ },
+ {
+  "id": "H19",
+  "level": "hard",
+  "query": "Một không gian gắn với tín ngưỡng thờ Mẫu",
+  "must": [
+   [
+    "mẫu",
+    "hầu đồng",
+    "phủ",
+    "đền"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": false,
+  "query_type": "multi_hop",
+  "ms": 3007,
+  "subs": [
+   "Không gian tín ngưỡng thờ Mẫu Việt Nam"
+  ],
+  "top": [
+   "Đền-phủ thờ Mẫu (kiến trúc phủ)",
+   "Bà đồng Phủ Giầy Nam Định",
+   "Lễ Mẫu Phủ Giầy 3 - 8 tháng 3 âm",
+   "Lễ hội Phủ Giầy (tín ngưỡng thờ Mẫu Tam phủ)",
+   "Đền-phủ thờ Mẫu (kiến trúc phủ)",
+   "Bà đồng Phủ Giầy Nam Định",
+   "Lễ Mẫu Phủ Giầy 3 - 8 tháng 3 âm",
+   "Lễ hội Phủ Giầy (tín ngưỡng thờ Mẫu Tam phủ)",
+   "Bà Linh Sơn Thánh Mẫu Núi Bà Đen Tây Ninh",
+   "Áo tế (áo tế lễ đình làng)"
+  ]
+ },
+ {
+  "id": "H20",
+  "level": "hard",
+  "query": "Nơi gìn giữ những hiện vật từ thời các vua Hùng",
+  "must": [
+   [
+    "hùng",
+    "phú thọ",
+    "trống đồng",
+    "đồ đồng"
+   ]
+  ],
+  "strict": true,
+  "loose": true,
+  "groups": [
+   true
+  ],
+  "low_confidence": true,
+  "query_type": "multi_hop",
+  "ms": 1617,
+  "subs": [
+   "Bảo tàng Hùng Vương nơi gìn giữ hiện vật thời các vua Hùng"
+  ],
+  "top": [
+   "Chum gốm hoa nâu Hiệp An thời Trần",
+   "Đền Hùng (đền-chùa khu di tích Hùng Vương)",
+   "Đền Hùng (đền-chùa khu di tích Hùng Vương)",
+   "Đánh đàn h'gơr Tây Nguyên",
+   "Đền Hùng (đền-chùa khu di tích Hùng Vương)",
+   "Tượng thờ Hùng Vương - đền Hùng Phú Thọ",
+   "Tượng thờ Hùng Vương - đền Hùng Phú Thọ",
+   "Di chỉ Làng Cả (Việt Trì)",
+   "Thạp đồng Hợp Minh (bảo vật quốc gia, Yên Bái)",
+   "Vạc đồng Cẩm Thủy (bảo vật)"
+  ]
+ }
+]

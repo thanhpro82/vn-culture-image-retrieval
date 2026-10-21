@@ -420,3 +420,20 @@ def test_low_confidence_cleared_when_results_visibly_contain_the_proposed_entity
     assert any("Chợ nổi" in " ".join(x["entities"]) for x in r["results"][:5])
     assert r["subs"][0]["ents"] == []  # tên đề xuất vẫn không khớp danh mục (đúng như mô tả test)
     assert r["low_confidence"] is False
+
+
+def test_low_confidence_cleared_when_entity_words_are_spread_over_several_top_results(client):
+    """Thực thể đề xuất không nằm trọn trong một tên ("Văn Miếu Quốc Tử Giám" so với "Văn Miếu ..." và "Quốc Tử Giám ..."),
+    nhưng các từ của nó xuất hiện đủ trong tên thực thể của 10 ảnh đầu: không cảnh báo."""
+    import json
+
+    class SpreadWordsLLM:
+        async def generate(self, prompt, schema):
+            return json.dumps({"qt": "single", "subs": [{"vi": "chợ nổi miền tây", "en": "chợ nổi miền tây", "ents": ["nổi hổ"]}]})
+
+    c, svc = client
+    svc.llm = SpreadWordsLLM()
+    r = c.post("/search", json={"query": "chợ nổi miền tây", "rerank": False}, headers=H).json()
+    names = [n for x in r["results"][:10] for n in x["entities"]]
+    assert "Chợ nổi" in names and "Múa hổ" in names   # 'nổi' và 'hổ' nằm ở hai tên khác nhau
+    assert r["subs"][0]["ents"] == [] and r["low_confidence"] is False
