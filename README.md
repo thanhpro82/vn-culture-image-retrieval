@@ -1,8 +1,22 @@
 # Tìm ảnh văn hoá Việt Nam (Capstone, Phần B: Retrieve ảnh)
 
 Web demo tìm ảnh theo văn bản tiếng Việt trên khoảng 89.600 ảnh đã thẩm định. Hỗ trợ ba loại truy vấn:
-một ý ("bãi biển Nha Trang"), nhiều ý ("hồ bơi và công viên nước ở Phú Quốc") và truy vấn cần suy luận
-("động vật sống trong rừng"). Bước tìm ảnh chỉ dùng embedding và rerank, không dùng agent.
+một ý ("cầu Long Biên"), nhiều ý ("áo dài Huế và nhà thờ Phát Diệm") và truy vấn cần suy luận
+("nghệ thuật sân khấu dân gian miền Bắc"). Bước tìm ảnh chỉ dùng embedding và rerank, không dùng agent.
+Dữ liệu là ảnh di sản văn hoá, nên các truy vấn về du lịch biển hay động vật hoang dã không có ảnh đúng (hệ thống gắn cảnh báo thay vì giả vờ chắc chắn).
+
+## Nộp bài
+
+| Mục | Ở đâu |
+|---|---|
+| Repo nộp | repo tổ chức `VSF-AR-ES-V-Lookup/Retrieval_Image_NguyenTuanThanh` (riêng tư), nhánh `main` |
+| Web demo | <https://13-251-152-106.sslip.io> (VPS bật trong thời gian demo và chấm; nếu không vào được thì chạy bằng `docker compose` theo hướng dẫn bên dưới) |
+| Tài liệu phương pháp | [`docs/slides.html`](docs/slides.html) (tải về và mở bằng trình duyệt, dùng phím ← →), [`docs/architecture.md`](docs/architecture.md) (sơ đồ Mermaid), [`docs/adr/`](docs/adr/) |
+| Báo cáo chất lượng, bộ test và cách tạo | [`docs/eval-report.md`](docs/eval-report.md), [`eval/datasets/`](eval/datasets/) |
+| Báo cáo hiệu năng, k6 | [`docs/perf-report.md`](docs/perf-report.md), [`docs/results/`](docs/results/), [`loadtest/`](loadtest/) |
+| Kịch bản demo | [`docs/demo-script.md`](docs/demo-script.md) |
+
+Bản công khai `thanhpro82/vn-culture-image-retrieval` có cùng nhánh `main`; đó là nơi chạy CI/CD tự động lên VPS (CD đang bật), còn bản nộp là repo tổ chức ở trên.
 
 - Kịch bản demo 10-15 phút: [`docs/demo-script.md`](docs/demo-script.md)
 - Slide mô tả phương pháp (mở bằng trình duyệt, dùng phím ← →): [`docs/slides.html`](docs/slides.html)
